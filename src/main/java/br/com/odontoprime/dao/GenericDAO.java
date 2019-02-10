@@ -6,17 +6,13 @@
 package br.com.odontoprime.dao;
 
 import java.io.Serializable;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
-import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
-
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import br.com.odontoprime.util.Transactional;
 
@@ -33,7 +29,6 @@ public abstract class GenericDAO<T, PK> implements Serializable {
 
 	@Inject
 	private EntityManager entityManager;
-	private Session session;
 
 	@Transactional
 	public T buscarPorId(Long id, Class<T> classe) {
@@ -43,7 +38,8 @@ public abstract class GenericDAO<T, PK> implements Serializable {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<T> buscarTodos(Class<T> clazz) {
-		return entityManager.createQuery("FROM " + clazz.getName()).getResultList();
+		return entityManager.createQuery("FROM " + clazz.getName())
+				.getResultList();
 	}
 
 	public T recuperarReferencia(Class<T> clazz, Long id) {
@@ -52,19 +48,14 @@ public abstract class GenericDAO<T, PK> implements Serializable {
 
 	@Transactional
 	public T salvar(T entidade) throws ConstraintViolationException {
-		session = (Session) entityManager.getDelegate();
-		session.evict(entidade);
-		session.clear();
-		session.saveOrUpdate(entidade);
-		return entidade;
+
+		return entityManager.merge(entidade);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public T atualizar(T entidade) {
-		session = (Session) entityManager.getDelegate();
-		session.clear();
-		return (T) session.merge(entidade);
+		return entityManager.merge(entidade);
 	}
 
 	@Transactional
