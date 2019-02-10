@@ -6,7 +6,6 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 
 @Entity
 public class Endereco {
@@ -19,6 +18,15 @@ public class Endereco {
 	private String cidade;
 	@Enumerated(EnumType.STRING)
 	private Estado estado;
+
+	public Endereco() {
+
+		this.rua = "N/A";
+		this.bairro = "N/A";
+		this.numero = 0;
+		this.cidade = "N/A";
+		this.estado = Estado.N_A;
+	}
 
 	public Long getId() {
 		return id;

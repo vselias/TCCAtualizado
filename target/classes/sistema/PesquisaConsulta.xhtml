@@ -193,10 +193,11 @@
 
 					<p:outputLabel value="Opção de pagamento" />
 					<p:inputText readonly="true"
-						value="#{consultaMB.consulta.entrada.opcaoPagamento}" />
+						value="#{consultaMB.consulta.entrada.opcaoPagamento eq null ? 'N/A' : ''}" />
 
 					<p:outputLabel value="Estado da consulta" />
 					<p:inputText readonly="true"
+					
 						value="#{consultaMB.consulta.estadoConsulta.descricao}" />
 
 

@@ -147,6 +147,8 @@ public class Paciente implements Serializable {
 	public Paciente() {
 		consultas = new ArrayList<Consulta>();
 		endereco = new Endereco();
+		this.telefone = "N/A";
+		this.celular = "N/A";
 	}
 
 	public Long getId() {

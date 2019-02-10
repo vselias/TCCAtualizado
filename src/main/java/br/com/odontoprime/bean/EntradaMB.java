@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -106,15 +107,19 @@ public class EntradaMB implements Serializable {
 	public String selecionarDados(Entrada entrada) {
 		entrada = entradaService.buscarEntradaComParcelas(entrada.getId());
 
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("entrada", entrada);
-		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("consulta", consulta);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash()
+				.put("entrada", entrada);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash()
+				.put("consulta", consulta);
 
 		return "PagamentoParcela?faces-redirect=true";
 	}
 
 	public void recuperarDadosPagamento() {
-		entrada = (Entrada) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("entrada");
-		consulta = (Consulta) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("consulta");
+		entrada = (Entrada) FacesContext.getCurrentInstance()
+				.getExternalContext().getFlash().get("entrada");
+		consulta = (Consulta) FacesContext.getCurrentInstance()
+				.getExternalContext().getFlash().get("consulta");
 
 		if (entrada == null) {
 			entrada = new Entrada();
@@ -133,7 +138,8 @@ public class EntradaMB implements Serializable {
 	}
 
 	public void mensagemCancelamentoPagamentoParcela() {
-		MensagemUtil.enviarMensagem("Pagamento cancelado!", FacesMessage.SEVERITY_INFO);
+		MensagemUtil.enviarMensagem("Pagamento cancelado!",
+				FacesMessage.SEVERITY_INFO);
 	}
 
 	public void cancelarPagamentoParcela() {
@@ -144,9 +150,11 @@ public class EntradaMB implements Serializable {
 		parcelaService.limparDataPagamentoParcela(parcela);
 	}
 
-	public void buscarConsultaComParcela() {
+	public void buscarConsultaComParcela(ComponentSystemEvent event) {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
-			this.consulta = consultaService.buscarConsultaComParcela(this.consulta.getEntrada().getId());
+			this.consulta = consultaService
+					.buscarConsultaComParcela(this.consulta.getEntrada()
+							.getId());
 			this.entrada = consulta.getEntrada();
 		}
 	}
