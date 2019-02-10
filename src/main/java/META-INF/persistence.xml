@@ -13,15 +13,17 @@
 		<class>br.com.odontoprime.entidade.Saida</class>
 		<class>br.com.odontoprime.entidade.Parcela</class>
 		<class>br.com.odontoprime.entidade.Entrada</class>
-
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
-			<property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/odontoprime" />
+			<property name="javax.persistence.jdbc.url"
+				value="jdbc:postgresql://
+ec2-54-235-67-106.compute-1.amazonaws.com/dc34a201jl25jq" />
 			<property name="javax.persistence.jdbc.user" value="hcqfzzmnvvnrhr" />
-			<property name="javax.persistence.jdbc.password" value="dc34a201jl25jq" />
+			<property name="javax.persistence.jdbc.password"
+				value="9cf50ffcde5fdfc617914d55adc886a1ccf35edab3d9bfc2ab567bc6f0654c54" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
 			<property name="hibernate.event.merge.entity_copy_observer"
 				value="allow" />
