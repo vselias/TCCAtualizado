@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
 	 */
 	private static final long serialVersionUID = -1921845685391042478L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 	@Column(unique = true)
 	private String login;

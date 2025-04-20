@@ -23,7 +23,7 @@ public class Orcamento implements Serializable {
 	private static final long serialVersionUID = -8994923412327695500L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 
 	@OneToOne

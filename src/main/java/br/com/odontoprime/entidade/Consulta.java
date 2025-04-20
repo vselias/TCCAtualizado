@@ -25,7 +25,7 @@ public class Consulta implements Serializable {
 	 */
 	private static final long serialVersionUID = -2506625216868058689L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 
 	@Enumerated(EnumType.STRING)

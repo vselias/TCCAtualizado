@@ -14,7 +14,7 @@ import javax.persistence.TemporalType;
 public class Lembrete implements Serializable {
 	private static final long serialVersionUID = -5987490942752415670L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataInicio;

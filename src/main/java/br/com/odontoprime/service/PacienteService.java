@@ -267,6 +267,10 @@ public class PacienteService implements Serializable {
 		if (dados != null) {
 
 			try {
+				File diretorio = new File(caminho);
+				if(!diretorio.exists()) {
+					diretorio.mkdirs();
+				}
 				fileImageOutputStream = new FileImageOutputStream(new File(caminho, nomeImagem));
 				fileImageOutputStream.write(dados, 0, dados.length);
 				fileImageOutputStream.close();
@@ -323,6 +327,7 @@ public class PacienteService implements Serializable {
 
 			if (imagemSalva) {
 				paciente.setNomeImagem(nomeImagem);
+				pacienteDAO.salvar(paciente);
 				System.out.println("[salvarImagemRecotada] imagem recortada salva com sucesso.");
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
 			}

@@ -13,7 +13,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class Foto implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 	private String album;
 	private String descricao;

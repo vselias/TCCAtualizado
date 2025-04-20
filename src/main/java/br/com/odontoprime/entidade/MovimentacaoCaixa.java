@@ -22,7 +22,7 @@ import javax.persistence.Transient;
 public class MovimentacaoCaixa implements Serializable {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	private Long id;
 	@OneToOne(cascade = CascadeType.ALL)
 	private Usuario usuario;

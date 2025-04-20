@@ -1,3 +1,4 @@
+
 package br.com.odontoprime.bean;
 
 import java.io.Serializable;
