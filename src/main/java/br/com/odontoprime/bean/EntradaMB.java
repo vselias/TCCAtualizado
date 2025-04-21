@@ -25,7 +25,7 @@ import br.com.odontoprime.util.MensagemUtil;
 @Named
 @ViewScoped
 public class EntradaMB implements Serializable {
-
+ //Testando o git no eclipse
 	private static final long serialVersionUID = 6383242975512655099L;
 	@Inject
 	private EntradaService entradaService;
