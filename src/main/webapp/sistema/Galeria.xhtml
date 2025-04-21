@@ -6,13 +6,20 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <ui:composition template="/template/Template.xhtml">
+<<<<<<< HEAD
 
+=======
+>>>>>>> cec514fd2d394e10079326ae203058521b23da9f
 	<ui:define name="title">
 		<title>Galeria de Imagens</title>
 	</ui:define>
 
 	<ui:define name="content">
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> cec514fd2d394e10079326ae203058521b23da9f
 		<h3 class="tituloPagina" style="text-align: right">
 			<h:outputText value="Galeria" />
 		</h3>
@@ -114,6 +121,7 @@
 							rendered="#{empty galeriaMB.paciente.fotos and galeriaMB.paciente.id gt 0}"
 							value="Paciente não possui foto." />
 
+<<<<<<< HEAD
 						<p:galleria autoPlay="false" id="galeria" panelHeight="400"
 							panelWidth="600" frameHeight="50" showCaption="true"
 							frameWidth="50" rendered="#{not empty galeriaMB.paciente.fotos}"
@@ -121,6 +129,16 @@
 							<p:graphicImage styleClass="imagem-centralizada"
 								alt="Descrição #{foto.descricao}" title="Título: #{foto.album}"
 								value="/galeria/#{foto.id}" />
+=======
+						<p:galleria autoPlay="false" id="galeria" panelHeight="450"
+							panelWidth="500" frameHeight="50" showCaption="true"
+							frameWidth="50" rendered="#{not empty galeriaMB.paciente.fotos}"
+							var="foto" value="#{galeriaMB.paciente.fotos}">
+
+							<p:graphicImage alt="Descrição #{foto.descricao}"
+								title="Título: #{foto.album}" value="/galeria/#{foto.id}" />
+
+>>>>>>> cec514fd2d394e10079326ae203058521b23da9f
 						</p:galleria>
 					</p:tab>
 				</p:accordionPanel>

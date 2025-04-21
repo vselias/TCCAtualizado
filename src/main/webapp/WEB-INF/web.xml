@@ -6,7 +6,11 @@
     <param-value>#{configuracoesForm.meuTema}</param-value>
   </context-param>
   <welcome-file-list>
+<<<<<<< HEAD
     <welcome-file>Login.xhtml</welcome-file>
+=======
+    <welcome-file>/Login.xhtml</welcome-file>
+>>>>>>> cec514fd2d394e10079326ae203058521b23da9f
   </welcome-file-list>
   <session-config>
     <session-timeout>-1</session-timeout>
