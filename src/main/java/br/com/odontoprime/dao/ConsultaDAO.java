@@ -100,7 +100,7 @@ public class ConsultaDAO extends GenericDAO<Consulta, Long> implements Serializa
 	public List<Consulta> buscarConsultasPorPaciente() {
 		Query query = entityManager.createQuery("select distinct  new " + "br.com.odontoprime.entidade.Consulta"
 				+ "(p.nomeImagem, p.id,sum(c.entrada.valorComDesconto), c.tipoConsulta, p.nome , c.dataConsulta ) "
-				+ "from Consulta c inner join c.paciente p group by p.id, p.nome ,c.tipoConsulta");
+				+ "from Consulta c inner join c.paciente p group by p.id, p.nome ,c.tipoConsulta, p.nomeImagem, c.dataConsulta");
 		return query.getResultList();
 	}
 
