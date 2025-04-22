@@ -66,12 +66,12 @@ public class ImagemService implements Serializable {
 			fotoRecortada = criarArquivo(CAMINHO_SERVIDOR, croppedImage.getBytes(), usuario.getNomeImagemRecortada());
 			if (fotoRecortada) {
 				MensagemUtil.enviarMensagem("Imagem recortada com sucesso.", FacesMessage.SEVERITY_INFO);
-				System.out.println("[recortarImagem] imagem recortada com sucesso.");
+				System.out.println("[ImagemService - recortarImagem] imagem recortada com sucesso.");
 				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("[recortarImagem] erro ao recortar imagem.");
+			System.out.println("[ImagemService - recortarImagem] erro ao recortar imagem.");
 		}
 
 		return false;
