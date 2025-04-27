@@ -11,7 +11,6 @@
 	<welcome-file-list>
 
 		<welcome-file>Login.xhtml</welcome-file>
-		<welcome-file>/Login.xhtml</welcome-file>
 
 	</welcome-file-list>
 	<session-config>
