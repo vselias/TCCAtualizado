@@ -1,7 +1,9 @@
 package br.com.odontoprime.service;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -79,8 +81,8 @@ public class ImagemService implements Serializable {
 
 	public boolean salvarImagemRecortada(CroppedImage croppedImage, Usuario usuario) {
 		boolean imagemSalva = Boolean.FALSE;
-		
-		if (croppedImage == null || croppedImage.getBytes() == null ) {
+
+		if (croppedImage == null || croppedImage.getBytes() == null) {
 			return false;
 		}
 		usuario.setNomeImagem(gerarNomeImagemAleatoria());
@@ -151,6 +153,57 @@ public class ImagemService implements Serializable {
 		return false;
 	}
 
+	public boolean reduzirSalvarImagemUser(String caminho, byte[] dados, String nomeImagem) {
+	    try {
+	        if (dados == null || dados.length == 0) {
+	            System.out.println("[criarArquivo] - Dados inválidos!");
+	            return false;
+	        }
+
+	        BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(dados));
+	        if (originalImage == null) {
+	            System.out.println("[criarArquivo] - Falha ao carregar imagem.");
+	            return false;
+	        }
+
+	        int larguraOriginal = originalImage.getWidth();
+	        int alturaOriginal = originalImage.getHeight();
+
+	        // Calculando a proporção
+	        double proporcaoLargura = (double) 600 / larguraOriginal;
+	        double proporcaoAltura = (double) 350 / alturaOriginal;
+
+	        // Escolhendo a menor proporção para evitar distorção
+	        double proporcaoFinal = Math.min(proporcaoLargura, proporcaoAltura);
+
+	        int novaLargura = (int) (larguraOriginal * proporcaoFinal);
+	        int novaAltura = (int) (alturaOriginal * proporcaoFinal);
+
+	        // Definir tipo de imagem considerando transparência
+	        int tipoImagem = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+	        BufferedImage resizedImage = new BufferedImage(novaLargura, novaAltura, tipoImagem);
+
+	        // Redimensionando a imagem
+	        Graphics2D g2d = resizedImage.createGraphics();
+	        g2d.drawImage(originalImage.getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH), 0, 0, null);
+	        g2d.dispose();
+
+	        // Obtendo formato do arquivo
+	        String formato = nomeImagem.substring(nomeImagem.lastIndexOf('.') + 1).toLowerCase();
+	        File outputFile = new File(caminho, nomeImagem);
+
+	        ImageIO.write(resizedImage, formato, outputFile);
+	        System.out.println("[criarArquivo] - Arquivo criado com sucesso.");
+	        return true;
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        System.out.println("[criarArquivo] - Erro ao criar arquivo.");
+	    }
+
+	    return false;
+	}
+
 	public boolean tirarFoto(byte[] dados, Usuario usuario) {
 		boolean imagemSalva = false;
 		try {
@@ -175,7 +228,7 @@ public class ImagemService implements Serializable {
 		nomeImagem = gerarNomeImagemAleatoria();
 		try {
 
-			fotoTirada = criarArquivo(CAMINHO_SERVIDOR, dados, nomeImagem);
+			fotoTirada = reduzirSalvarImagemUser(CAMINHO_SERVIDOR, dados, nomeImagem);
 			System.out.println(CAMINHO_SERVIDOR);
 			if (fotoTirada) {
 				if (usuario == null) {

@@ -59,6 +59,8 @@ public class PacienteService implements Serializable {
 	private String nomeImagem;
 	@Inject
 	private OrcamentoDAO orcamentoDAO;
+	@Inject
+	private ImagemService imagemService;
 
 	public PacienteService() {
 		servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -316,6 +318,10 @@ public class PacienteService implements Serializable {
 		if (croppedImage == null || croppedImage.getBytes() == null) {
 			return;
 		}
+		if(paciente == null || paciente.getId() == null) {
+			MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
+			return;
+		}
 		nomeImagem = gerarNomeImagemAleatoria();
 		try {
 			if (SISTEMA_OPERACIONAL.toLowerCase().contains("windows")) {
@@ -356,12 +362,16 @@ public class PacienteService implements Serializable {
 			System.out.println("[salvarImagem] erro ao salvar imagem.");
 		}
 	}
-
 	public boolean subirImagem(FileUploadEvent event, Paciente paciente) {
+		if(paciente == null || paciente.getId() == null) {
+			MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
+			return false;
+		}
 		boolean imagemSalva = false;
 		nomeImagem = gerarNomeImagemAleatoria();
 		try {
-			imagemSalva = criarArquivo(CAMINHO_IMAGENS_SERVIDOR, event.getFile().getContents(), nomeImagem);
+			imagemSalva = imagemService.reduzirSalvarImagemUser(CAMINHO_IMAGENS_SERVIDOR, event.getFile().getContents(), nomeImagem);
+			//imagemSalva = criarArquivo(CAMINHO_IMAGENS_SERVIDOR, event.getFile().getContents(), nomeImagem);
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Foto enviada com sucesso!", FacesMessage.SEVERITY_INFO);
 				paciente.setImagemCropper(nomeImagem);

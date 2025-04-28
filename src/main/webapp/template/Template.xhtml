@@ -191,11 +191,8 @@ body {
 
 					<div class="footer">
 						<div class="ui-grid-responsive">
-
 							<div class="ui-grid-row">
-
 								<div class="ui-grid-col-12">
-
 									<p:graphicImage styleClass="imgFooter" width="150px"
 										height="75px" value="/img/logo-login.png" />
 									<div class="tituloFooter">
@@ -206,17 +203,15 @@ body {
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
-
 		</div>
 
 
 
 
-		<p:dialog header="Insira foto do usuário" dynamic="true"
-			closeOnEscape="false" closable="false" resizable="false"
+		<p:dialog header="Insira foto do usuário"  dynamic="true" width="900"
+			height="450" closeOnEscape="true" closable="false" resizable="false"
 			responsive="true" modal="true" draggable="false" appendTo="@(body)"
 			widgetVar="dlgFotoPerfilUsuario">
 
@@ -232,7 +227,7 @@ body {
 					label="Buscar Imagem" />
 
 				<h:panelGrid columns="2">
-					<p:panel style="overflow:scroll; width:600px; height:400px;"
+					<p:panel styleClass="imgPanelUserTemplate"
 						header="Foto normal" id="pnlFotoEditar">
 						<p:graphicImage id="imgEditDefault" cache="false"
 							rendered="#{not usuarioMB.exibirImagemCropper}"

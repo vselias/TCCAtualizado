@@ -160,7 +160,7 @@
 		</h:form>
 
 
-		<p:dialog draggable="false" closeOnEscape="true"
+		<p:dialog draggable="false" closeOnEscape="true" width="900" height="400"
 			header="Insira foto do paciente" responsive="true" resizable="false"
 			position="center" dynamic="true" modal="true" closable="true"
 			widgetVar="dlgExibirFoto">
@@ -174,7 +174,7 @@
 					fileUploadListener="#{pacienteMB.subirImagem}" />
 
 				<h:panelGrid columns="2">
-					<p:panel style="overflow:scroll; width:600px; height:400px;"
+					<p:panel styleClass="imgPanelUserTemplate"
 						header="Foto normal" id="pnlFotoUpload">
 						<p:graphicImage
 							rendered="#{pacienteMB.paciente.imagemCropper eq null}"

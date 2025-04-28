@@ -10,6 +10,20 @@ body {
 	margin: auto;
 }
 
+.imgPanelUserTemplate {
+    width: 600px !important;
+    height: 350px !important;
+    display: flex;
+    flex-direction: column; /* Organiza título e imagem em colunas */
+    justify-content: center; /* Centraliza apenas o conteúdo */
+    align-items: center;
+
+}	
+
+.imgCropper {
+	flex-grow: 1;
+}
+
 .dialog {
 	margin: auto !important;
 	position: absolute !important;
