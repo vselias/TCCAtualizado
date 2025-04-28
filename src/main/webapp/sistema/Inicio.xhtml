@@ -53,22 +53,25 @@
 
 			</div>
 			<h:form>
-				<p:schedule id="agenda" timeZone="America/Sao_Paulo"
+				<p:schedule resizable="true" id="agenda" timeZone="America/Sao_Paulo" clientTimeZone="true"
 					widgetVar="lembrete" value="#{lembreteMB.scheduleModel}">
 					<p:ajax event="dateSelect" listener="#{lembreteMB.selecionarData}"
-						update="lembretePanel" oncomplete="PF('eventDialog').show();" />
+						update="lembretePanel panelLembreteBt @form"
+						oncomplete="PF('eventDialog').show();" />
 					<p:ajax event="eventSelect" listener="#{lembreteMB.exibirLembrete}"
-						update="lembretePanel" oncomplete="PF('eventDialog').show();" />
+						update="lembretePanel panelLembreteBt"
+						oncomplete="PF('eventDialog').show();" />
 					<p:ajax event="eventMove" listener="#{lembreteMB.moverLembrete}"
 						update="agenda :formGlobal:msgGlobal" />
 					<p:ajax event="eventResize"
+							update="agenda @form :formGlobal:msgGlobal"
 						listener="#{lembreteMB.redimensionarLembrete}"
-						update="agenda :formGlobal:msgGlobal" />
+						 />
 				</p:schedule>
 
 				<div class="ui-fluid">
-					<p:dialog width="800px" widgetVar="eventDialog"
-						header="Detalhes do lembrete" showEffect="clip" hideEffect="clip">
+					<p:dialog closeOnEscape="true" width="600" position="top"
+						widgetVar="eventDialog" header="Detalhes do lembrete">
 						<p:panelGrid layout="grid"
 							columnClasses="ui-grid-col-4,ui-grid-col-8"
 							styleClass="ui-panelgrid-blank" id="lembretePanel" columns="2">
@@ -95,14 +98,32 @@
 
 							<p:outputLabel value="Dia Todo:" />
 							<p:selectBooleanCheckbox value="#{lembreteMB.lembrete.diaTodo}" />
-
-							<p:commandButton type="reset" value="Limpar" />
-							<p:commandButton update=":formGlobal:msgGlobal" id="addButton"
-								value="Salvar" actionListener="#{lembreteMB.addLembrete}"
-								oncomplete="PF('lembrete').update();PF('eventDialog').hide();" />
 						</p:panelGrid>
+						<div style="display: flex;">
+							<p:panelGrid id="panelLembreteBt" styleClass="ui-panelgrid-blank"
+								style="flex-grow: 1" columns="3">
+								<p:commandButton type="reset" value="Limpar" />
+								<p:commandButton rendered="#{lembreteMB.lembrete.id > 0}"
+									onclick="PF('confirmDelLembrete').show();" value="Excluir">
+									<f:setPropertyActionListener value="#{lembreteMB.lembrete}"
+										target="#{lembreteMB.lembrete}" />
+								</p:commandButton>
+								<p:commandButton update=":formGlobal:msgGlobal" id="addButton"
+									value="Salvar" actionListener="#{lembreteMB.addLembrete}"
+									oncomplete="PF('lembrete').update();PF('eventDialog').hide();" />
+							</p:panelGrid>
+						</div>
+
 					</p:dialog>
 				</div>
+				<p:confirmDialog closeOnEscape="true" widgetVar="confirmDelLembrete" header="Confirmação"
+					message="Tem certeza que deseja excluir?" severity="alert">
+					<p:commandButton value="Sim" action="#{lembreteMB.excluir()}"
+						update="@form agenda :formGlobal:msgGlobal" oncomplete="PF('confirmDelLembrete').hide();" />
+					<p:commandButton value="Não" onclick="PF('confirmDelLembrete').hide();"
+						type="button" />
+				</p:confirmDialog>
+
 			</h:form>
 		</div>
 	</ui:define>

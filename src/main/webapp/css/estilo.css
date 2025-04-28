@@ -255,7 +255,7 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 }
 
 .finalizado {
-	background-color: green;
+	background-color: red;
 }
 
 .tituloEstadoPagamentoParcela {

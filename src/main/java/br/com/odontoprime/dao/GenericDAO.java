@@ -61,6 +61,7 @@ public abstract class GenericDAO<T, PK> implements Serializable {
 	@Transactional
 	public void remover(T entidade) {
 		try {
+			entidade = entityManager.merge(entidade);
 			entityManager.remove(entidade);
 			entityManager.flush();
 		} catch (PersistenceException e) {

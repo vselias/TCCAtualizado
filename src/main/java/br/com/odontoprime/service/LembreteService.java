@@ -35,9 +35,8 @@ public class LembreteService implements Serializable {
 	public ScheduleModel listarLembretes() {
 
 		List<Lembrete> lembretes = lembreteDAO.buscarTodos(Lembrete.class);
-
 		ScheduleModel scheduleModel = new DefaultScheduleModel();
-
+		scheduleModel.clear();
 		lembretes.forEach(l -> {
 
 			DefaultScheduleEvent event = new DefaultScheduleEvent();
@@ -46,6 +45,7 @@ public class LembreteService implements Serializable {
 			event.setStartDate(l.getDataInicio());
 			event.setEndDate(l.getDataFinal());
 			event.setAllDay(l.isDiaTodo());
+			event.setEditable(true); // Permite edição
 
 			if (l.isFinalizado()) {
 				event.setStyleClass("finalizado");
@@ -62,5 +62,12 @@ public class LembreteService implements Serializable {
 
 	public List<Lembrete> buscarTodos() {
 		return lembreteDAO.buscarTodos(Lembrete.class);
+	}
+
+	public void excluir(Lembrete lembrete) {
+		lembreteDAO.remover(lembrete);
+		lembrete = new Lembrete();
+		MensagemUtil.enviarMensagem("Lembrete removido!", FacesMessage.SEVERITY_INFO);
+
 	}
 }

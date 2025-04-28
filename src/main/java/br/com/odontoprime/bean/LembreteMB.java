@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -17,6 +18,7 @@ import org.primefaces.model.ScheduleModel;
 
 import br.com.odontoprime.entidade.Lembrete;
 import br.com.odontoprime.service.LembreteService;
+import br.com.odontoprime.util.MensagemUtil;
 
 @Named
 @ViewScoped
@@ -73,6 +75,13 @@ public class LembreteMB implements Serializable {
 		scheduleModel = lembreteService.listarLembretes();
 	}
 
+	public void excluir() {
+		System.out.println("lembrete id: " + this.lembrete.getId());
+		lembreteService.excluir(this.lembrete);
+		carregarLembretes();
+		
+	}
+
 	public void moverLembrete(ScheduleEntryMoveEvent event) {
 
 		Long id = Long.parseLong(event.getScheduleEvent().getData().toString());
@@ -93,18 +102,18 @@ public class LembreteMB implements Serializable {
 
 	public void redimensionarLembrete(ScheduleEntryResizeEvent event) {
 		Long id = Long.parseLong(event.getScheduleEvent().getData().toString());
-
-		List<Lembrete> lembretes = lembreteService.buscarTodos();
-
-		for (Lembrete lemb : lembretes) {
-			if (lemb.getId().equals(id)) {
-				lembrete = lemb;
-				break;
-			}
-		}
-		lembrete.setDataInicio(event.getScheduleEvent().getStartDate());
-		lembrete.setDataFinal(event.getScheduleEvent().getEndDate());
-		lembreteService.salvar(lembrete);
-		carregarLembretes();
+		this.lembrete = lembreteService.buscarPorId(id);
+//		List<Lembrete> lembretes = lembreteService.buscarTodos();
+//
+//		for (Lembrete lemb : lembretes) {
+//			if (lemb.getId().equals(id)) {
+//				lembrete = lemb;
+//				break;
+//			}
+//		}
+		this.lembrete.setDataInicio(event.getScheduleEvent().getStartDate());
+		this.lembrete.setDataFinal(event.getScheduleEvent().getEndDate());
+		this.lembreteService.salvar(this.lembrete);
+		//carregarLembretes();
 	}
 }
