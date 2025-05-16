@@ -76,7 +76,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 
 				MensagemUtil.enviarMensagem("Paciente salvo com sucesso!", FacesMessage.SEVERITY_INFO);
 
-				return Boolean.TRUE;
+				return true;
 			} else {
 				// se não for novo atualiza
 				if (usuarioLogado != null) {
@@ -111,7 +111,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 					"Erro ao salvar paciente.Contate o administrador ou tente novamente mais tarde!",
 					FacesMessage.SEVERITY_ERROR);
 		}
-		return Boolean.FALSE;
+		return false;
 
 	}
 
@@ -218,7 +218,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 			return new DefaultStreamedContent(new ByteArrayInputStream(paciente.getByteImg()), "image/png",
 					paciente.getNomeImagem());
 
-		return null;
+		return new DefaultStreamedContent();
 	}
 
 	public boolean verificaCpf(Paciente paciente) {
@@ -247,7 +247,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 	}
 
 	// APENAS QUANDO TIRAR FOTO SERÁ SETADA O NOME DA IMAGEM
-	public boolean tirarFoto(byte[] dados, Paciente paciente) {
+	public boolean tirarFotoWebCam(byte[] dados, Paciente paciente) {
 		boolean fotoTirada = false;
 		try {
 

@@ -268,7 +268,7 @@ public class PacienteMB implements Serializable {
 	}
 
 	public void tirarFoto(CaptureEvent captureEvent) {
-		exibirImagemCropper = pacienteService.tirarFoto(captureEvent.getData(),
+		exibirImagemCropper = pacienteService.tirarFotoWebCam(captureEvent.getData(),
 				paciente);
 	}
 

@@ -63,7 +63,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 	}
 
 	public boolean salvarImagemRecortada(CroppedImage croppedImage, Usuario usuario) {
-		boolean imagemSalva = Boolean.FALSE;
+		boolean imagemSalva = false;
 		try {
 
 			if (croppedImage == null || croppedImage.getBytes() == null) {
