@@ -210,7 +210,7 @@ body {
 
 
 
-		<p:dialog header="Insira foto do usuário"  dynamic="true" width="900"
+		<p:dialog header="Insira foto do usuário" dynamic="true" width="900"
 			height="450" closeOnEscape="true" closable="false" resizable="false"
 			responsive="true" modal="true" draggable="false" appendTo="@(body)"
 			widgetVar="dlgFotoPerfilUsuario">
@@ -227,8 +227,8 @@ body {
 					label="Buscar Imagem" />
 
 				<h:panelGrid columns="2">
-					<p:panel styleClass="imgPanelUserTemplate"
-						header="Foto normal" id="pnlFotoEditar">
+					<p:panel styleClass="imgPanelUserTemplate" header="Foto normal"
+						id="pnlFotoEditar">
 						<p:graphicImage id="imgEditDefault" cache="false"
 							rendered="#{not usuarioMB.exibirImagemCropper}"
 							value="/img/new-user.png" />

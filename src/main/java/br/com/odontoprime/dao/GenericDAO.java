@@ -48,7 +48,6 @@ public abstract class GenericDAO<T, PK> implements Serializable {
 
 	@Transactional
 	public T salvar(T entidade) throws ConstraintViolationException {
-
 		return entityManager.merge(entidade);
 	}
 
@@ -61,8 +60,7 @@ public abstract class GenericDAO<T, PK> implements Serializable {
 	@Transactional
 	public void remover(T entidade) {
 		try {
-			entidade = entityManager.merge(entidade);
-			entityManager.remove(entidade);
+			entityManager.remove(entityManager.merge(entidade));
 			entityManager.flush();
 		} catch (PersistenceException e) {
 			e.printStackTrace();

@@ -56,7 +56,6 @@ public class LembreteMB implements Serializable {
 
 		lembreteService.salvar(this.lembrete);
 		carregarLembretes();
-		lembrete = new Lembrete();
 	}
 
 	public void selecionarData(SelectEvent event) {
@@ -73,6 +72,7 @@ public class LembreteMB implements Serializable {
 
 	public void carregarLembretes() {
 		scheduleModel = lembreteService.listarLembretes();
+		this.lembrete = new Lembrete();
 	}
 
 	public void excluir() {

@@ -66,7 +66,6 @@ public class LembreteService implements Serializable {
 
 	public void excluir(Lembrete lembrete) {
 		lembreteDAO.remover(lembrete);
-		lembrete = new Lembrete();
 		MensagemUtil.enviarMensagem("Lembrete removido!", FacesMessage.SEVERITY_INFO);
 
 	}

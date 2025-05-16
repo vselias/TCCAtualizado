@@ -28,16 +28,15 @@ import br.com.odontoprime.entidade.Usuario;
 import br.com.odontoprime.util.MensagemUtil;
 
 @SuppressWarnings("serial")
-public class ImagemService implements Serializable {
+public class ImagemService implements Serializable, ImagemServiceInt {
 	@Inject
 	private UsuarioDAO usuarioDAO;
 	private ServletContext servletContext;
-	private final String USUARIO;
-	private final String CAMINHO_WINDOWS;
-	private final String CAMINHO_LINUX;
 	private final String CAMINHO_SERVIDOR;
-	private final String SO;
+	private final String USER_HOME;
+	private final String PASTA_IMAGEM;
 	private String nomeImagem;
+	private final String CAMINHO_IMAGEM;
 
 	public String getCAMINHO_SERVIDOR() {
 		return CAMINHO_SERVIDOR;
@@ -49,11 +48,10 @@ public class ImagemService implements Serializable {
 
 	public ImagemService() {
 		servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-		USUARIO = System.getProperty("user.name");
-		CAMINHO_WINDOWS = "C:/Users/" + USUARIO + "/OP/imagens";
-		CAMINHO_LINUX = "/home/" + USUARIO + "/op/imagens";
 		CAMINHO_SERVIDOR = servletContext.getRealPath("") + File.separator + "temp" + File.separator + "imagens";
-		SO = System.getProperty("os.name");
+		USER_HOME = System.getProperty("user.home");
+		PASTA_IMAGEM = "/OP/imagens";
+		CAMINHO_IMAGEM = USER_HOME + PASTA_IMAGEM;
 	}
 
 	public boolean recortarImagem(Usuario usuario, CroppedImage croppedImage) {
@@ -81,19 +79,13 @@ public class ImagemService implements Serializable {
 
 	public boolean salvarImagemRecortada(CroppedImage croppedImage, Usuario usuario) {
 		boolean imagemSalva = Boolean.FALSE;
-
-		if (croppedImage == null || croppedImage.getBytes() == null) {
-			return false;
-		}
-		usuario.setNomeImagem(gerarNomeImagemAleatoria());
-
 		try {
-			if (SO.toLowerCase().contains("windows")) {
 
-				imagemSalva = criarArquivo(CAMINHO_WINDOWS, croppedImage.getBytes(), usuario.getNomeImagem());
-			} else {
-				imagemSalva = criarArquivo(CAMINHO_LINUX, croppedImage.getBytes(), usuario.getNomeImagem());
+			if (croppedImage == null || croppedImage.getBytes() == null) {
+				return false;
 			}
+			usuario.setNomeImagem(gerarNomeImagemAleatoria());
+			imagemSalva = criarArquivo(CAMINHO_IMAGEM, croppedImage.getBytes(), usuario.getNomeImagem());
 
 			if (imagemSalva) {
 				System.out.println("[salvarImagemRecotada] imagem recortada salva com sucesso.");
@@ -114,12 +106,7 @@ public class ImagemService implements Serializable {
 		boolean imagemSalva = false;
 		try {
 			usuario.setNomeImagem(gerarNomeImagemAleatoria());
-
-			if (SO.toLowerCase().contains("windows")) {
-				imagemSalva = criarArquivo(CAMINHO_WINDOWS, usuario.getByteFoto(), usuario.getNomeImagem());
-			} else {
-				imagemSalva = criarArquivo(CAMINHO_LINUX, usuario.getByteFoto(), usuario.getNomeImagem());
-			}
+			imagemSalva = criarArquivo(CAMINHO_IMAGEM, usuario.getByteFoto(), usuario.getNomeImagem());
 
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
@@ -130,85 +117,64 @@ public class ImagemService implements Serializable {
 		}
 	}
 
-	public boolean criarArquivo(String caminho, byte[] dados, String nomeImagem) {
-
-		FileImageOutputStream fileImageOutputStream;
-		if (dados != null) {
-			try {
-				fileImageOutputStream = new FileImageOutputStream(new File(caminho, nomeImagem));
-				fileImageOutputStream.write(dados, 0, dados.length);
-				fileImageOutputStream.close();
-				System.out.println(caminho);
-				System.out.println("[criarArquivo] - Arquivo criado com sucesso.");
-				return true;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				MensagemUtil.enviarMensagem("É necessário tirar a foto para salva-la!", FacesMessage.SEVERITY_ERROR);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("[criarArquivo] - Erro ao criar arquivo.");
-			}
-		}
-		return false;
-	}
-
 	public boolean reduzirSalvarImagemUser(String caminho, byte[] dados, String nomeImagem) {
-	    try {
-	        if (dados == null || dados.length == 0) {
-	            System.out.println("[criarArquivo] - Dados inválidos!");
-	            return false;
-	        }
+		try {
+			if (dados == null || dados.length == 0) {
+				System.out.println("[criarArquivo] - Dados inválidos!");
+				return false;
+			}
 
-	        BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(dados));
-	        if (originalImage == null) {
-	            System.out.println("[criarArquivo] - Falha ao carregar imagem.");
-	            return false;
-	        }
+			BufferedImage originalImage = ImageIO.read(new ByteArrayInputStream(dados));
+			if (originalImage == null) {
+				System.out.println("[criarArquivo] - Falha ao carregar imagem.");
+				return false;
+			}
+			File pastaImg = new File(caminho);
+			if (!pastaImg.exists())
+				pastaImg.mkdirs();
 
-	        int larguraOriginal = originalImage.getWidth();
-	        int alturaOriginal = originalImage.getHeight();
+			int larguraOriginal = originalImage.getWidth();
+			int alturaOriginal = originalImage.getHeight();
 
-	        // Calculando a proporção
-	        double proporcaoLargura = (double) 600 / larguraOriginal;
-	        double proporcaoAltura = (double) 350 / alturaOriginal;
+			// Calculando a proporção
+			double proporcaoLargura = (double) 600 / larguraOriginal;
+			double proporcaoAltura = (double) 350 / alturaOriginal;
 
-	        // Escolhendo a menor proporção para evitar distorção
-	        double proporcaoFinal = Math.min(proporcaoLargura, proporcaoAltura);
+			// Escolhendo a menor proporção para evitar distorção
+			double proporcaoFinal = Math.min(proporcaoLargura, proporcaoAltura);
 
-	        int novaLargura = (int) (larguraOriginal * proporcaoFinal);
-	        int novaAltura = (int) (alturaOriginal * proporcaoFinal);
+			int novaLargura = (int) (larguraOriginal * proporcaoFinal);
+			int novaAltura = (int) (alturaOriginal * proporcaoFinal);
 
-	        // Definir tipo de imagem considerando transparência
-	        int tipoImagem = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-	        BufferedImage resizedImage = new BufferedImage(novaLargura, novaAltura, tipoImagem);
+			// Definir tipo de imagem considerando transparência
+			int tipoImagem = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
+			BufferedImage resizedImage = new BufferedImage(novaLargura, novaAltura, tipoImagem);
 
-	        // Redimensionando a imagem
-	        Graphics2D g2d = resizedImage.createGraphics();
-	        g2d.drawImage(originalImage.getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH), 0, 0, null);
-	        g2d.dispose();
+			// Redimensionando a imagem
+			Graphics2D g2d = resizedImage.createGraphics();
+			g2d.drawImage(originalImage.getScaledInstance(novaLargura, novaAltura, Image.SCALE_SMOOTH), 0, 0, null);
+			g2d.dispose();
 
-	        // Obtendo formato do arquivo
-	        String formato = nomeImagem.substring(nomeImagem.lastIndexOf('.') + 1).toLowerCase();
-	        File outputFile = new File(caminho, nomeImagem);
+			// Obtendo formato do arquivo
+			String formato = nomeImagem.substring(nomeImagem.lastIndexOf('.') + 1).toLowerCase();
+			File outputFile = new File(caminho, nomeImagem);
 
-	        ImageIO.write(resizedImage, formato, outputFile);
-	        System.out.println("[criarArquivo] - Arquivo criado com sucesso.");
-	        return true;
+			ImageIO.write(resizedImage, formato, outputFile);
+			System.out.println("[criarArquivo] - Arquivo criado com sucesso.");
+			return true;
 
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	        System.out.println("[criarArquivo] - Erro ao criar arquivo.");
-	    }
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("[criarArquivo] - Erro ao criar arquivo.");
+		}
 
-	    return false;
+		return false;
 	}
 
 	public boolean tirarFoto(byte[] dados, Usuario usuario) {
 		boolean imagemSalva = false;
 		try {
 			usuario.setNomeImagemCropper(gerarNomeImagemAleatoria());
-
 			imagemSalva = criarArquivo(CAMINHO_SERVIDOR, dados, usuario.getNomeImagemCropper());
 
 			if (imagemSalva) {
@@ -225,11 +191,10 @@ public class ImagemService implements Serializable {
 	public boolean enviarFotoServidor(Usuario usuario, byte[] dados) {
 
 		boolean fotoTirada = false;
-		nomeImagem = gerarNomeImagemAleatoria();
 		try {
 
+			nomeImagem = gerarNomeImagemAleatoria();
 			fotoTirada = reduzirSalvarImagemUser(CAMINHO_SERVIDOR, dados, nomeImagem);
-			System.out.println(CAMINHO_SERVIDOR);
 			if (fotoTirada) {
 				if (usuario == null) {
 					usuario = new Usuario();

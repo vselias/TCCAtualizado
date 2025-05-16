@@ -1,8 +1,6 @@
-<!-- <pretty-config xmlns="http://ocpsoft.org/schema/rewrite-config-prettyfaces" -->
-<!-- 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" -->
-<!-- 	xsi:schemaLocation="http://ocpsoft.org/schema/rewrite-config-prettyfaces -->
-<!--                       http://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd"> -->
-
+<!-- <pretty-config xmlns="https://ocpsoft.org/schema/rewrite-config-prettyfaces" -->
+<!--                xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance" -->
+<!--                xsi:schemaLocation="https://ocpsoft.org/schema/rewrite-config-prettyfaces https://ocpsoft.org/xml/ns/prettyfaces/rewrite-config-prettyfaces.xsd"> -->
 <!-- 	<url-mapping id="login"> -->
 <!-- 		<pattern value="/login" /> -->
 <!-- 		<view-id value="/Login.xhtml" /> -->
@@ -47,20 +45,20 @@
 <!-- 		<view-id value="/sistema/Inicio.xhtml" /> -->
 <!-- 	</url-mapping> -->
 <!-- 	<url-mapping id="vendasPorData"> -->
-<!-- 		<pattern value="/vendapordata" /> -->
+<!-- 		<pattern value="/venda-por-data" /> -->
 <!-- 		<view-id value="/sistema/adm/VendasPorData.xhtml" /> -->
 <!-- 	</url-mapping> -->
 
 <!-- 	<url-mapping id="vendaPorCliente "> -->
-<!-- 		<pattern value="/vendaporcliente" /> -->
+<!-- 		<pattern value="/venda-por-cliente" /> -->
 <!-- 		<view-id value="/sistema/adm/VendasPorPaciente.xhtml" /> -->
 <!-- 	</url-mapping> -->
 <!-- 	<url-mapping id="vendasAtual "> -->
-<!-- 		<pattern value="/vendahoje" /> -->
+<!-- 		<pattern value="/venda-hoje" /> -->
 <!-- 		<view-id value="/sistema/adm/VendasPorDia.xhtml" /> -->
 <!-- 	</url-mapping> -->
 <!-- 	<url-mapping id="grafico"> -->
-<!-- 		<pattern value="/grafico/graficodevenda" /> -->
+<!-- 		<pattern value="/grafico/grafico-de-venda" /> -->
 <!-- 		<view-id value="/sistema/adm/GraficoDeVenda.xhtml" /> -->
 <!-- 	</url-mapping> -->
 <!-- 	<url-mapping id="pesquisaSaida"> -->

@@ -44,18 +44,17 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.draw.LineSeparator;
 
-public class PacienteService implements Serializable {
+public class PacienteService implements Serializable, ImagemServiceInt {
 
 	private static final long serialVersionUID = -7410790862476205106L;
 
 	private ServletContext servletContext;
 	@Inject
 	private PacienteDAO pacienteDAO;
-	private final String NOME_USUARIO;
-	private final String CAMINHO_IMG_WINDOWS;
-	private final String CAMINHO_IMG_LINUX;
+	private final String USER_HOME;
+	private final String PASTA_IMAGEM;
 	private final String CAMINHO_IMAGENS_SERVIDOR;
-	private final String SISTEMA_OPERACIONAL;
+	private final String CAMINHO_IMAGEM;
 	private String nomeImagem;
 	@Inject
 	private OrcamentoDAO orcamentoDAO;
@@ -64,18 +63,15 @@ public class PacienteService implements Serializable {
 
 	public PacienteService() {
 		servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-
-		NOME_USUARIO = System.getProperty("user.name");
-		CAMINHO_IMG_WINDOWS = "C:/Users/" + NOME_USUARIO + "/OP/imagens";
-		CAMINHO_IMG_LINUX = "/home/" + NOME_USUARIO + "/op/imagens";
+		USER_HOME = System.getProperty("user.home");
+		PASTA_IMAGEM = "/OP/imagens";
 		CAMINHO_IMAGENS_SERVIDOR = servletContext.getRealPath("") + File.separator + "temp" + File.separator
 				+ "imagens";
-		SISTEMA_OPERACIONAL = System.getProperty("os.name");
+		CAMINHO_IMAGEM = USER_HOME + PASTA_IMAGEM;
 	}
 
 	public boolean salvar(Paciente paciente) {
 		try {
-
 			Usuario usuarioLogado = (Usuario) FacesUtil.getSessionAttribute("usuario");
 
 			if (paciente.isNovo()) {
@@ -263,41 +259,13 @@ public class PacienteService implements Serializable {
 		return fotoRecortada;
 	}
 
-	public boolean criarArquivo(String caminho, byte[] dados, String nomeImagem) {
-
-		FileImageOutputStream fileImageOutputStream;
-		if (dados != null) {
-
-			try {
-				File diretorio = new File(caminho);
-				if(!diretorio.exists()) {
-					diretorio.mkdirs();
-				}
-				fileImageOutputStream = new FileImageOutputStream(new File(caminho, nomeImagem));
-				fileImageOutputStream.write(dados, 0, dados.length);
-				fileImageOutputStream.close();
-				System.out.println("[criarArquivo] - Arquivo criado com sucesso.");
-				return true;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				MensagemUtil.enviarMensagem("É necessário tirar a foto para salva-la!", FacesMessage.SEVERITY_ERROR);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				System.out.println("[criarArquivo] - Erro ao criar arquivo.");
-			}
-		}
-		return false;
-	}
-
 	// APENAS QUANDO TIRAR FOTO SERÁ SETADA O NOME DA IMAGEM
 	public boolean tirarFoto(byte[] dados, Paciente paciente) {
 		boolean fotoTirada = false;
-		nomeImagem = gerarNomeImagemAleatoria();
 		try {
 
+			nomeImagem = gerarNomeImagemAleatoria();
 			fotoTirada = criarArquivo(CAMINHO_IMAGENS_SERVIDOR, dados, nomeImagem);
-			System.out.println(CAMINHO_IMAGENS_SERVIDOR);
 			if (fotoTirada) {
 				if (paciente == null) {
 					paciente = new Paciente();
@@ -315,21 +283,16 @@ public class PacienteService implements Serializable {
 
 	public void salvarImagemRecortada(CroppedImage croppedImage, Paciente paciente) {
 		boolean imagemSalva = false;
-		if (croppedImage == null || croppedImage.getBytes() == null) {
-			return;
-		}
-		if(paciente == null || paciente.getId() == null) {
-			MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
-			return;
-		}
-		nomeImagem = gerarNomeImagemAleatoria();
 		try {
-			if (SISTEMA_OPERACIONAL.toLowerCase().contains("windows")) {
-
-				imagemSalva = criarArquivo(CAMINHO_IMG_WINDOWS, croppedImage.getBytes(), nomeImagem);
-			} else {
-				imagemSalva = criarArquivo(CAMINHO_IMG_LINUX, croppedImage.getBytes(), nomeImagem);
+			if (croppedImage == null || croppedImage.getBytes() == null) {
+				return;
 			}
+			if (paciente == null || paciente.getId() == null) {
+				MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
+				return;
+			}
+			nomeImagem = gerarNomeImagemAleatoria();
+			imagemSalva = criarArquivo(CAMINHO_IMAGEM, croppedImage.getBytes(), nomeImagem);
 
 			if (imagemSalva) {
 				paciente.setNomeImagem(nomeImagem);
@@ -348,12 +311,7 @@ public class PacienteService implements Serializable {
 		boolean imagemSalva = false;
 		try {
 
-			if (SISTEMA_OPERACIONAL.toLowerCase().contains("windows")) {
-				imagemSalva = criarArquivo(CAMINHO_IMG_WINDOWS, paciente.getByteImg(), paciente.getNomeImagem());
-			} else {
-				imagemSalva = criarArquivo(CAMINHO_IMG_LINUX, paciente.getByteImg(), paciente.getNomeImagem());
-			}
-
+			imagemSalva = criarArquivo(CAMINHO_IMAGEM, paciente.getByteImg(), paciente.getNomeImagem());
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
 			}
@@ -362,16 +320,17 @@ public class PacienteService implements Serializable {
 			System.out.println("[salvarImagem] erro ao salvar imagem.");
 		}
 	}
+
 	public boolean subirImagem(FileUploadEvent event, Paciente paciente) {
-		if(paciente == null || paciente.getId() == null) {
-			MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
-			return false;
-		}
 		boolean imagemSalva = false;
-		nomeImagem = gerarNomeImagemAleatoria();
 		try {
-			imagemSalva = imagemService.reduzirSalvarImagemUser(CAMINHO_IMAGENS_SERVIDOR, event.getFile().getContents(), nomeImagem);
-			//imagemSalva = criarArquivo(CAMINHO_IMAGENS_SERVIDOR, event.getFile().getContents(), nomeImagem);
+			if (paciente == null || paciente.getId() == null) {
+				MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
+				return false;
+			}
+			nomeImagem = gerarNomeImagemAleatoria();
+			imagemSalva = imagemService.reduzirSalvarImagemUser(CAMINHO_IMAGENS_SERVIDOR, event.getFile().getContents(),
+					nomeImagem);
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Foto enviada com sucesso!", FacesMessage.SEVERITY_INFO);
 				paciente.setImagemCropper(nomeImagem);
@@ -383,6 +342,7 @@ public class PacienteService implements Serializable {
 		return false;
 	}
 
+	@Deprecated
 	public boolean criarImagemRedimensionada(FileUploadEvent event, Paciente paciente) {
 		try {
 			BufferedImage bufferedImage = ImageIO.read(event.getFile().getInputstream());

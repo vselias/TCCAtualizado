@@ -12,15 +12,12 @@
 	<h:outputStylesheet library="css" name="estilo.css" />
 	<link href="css/estilo.css" rel="stylesheet" type="text/css" />
 	<link href="fonts/fonts.css" rel="stylesheet" type="text/css" />
-
-	<style>
+	<h:outputStylesheet> 
 body {
 /* 	background-image: url("#{request.contextPath}/img/odonto.jpg");  */
 /*  	background-repeat: no-repeat;  */
 }
-</style>
-
-
+</h:outputStylesheet>
 
 
 
@@ -50,9 +47,9 @@ body {
 						requiredMessage="Senha deve ser informada." autocomplete="false"
 						value="#{usuarioMB.usuario.senha}" />
 
-					<p:commandButton id="btn" icon="fa fa-sign-in"
-						update="frmLogin:msg" action="#{usuarioMB.autenticar}"
-						value="Entrar" />
+					<p:commandButton styleClass="btn btn-primary" id="btn"
+						icon="fa fa-sign-in" update="frmLogin:msg"
+						action="#{usuarioMB.autenticar}" value="Entrar" />
 
 					<p:commandLink immediate="true"
 						oncomplete="PF('dlgRecuperarSenha').show();"

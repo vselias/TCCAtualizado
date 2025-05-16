@@ -57,7 +57,7 @@
 		</plugins>
 	</build>
 
-	<dependencies>
+		<dependencies>
 		<dependency>
 		    <groupId>javax.persistence</groupId>
 		    <artifactId>javax.persistence-api</artifactId>

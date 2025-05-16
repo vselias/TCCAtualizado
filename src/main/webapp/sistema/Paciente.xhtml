@@ -8,7 +8,7 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/template/Template.xhtml">
-<ui:define name="title">
+	<ui:define name="title">
 		<title>Cadastro de Paciente</title>
 	</ui:define>
 	<f:metadata>
@@ -118,7 +118,7 @@
 												<p:graphicImage
 													rendered="#{pacienteMB.paciente.nomeImagem eq null}"
 													width="100px" height="100px" value="/img/new-user.png" />
-												<p:graphicImage
+												<p:graphicImage width="100px" height="100px"
 													rendered="#{pacienteMB.paciente.nomeImagem ne null}"
 													value="/imagens/#{pacienteMB.paciente.nomeImagem}" />
 											</p:outputPanel>
@@ -160,10 +160,10 @@
 		</h:form>
 
 
-		<p:dialog draggable="false" closeOnEscape="true" width="900" height="400"
-			header="Insira foto do paciente" responsive="true" resizable="false"
-			position="center" dynamic="true" modal="true" closable="true"
-			widgetVar="dlgExibirFoto">
+		<p:dialog draggable="false" closeOnEscape="true" width="900"
+			height="400" header="Insira foto do paciente" responsive="true"
+			resizable="false" position="center" dynamic="true" modal="true"
+			closable="true" widgetVar="dlgExibirFoto">
 			<h:form id="frmSelecionarFoto">
 
 				<p:fileUpload label="Selecione a imagem"
@@ -174,8 +174,8 @@
 					fileUploadListener="#{pacienteMB.subirImagem}" />
 
 				<h:panelGrid columns="2">
-					<p:panel styleClass="imgPanelUserTemplate"
-						header="Foto normal" id="pnlFotoUpload">
+					<p:panel styleClass="imgPanelUserTemplate" header="Foto normal"
+						id="pnlFotoUpload">
 						<p:graphicImage
 							rendered="#{pacienteMB.paciente.imagemCropper eq null}"
 							value="/img/new-user.png" cache="false" />
