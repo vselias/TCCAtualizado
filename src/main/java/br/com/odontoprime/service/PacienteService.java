@@ -30,6 +30,7 @@ import org.primefaces.model.StreamedContent;
 import br.com.odontoprime.dao.OrcamentoDAO;
 import br.com.odontoprime.dao.PacienteDAO;
 import br.com.odontoprime.entidade.StatusCadastro;
+import br.com.odontoprime.entidade.Constantes;
 import br.com.odontoprime.entidade.Paciente;
 import br.com.odontoprime.entidade.Usuario;
 import br.com.odontoprime.util.FacesUtil;
@@ -48,27 +49,13 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 
 	private static final long serialVersionUID = -7410790862476205106L;
 
-	private ServletContext servletContext;
 	@Inject
 	private PacienteDAO pacienteDAO;
-	private final String USER_HOME;
-	private final String PASTA_IMAGEM;
-	private final String CAMINHO_IMAGENS_SERVIDOR;
-	private final String CAMINHO_IMAGEM;
 	private String nomeImagem;
 	@Inject
 	private OrcamentoDAO orcamentoDAO;
 	@Inject
 	private ImagemService imagemService;
-
-	public PacienteService() {
-		servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-		USER_HOME = System.getProperty("user.home");
-		PASTA_IMAGEM = "/OP/imagens";
-		CAMINHO_IMAGENS_SERVIDOR = servletContext.getRealPath("") + File.separator + "temp" + File.separator
-				+ "imagens";
-		CAMINHO_IMAGEM = USER_HOME + PASTA_IMAGEM;
-	}
 
 	public boolean salvar(Paciente paciente) {
 		try {
@@ -246,7 +233,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 		}
 		nomeImagem = gerarNomeImagemAleatoria();
 		try {
-			fotoRecortada = criarArquivo(CAMINHO_IMAGENS_SERVIDOR, croppedImage.getBytes(), nomeImagem);
+			fotoRecortada = criarArquivo(Constantes.getPathServidor(), croppedImage.getBytes(), nomeImagem);
 			if (fotoRecortada) {
 				MensagemUtil.enviarMensagem("Imagem recortada com sucesso.", FacesMessage.SEVERITY_INFO);
 				System.out.println("[recortarImagem] imagem recortada com sucesso.");
@@ -265,7 +252,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 		try {
 
 			nomeImagem = gerarNomeImagemAleatoria();
-			fotoTirada = criarArquivo(CAMINHO_IMAGENS_SERVIDOR, dados, nomeImagem);
+			fotoTirada = criarArquivo(Constantes.getPathServidor(), dados, nomeImagem);
 			if (fotoTirada) {
 				if (paciente == null) {
 					paciente = new Paciente();
@@ -292,7 +279,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 				return;
 			}
 			nomeImagem = gerarNomeImagemAleatoria();
-			imagemSalva = criarArquivo(CAMINHO_IMAGEM, croppedImage.getBytes(), nomeImagem);
+			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, croppedImage.getBytes(), nomeImagem);
 
 			if (imagemSalva) {
 				paciente.setNomeImagem(nomeImagem);
@@ -311,7 +298,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 		boolean imagemSalva = false;
 		try {
 
-			imagemSalva = criarArquivo(CAMINHO_IMAGEM, paciente.getByteImg(), paciente.getNomeImagem());
+			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, paciente.getByteImg(), paciente.getNomeImagem());
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
 			}
@@ -329,8 +316,8 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 				return false;
 			}
 			nomeImagem = gerarNomeImagemAleatoria();
-			imagemSalva = imagemService.reduzirSalvarImagemUser(CAMINHO_IMAGENS_SERVIDOR, event.getFile().getContents(),
-					nomeImagem);
+			imagemSalva = imagemService.reduzirSalvarImagemUser(Constantes.getPathServidor(),
+					event.getFile().getContents(), nomeImagem);
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Foto enviada com sucesso!", FacesMessage.SEVERITY_INFO);
 				paciente.setImagemCropper(nomeImagem);
@@ -355,7 +342,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 			String formato = content[1];
 			String nomeImagem = gerarImagemSemFormato() + "." + formato;
 			paciente.setNomeImagem(nomeImagem);
-			ImageIO.write(new_img, formato, new File(CAMINHO_IMAGENS_SERVIDOR, paciente.getNomeImagem()));
+			ImageIO.write(new_img, formato, new File(Constantes.getPathServidor(), paciente.getNomeImagem()));
 			return true;
 		} catch (IOException e) {
 			e.printStackTrace();

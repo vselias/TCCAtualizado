@@ -23,6 +23,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 
 import br.com.odontoprime.dao.UsuarioDAO;
+import br.com.odontoprime.entidade.Constantes;
 import br.com.odontoprime.entidade.Paciente;
 import br.com.odontoprime.entidade.Usuario;
 import br.com.odontoprime.util.MensagemUtil;
@@ -31,27 +32,11 @@ import br.com.odontoprime.util.MensagemUtil;
 public class ImagemService implements Serializable, ImagemServiceInt {
 	@Inject
 	private UsuarioDAO usuarioDAO;
-	private ServletContext servletContext;
-	private final String CAMINHO_SERVIDOR;
-	private final String USER_HOME;
-	private final String PASTA_IMAGEM;
 	private String nomeImagem;
-	private final String CAMINHO_IMAGEM;
 
-	public String getCAMINHO_SERVIDOR() {
-		return CAMINHO_SERVIDOR;
-	}
 
 	public String gerarNomeImagemAleatoria() {
 		return System.currentTimeMillis() + ".png";
-	}
-
-	public ImagemService() {
-		servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-		CAMINHO_SERVIDOR = servletContext.getRealPath("") + File.separator + "temp" + File.separator + "imagens";
-		USER_HOME = System.getProperty("user.home");
-		PASTA_IMAGEM = "/OP/imagens";
-		CAMINHO_IMAGEM = USER_HOME + PASTA_IMAGEM;
 	}
 
 	public boolean recortarImagem(Usuario usuario, CroppedImage croppedImage) {
@@ -63,7 +48,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 		}
 
 		try {
-			fotoRecortada = criarArquivo(CAMINHO_SERVIDOR, croppedImage.getBytes(), usuario.getNomeImagemRecortada());
+			fotoRecortada = criarArquivo(Constantes.getPathServidor(), croppedImage.getBytes(), usuario.getNomeImagemRecortada());
 			if (fotoRecortada) {
 				MensagemUtil.enviarMensagem("Imagem recortada com sucesso.", FacesMessage.SEVERITY_INFO);
 				System.out.println("[ImagemService - recortarImagem] imagem recortada com sucesso.");
@@ -85,7 +70,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 				return false;
 			}
 			usuario.setNomeImagem(gerarNomeImagemAleatoria());
-			imagemSalva = criarArquivo(CAMINHO_IMAGEM, croppedImage.getBytes(), usuario.getNomeImagem());
+			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, croppedImage.getBytes(), usuario.getNomeImagem());
 
 			if (imagemSalva) {
 				System.out.println("[salvarImagemRecotada] imagem recortada salva com sucesso.");
@@ -106,7 +91,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 		boolean imagemSalva = false;
 		try {
 			usuario.setNomeImagem(gerarNomeImagemAleatoria());
-			imagemSalva = criarArquivo(CAMINHO_IMAGEM, usuario.getByteFoto(), usuario.getNomeImagem());
+			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, usuario.getByteFoto(), usuario.getNomeImagem());
 
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
@@ -175,7 +160,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 		boolean imagemSalva = false;
 		try {
 			usuario.setNomeImagemCropper(gerarNomeImagemAleatoria());
-			imagemSalva = criarArquivo(CAMINHO_SERVIDOR, dados, usuario.getNomeImagemCropper());
+			imagemSalva = criarArquivo(Constantes.getPathServidor(), dados, usuario.getNomeImagemCropper());
 
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Foto capturada com sucesso!", FacesMessage.SEVERITY_INFO);
@@ -194,7 +179,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 		try {
 
 			nomeImagem = gerarNomeImagemAleatoria();
-			fotoTirada = reduzirSalvarImagemUser(CAMINHO_SERVIDOR, dados, nomeImagem);
+			fotoTirada = reduzirSalvarImagemUser(Constantes.getPathServidor(), dados, nomeImagem);
 			if (fotoTirada) {
 				if (usuario == null) {
 					usuario = new Usuario();

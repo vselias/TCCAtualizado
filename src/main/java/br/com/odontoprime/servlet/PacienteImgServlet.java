@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.odontoprime.entidade.Constantes;
+
 @WebServlet("/imagens/*")
 public class PacienteImgServlet extends HttpServlet {
 
@@ -17,7 +19,6 @@ public class PacienteImgServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String CAMINHO_IMG_WINDOWS = "C:/Users/" + System.getProperty("user.name") + "/OP/imagens";
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -27,7 +28,7 @@ public class PacienteImgServlet extends HttpServlet {
 			return;
 		}
 
-		File imagem = new File(CAMINHO_IMG_WINDOWS, nomeImagem);
+		File imagem = new File(Constantes.CAMINHO_IMAGEM, nomeImagem);
 		if (!imagem.exists()) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND, "Imagem não encontrada.");
 			return;
