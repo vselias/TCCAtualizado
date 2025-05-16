@@ -25,10 +25,6 @@ public interface ImagemServiceInt {
 				fileImageOutputStream.close();
 				System.out.println("[criarArquivo] - Arquivo criado com sucesso.");
 				return true;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				MensagemUtil.enviarMensagem("É necessário tirar a foto para salva-la!", FacesMessage.SEVERITY_ERROR);
-
 			} catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("[criarArquivo] - Erro ao criar arquivo.");

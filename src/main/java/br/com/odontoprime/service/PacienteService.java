@@ -92,12 +92,9 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 				return Boolean.TRUE;
 			}
 
-		} catch (PersistenceException e) {
+		} catch (Exception e) {
 			Throwable t = e.getCause();
 			e.printStackTrace();
-			while ((t != null) && !(t instanceof ConstraintViolationException)) {
-				t = t.getCause();
-			}
 			if (t instanceof ConstraintViolationException) {
 				String msg = t.getCause().getMessage();
 
@@ -105,7 +102,6 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 					MensagemUtil.enviarMensagem("CPF já cadastrado!", FacesMessage.SEVERITY_ERROR);
 				}
 			}
-		} catch (Exception e) {
 			e.printStackTrace();
 			MensagemUtil.enviarMensagem(
 					"Erro ao salvar paciente.Contate o administrador ou tente novamente mais tarde!",
