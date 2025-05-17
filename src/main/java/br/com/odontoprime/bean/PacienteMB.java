@@ -112,6 +112,7 @@ public class PacienteMB implements Serializable {
 		this.paciente = paciente;
 	}
 
+	@Deprecated
 	public StreamedContent getExibImg() {
 		if (paciente.getId() != null && paciente.getByteImg() != null) {
 			exibImg = pacienteService.exibirImg(paciente);
@@ -249,6 +250,7 @@ public class PacienteMB implements Serializable {
 		limpar();
 	}
 
+	@Deprecated
 	public StreamedContent getImgStream() {
 		FacesContext currentInstance = FacesContext.getCurrentInstance();
 		if (currentInstance.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
@@ -259,17 +261,15 @@ public class PacienteMB implements Serializable {
 	}
 
 	public void recortarImagem() {
-		exibirImagemRecortada = pacienteService.recortarImagem(paciente,
-				croppedImage);
+		exibirImagemRecortada = pacienteService.recortarImagem(paciente, croppedImage);
 	}
 
 	public void subirImagem(FileUploadEvent event) {
-		exibirImagemCropper = pacienteService.subirImagem(event, paciente);
+		exibirImagemCropper = pacienteService.subirImagem(paciente, event.getFile().getContents());
 	}
 
 	public void tirarFoto(CaptureEvent captureEvent) {
-		exibirImagemCropper = pacienteService.tirarFotoWebCam(captureEvent.getData(),
-				paciente);
+		exibirImagemCropper = pacienteService.tirarFotoWebCam(captureEvent.getData(), paciente);
 	}
 
 	public void gerarNomeImagemAleatoria() {

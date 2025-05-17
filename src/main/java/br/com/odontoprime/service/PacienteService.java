@@ -45,7 +45,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.draw.LineSeparator;
 
-public class PacienteService implements Serializable, ImagemServiceInt {
+public class PacienteService implements Serializable, ImagemServiceInt<Paciente> {
 
 	private static final long serialVersionUID = -7410790862476205106L;
 
@@ -55,7 +55,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 	@Inject
 	private OrcamentoDAO orcamentoDAO;
 	@Inject
-	private ImagemService imagemService;
+	private UserImagemService imagemService;
 
 	public boolean salvar(Paciente paciente) {
 		try {
@@ -187,6 +187,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 
 	}
 
+	@Deprecated
 	public StreamedContent exibirImg(Paciente paciente) {
 		StreamedContent exibImg = null;
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -208,6 +209,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 		return exibImg;
 	}
 
+	@Deprecated
 	public StreamedContent exibirFotoPaciente(Paciente paciente) {
 
 		if (paciente != null && paciente.getByteImg() != null)
@@ -264,15 +266,15 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 		return fotoTirada;
 	}
 
-	public void salvarImagemRecortada(CroppedImage croppedImage, Paciente paciente) {
+	public boolean salvarImagemRecortada(CroppedImage croppedImage, Paciente paciente) {
 		boolean imagemSalva = false;
 		try {
 			if (croppedImage == null || croppedImage.getBytes() == null) {
-				return;
+				return false;
 			}
 			if (paciente == null || paciente.getId() == null) {
 				MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
-				return;
+				return false;
 			}
 			nomeImagem = gerarNomeImagemAleatoria();
 			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, croppedImage.getBytes(), nomeImagem);
@@ -282,12 +284,13 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 				pacienteDAO.salvar(paciente);
 				System.out.println("[salvarImagemRecotada] imagem recortada salva com sucesso.");
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("[salvarImagemRecotada] erro ao salvar imagem recortada.");
 		}
-
+		return false;
 	}
 
 	public void salvarImagem(Paciente paciente) {
@@ -304,7 +307,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 		}
 	}
 
-	public boolean subirImagem(FileUploadEvent event, Paciente paciente) {
+	public boolean subirImagem(Paciente paciente, byte[] dados) {
 		boolean imagemSalva = false;
 		try {
 			if (paciente == null || paciente.getId() == null) {
@@ -312,8 +315,7 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 				return false;
 			}
 			nomeImagem = gerarNomeImagemAleatoria();
-			imagemSalva = imagemService.reduzirSalvarImagemUser(Constantes.getPathServidor(),
-					event.getFile().getContents(), nomeImagem);
+			imagemSalva = imagemService.reduzirSalvarImagemUser(Constantes.getPathServidor(), dados, nomeImagem);
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Foto enviada com sucesso!", FacesMessage.SEVERITY_INFO);
 				paciente.setImagemCropper(nomeImagem);
@@ -345,4 +347,5 @@ public class PacienteService implements Serializable, ImagemServiceInt {
 		}
 		return false;
 	}
+
 }

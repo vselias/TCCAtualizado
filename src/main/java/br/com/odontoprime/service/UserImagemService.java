@@ -29,7 +29,7 @@ import br.com.odontoprime.entidade.Usuario;
 import br.com.odontoprime.util.MensagemUtil;
 
 @SuppressWarnings("serial")
-public class ImagemService implements Serializable, ImagemServiceInt {
+public class UserImagemService implements Serializable, ImagemServiceInt<Usuario> {
 	@Inject
 	private UsuarioDAO usuarioDAO;
 	private String nomeImagem;
@@ -156,7 +156,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 		return false;
 	}
 
-	public boolean tirarFoto(byte[] dados, Usuario usuario) {
+	public boolean tirarFotoWebCam(byte[] dados, Usuario usuario) {
 		boolean imagemSalva = false;
 		try {
 			usuario.setNomeImagemCropper(gerarNomeImagemAleatoria());
@@ -173,7 +173,7 @@ public class ImagemService implements Serializable, ImagemServiceInt {
 		return imagemSalva;
 	}
 
-	public boolean enviarFotoServidor(Usuario usuario, byte[] dados) {
+	public boolean subirImagem(Usuario usuario, byte[] dados) {
 
 		boolean fotoTirada = false;
 		try {

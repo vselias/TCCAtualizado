@@ -12,7 +12,7 @@ import org.omnifaces.cdi.ViewScoped;
 import org.primefaces.event.CaptureEvent;
 
 import br.com.odontoprime.entidade.Usuario;
-import br.com.odontoprime.service.ImagemService;
+import br.com.odontoprime.service.UserImagemService;
 import br.com.odontoprime.service.UsuarioService;
 import br.com.odontoprime.util.FacesUtil;
 import br.com.odontoprime.util.MensagemUtil;
@@ -30,7 +30,7 @@ public class CadastroUsuarioMB implements Serializable {
 	private UsuarioService usuarioService;
 	private List<Usuario> usuarios;
 	@Inject
-	private ImagemService imagemService;
+	private UserImagemService imagemService;
 	private boolean exibirWebCam;
 
 	@PostConstruct
@@ -60,8 +60,9 @@ public class CadastroUsuarioMB implements Serializable {
 	}
 
 	public void salvar() {
-		if (isUsuarioCadastravel())
+		if (isUsuarioCadastravel()) {
 			usuarioService.salvar(usuario);
+		}
 
 		resetarObjetos();
 	}
@@ -98,6 +99,15 @@ public class CadastroUsuarioMB implements Serializable {
 	}
 
 	public void tirarFoto(CaptureEvent captureEvent) {
-		imagemService.tirarFoto(captureEvent.getData(), usuario);
+		imagemService.tirarFotoWebCam(captureEvent.getData(), usuario);
 	}
+
+	public void excluir() {
+
+		this.usuarioService.excluir(this.usuario);
+		System.out.println("chamou o metodo de exclusao!");
+		System.out.println(this.usuario);
+		resetarObjetos();
+	}
+
 }

@@ -6,9 +6,12 @@ import java.io.FileNotFoundException;
 import javax.faces.application.FacesMessage;
 import javax.imageio.stream.FileImageOutputStream;
 
+import org.primefaces.model.CroppedImage;
+
+import br.com.odontoprime.entidade.Paciente;
 import br.com.odontoprime.util.MensagemUtil;
 
-public interface ImagemServiceInt {
+public interface ImagemServiceInt<T> {
 
 	default boolean criarArquivo(String caminho, byte[] dados, String nomeImagem) {
 
@@ -32,5 +35,10 @@ public interface ImagemServiceInt {
 		}
 		return false;
 	}
-
+	
+	public void salvarImagem(T classe);
+	public boolean recortarImagem(T classe, CroppedImage croppedImage);
+	public boolean salvarImagemRecortada(CroppedImage croppedImage, T classe);
+	public boolean subirImagem(T classe, byte[] dados);
+	public boolean tirarFotoWebCam(byte[] dados, T classe);
 }

@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
 	 */
 	private static final long serialVersionUID = -1921845685391042478L;
 	@Id
-	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(unique = true)
 	private String login;
@@ -29,6 +29,8 @@ public class Usuario implements Serializable {
 	private boolean adm;
 	private String cpf;
 	private String email;
+	@Transient
+	private String confirmaSenha;
 	@Transient
 	private byte[] byteFoto;
 	@Transient
@@ -61,6 +63,14 @@ public class Usuario implements Serializable {
 
 	public String getNomeImagemCropper() {
 		return nomeImagemCropper;
+	}
+
+	public String getConfirmaSenha() {
+		return confirmaSenha;
+	}
+
+	public void setConfirmaSenha(String confirmaSenha) {
+		this.confirmaSenha = confirmaSenha;
 	}
 
 	public void setNomeImagemCropper(String nomeImagemCropper) {
@@ -163,5 +173,11 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", login=" + login + ", adm=" + adm + ", cpf=" + cpf + ", email=" + email
+				+ ", dataUltimoLogin=" + dataUltimoLogin + ", exibirDataUltimoLogin=" + exibirDataUltimoLogin + "]";
+	}
+
 }

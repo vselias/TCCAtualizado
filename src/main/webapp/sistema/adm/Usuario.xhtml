@@ -54,7 +54,12 @@
 												value="#{cadastroUsuarioMB.usuario.senha}" />
 
 											<br />
-
+											<p:outputLabel for="confirmaSenha" value="Confirmar Senha" />
+											<br />
+											<p:password id="confirmaSenha" required="true"
+												requiredMessage="Senha deve ser informada."
+												value="#{cadastroUsuarioMB.usuario.confirmaSenha}" />
+											<br />
 											<p:outputLabel value="Administrador" />
 											<br />
 											<p:selectBooleanCheckbox

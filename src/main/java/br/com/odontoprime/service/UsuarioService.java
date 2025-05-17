@@ -71,7 +71,8 @@ public class UsuarioService implements Serializable {
 		try {
 			// verifica se o usuário possui id para atualiza
 			boolean editavel = isUsuarioEditavel(usuario);
-
+			
+			validarSenha(usuario);
 			usuarioDAO.salvar(usuario);
 
 			// diferenciar mensagem
@@ -80,19 +81,16 @@ public class UsuarioService implements Serializable {
 			else
 				MensagemUtil.enviarMensagem("Usuário cadastrado com sucesso!", FacesMessage.SEVERITY_INFO);
 
-		} catch (PersistenceException e) {
-			Throwable t = e.getCause();
-			while ((t != null) && !(t instanceof ConstraintViolationException)) {
-				t = t.getCause();
-			}
+		} catch (Exception ex) {
+
+			Throwable t = ex.getCause();
 			if (t instanceof ConstraintViolationException) {
 				String msgErro = t.getCause().getMessage();
 				if (msgErro.contains(usuario.getLogin())) {
 					MensagemUtil.enviarMensagem("Login já cadastrado. Informe outro.", FacesMessage.SEVERITY_ERROR);
 				}
 			}
-		} catch (Exception ex) {
-			MensagemUtil.enviarMensagem("Erro ao cadastrar o usuário. Contate o administrador!",
+			MensagemUtil.enviarMensagem(ex.getMessage(),
 					FacesMessage.SEVERITY_ERROR);
 			ex.printStackTrace();
 		}
@@ -130,5 +128,21 @@ public class UsuarioService implements Serializable {
 
 	public boolean isUsuarioNotNull(Usuario usuario) {
 		return usuario != null;
+	}
+
+	public void validarSenha(Usuario usuario) throws Exception {
+		if (!usuario.getSenha().equalsIgnoreCase(usuario.getConfirmaSenha())) {
+			 throw new Exception("Senha incorreta! Informe a senha corretamente.");
+		}
+	}
+
+	public void excluir(Usuario usuario) {
+		try {
+			this.usuarioDAO.remover(usuario);
+			MensagemUtil.enviarMensagem("Usuario removido com sucesso!", FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			MensagemUtil.enviarMensagem("Erro ao remover usuário!", FacesMessage.SEVERITY_ERROR);
+			e.printStackTrace();
+		}
 	}
 }

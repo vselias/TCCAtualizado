@@ -21,7 +21,7 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 
 import br.com.odontoprime.entidade.Usuario;
-import br.com.odontoprime.service.ImagemService;
+import br.com.odontoprime.service.UserImagemService;
 import br.com.odontoprime.service.UsuarioService;
 import br.com.odontoprime.util.MensagemUtil;
 
@@ -36,20 +36,16 @@ public class UsuarioMB implements Serializable {
 	private Usuario usuario;
 	private CroppedImage croppedImage;
 	@Inject
-	private ImagemService imagemService;
+	private UserImagemService imagemService;
 	private boolean exibirImagemCropper = Boolean.FALSE;
 	private boolean exibirImagemRecortada = Boolean.FALSE;;
 	private boolean exibirImagemPerfil = Boolean.FALSE;
-	private HttpServletRequest request;
-	private HttpServletResponse response;
 	private String senhaVerificacao;
 	private boolean exibirWebCam;
 
 	@PostConstruct
 	public void initi() {
 		usuario = new Usuario();
-		request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
 		exibirImagemCropper = Boolean.FALSE;
 
 	}
@@ -140,7 +136,7 @@ public class UsuarioMB implements Serializable {
 	}
 
 	public void salvarImagem(FileUploadEvent event) {
-		exibirImagemCropper = imagemService.enviarFotoServidor(usuario, event.getFile().getContents());
+		exibirImagemCropper = imagemService.subirImagem(usuario, event.getFile().getContents());
 	}
 
 	public void esconderImagens() {
@@ -208,6 +204,8 @@ public class UsuarioMB implements Serializable {
 	}
 
 	public void tirarFoto(CaptureEvent captureEvent) {
-		exibirImagemCropper = imagemService.tirarFoto(captureEvent.getData(), usuario);
+		exibirImagemCropper = imagemService.tirarFotoWebCam(captureEvent.getData(), usuario);
 	}
+	
+
 }

@@ -14,8 +14,8 @@
 	<link href="fonts/fonts.css" rel="stylesheet" type="text/css" />
 	<h:outputStylesheet> 
 body {
-/* 	background-image: url("#{request.contextPath}/img/odonto.jpg");  */
-/*  	background-repeat: no-repeat;  */
+ 	background-image: url("#{request.contextPath}/img/macback.png");  
+ 	background-repeat: no-repeat;  
 }
 </h:outputStylesheet>
 
@@ -51,7 +51,8 @@ body {
 						icon="fa fa-sign-in" update="frmLogin:msg"
 						action="#{usuarioMB.autenticar}" value="Entrar" />
 
-					<p:commandLink immediate="true"
+					<p:button outcome="CadastroUsuario" value="Cadastrar" icon="fa fa-user" />
+					<p:commandLink rendered="false" immediate="true"
 						oncomplete="PF('dlgRecuperarSenha').show();"
 						value="Esqueceu sua senha?" />
 
