@@ -33,10 +33,10 @@
 					</f:facet>
 
 					<p:column style="text-align:center;" headerText="Foto">
-						<p:graphicImage width="100px" height="100px"
+						<p:graphicImage styleClass="imagens"
 							rendered="#{c.paciente.nomeImagem eq null or c.paciente.nomeImagem eq ''}"
 							value="/img/new-user.png" />
-						<p:graphicImage width="100px" height="100px"
+						<p:graphicImage styleClass="imagens"
 							rendered="#{c.paciente.nomeImagem ne null}"
 							value="/imagens/#{c.paciente.nomeImagem}" />
 					</p:column>

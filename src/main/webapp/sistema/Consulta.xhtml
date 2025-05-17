@@ -123,10 +123,10 @@
 										<p:outputPanel id="fotoPaciente">
 											<p:outputLabel value="Foto" />
 											<br />
-											<p:graphicImage width="100px" height="100px"
+											<p:graphicImage styleClass="imagens"
 												rendered="#{consultaMB.consulta.paciente.nomeImagem eq null}"
 												cache="false" value="/img/new-user.png" />
-											<p:graphicImage width="100px" height="100px"
+											<p:graphicImage styleClass="imagens"
 												rendered="#{consultaMB.consulta.paciente.nomeImagem ne null
 									and consultaMB.consulta.paciente.nomeImagem ne '' }"
 												cache="false"

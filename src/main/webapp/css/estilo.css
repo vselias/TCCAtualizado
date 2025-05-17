@@ -7,7 +7,7 @@
 body {
 	font-size: var(--tamanhoFonte) !important;
 	font: var(--fonte) !important;
-	 background-image: url("../img/macback.png") !important;
+	background-image: url("../img/macback.png") !important;
 	background-repeat: no-repeat !important;
 }
 
@@ -61,6 +61,38 @@ body {
 	padding: 0px;
 	margin: auto;
 	clear: both;
+}
+
+.containerUser {
+	display: flex;
+	align-items: center; /* alinha verticalmente a imagem e o texto */
+	justify-content: flex-end; /* alinha tudo à direita */
+	gap: 1rem;
+}
+
+.imgLogoTop{
+	
+	float: left;
+}
+.infoUser {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	overflow: hidden;
+	font-size: 11px !important;
+	margin: auto 5px;
+	gap: 0.1rem;
+}
+
+.imagens {
+	width: 95px;
+	height: 95px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.fotoUser {
+	flex-shrink: 0;
 }
 
 ui-button-text.ui-c .ui-menu .ui-menuitem-text {
@@ -280,4 +312,10 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	font-weight: bold !important;
 	font-size: 18px !important;
 	display: block !important;
+}
+
+@media (max-width:1000px) { /* Para telas menores, como celulares */
+    body {
+        font-size: 1.5rem !important; /* Aumenta a fonte */
+    }
 }

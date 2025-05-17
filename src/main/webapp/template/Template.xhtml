@@ -24,7 +24,7 @@
 		<link href="#{request.contextPath}/css/estilo.css" rel="stylesheet"
 			type="text/css" />
 
-		
+
 		<h:outputScript name="jquery/jquery-plugins.js" library="primefaces" />
 
 		<h:outputStylesheet name="grid/grid.css" library="primefaces" />
@@ -50,79 +50,66 @@
 			<div class="ui-grid-row">
 				<div class="ui-grid-col-12">
 					<div id="header" class="barra-logo ">
-						<div class="ui-grid-row">
-							<div class="ui-grid-col-2">
-								<h:form>
-									<p:commandLink action="/sistema/Inicio?faces-redirect=true">
-										<h:graphicImage styleClass="imgLogo"
-											value="/img/logo-login.png" />
-									</p:commandLink>
+						<div class="imgLogoTop">
+							<h:form>
+								<p:commandLink action="/sistema/Inicio?faces-redirect=true">
+									<h:graphicImage styleClass="imgLogo"
+										value="/img/logo-login.png" />
+								</p:commandLink>
+							</h:form>
+						</div>
+						<div class="containerUser">
+							<div class="fotoUser">
+								<h:form id="frmImgUsuario">
+									<p:graphicImage
+										rendered="#{usuarioMB.usuario.nomeImagem eq null or usuarioMB.usuario.nomeImagem eq ''}"
+										styleClass="imagens" value="/img/new-user.png" />
+
+									<p:graphicImage id="fotoDefinida" styleClass="imagens"
+										rendered="#{usuarioMB.usuario.nomeImagem ne null and usuarioMB.usuario.nomeImagem ne ''}"
+										cache="false" value="/imagens/#{usuarioMB.usuario.nomeImagem}" />
 								</h:form>
 							</div>
 
-							<div style="text-align: right;" class="ui-grid-col-10">
+							<div class="infoUser">
 
-								<div class="ui-grid-row">
+								<p:outputLabel styleClass="estiloFonteUsuario" value="Usuário: " />
+								<p:outputLabel styleClass="estiloFonteUsuario"
+									value="#{usuarioMB.usuario.login}" />
+								<p:outputLabel styleClass="estiloFonteUsuario" value="Nível: " />
+								<p:outputLabel styleClass="estiloFonteUsuario"
+									rendered="#{usuarioMB.usuario.adm}" value="Administrador" />
+								<p:outputLabel styleClass="estiloFonteUsuario"
+									rendered="#{not usuarioMB.usuario.adm}" value="Usuário" />
 
-									<div class="ui-grid-col-10">
-										<h:form id="frmImgUsuario">
-											<p:graphicImage styleClass="imgUsuario"
-												rendered="#{usuarioMB.usuario.nomeImagem eq null or usuarioMB.usuario.nomeImagem eq ''}"
-												width="100px" height="100px" value="/img/new-user.png" />
+								<p:commandLink styleClass="estiloFonteUsuario"
+									update=":frmEditFotoPerfil"
+									action="#{usuarioMB.limparImagemCropper}"
+									oncomplete="PF('dlgFotoPerfilUsuario').show();"
+									value="Alterar Imagem" />
+								<p:outputLabel styleClass="estiloFonteUsuario"
+									value="Ultimo acesso em:" />
+								<p:outputLabel styleClass="estiloFonteUsuario"
+									value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
+									<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
+										pattern="dd/MM/yyyy HH:mm:ss" />
+								</p:outputLabel>
 
-											<p:graphicImage id="fotoDefinida" styleClass="imgUsuario"
-												rendered="#{usuarioMB.usuario.nomeImagem ne null and usuarioMB.usuario.nomeImagem ne ''}"
-												width="100px" height="100px" cache="false"
-												value="/imagens/#{usuarioMB.usuario.nomeImagem}" />
-										</h:form>
-									</div>
+								<p:confirmDialog widgetVar="confirmarSaida"
+									header="Finalizando..."
+									message="Deseja realmente sair do sistema?">
 
-									<div class="ui-grid-col-2 divUsuario">
+									<p:commandButton oncomplete="PF('confirmarSaida').hide()"
+										action="#{usuarioMB.registrarSaida}" value="Sim" />
 
-										<p:outputLabel styleClass="estiloFonteUsuario"
-											value="Usuário: " />
-										<p:outputLabel styleClass="estiloFonteUsuario"
-											value="#{usuarioMB.usuario.login}" />
-										<br />
-										<p:outputLabel styleClass="estiloFonteUsuario" value="Nível: " />
-										<p:outputLabel styleClass="estiloFonteUsuario"
-											rendered="#{usuarioMB.usuario.adm}" value="Administrador" />
-										<p:outputLabel styleClass="estiloFonteUsuario"
-											rendered="#{not usuarioMB.usuario.adm}" value="Usuário" />
-										<br />
+									<p:commandButton onclick="PF('confirmarSaida').hide()"
+										value="Não" />
 
-										<p:commandLink styleClass="estiloFonteUsuario"
-											update=":frmEditFotoPerfil"
-											action="#{usuarioMB.limparImagemCropper}"
-											oncomplete="PF('dlgFotoPerfilUsuario').show();"
-											value="Alterar Imagem" />
-										<br />
-										<p:outputLabel styleClass="estiloFonteUsuario"
-											value="Ultimo acesso em:" />
-										<br />
-										<p:outputLabel styleClass="estiloFonteUsuario"
-											value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
-											<f:convertDateTime locale="pt_BR"
-												timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm:ss" />
-										</p:outputLabel>
-
-										<p:confirmDialog widgetVar="confirmarSaida"
-											header="Finalizando..."
-											message="Deseja realmente sair do sistema?">
-
-											<p:commandButton oncomplete="PF('confirmarSaida').hide()"
-												action="#{usuarioMB.registrarSaida}" value="Sim" />
-
-											<p:commandButton onclick="PF('confirmarSaida').hide()"
-												value="Não" />
-
-										</p:confirmDialog>
-									</div>
-								</div>
-
+								</p:confirmDialog>
 							</div>
+
 						</div>
-						<div class="ui-fluid">
+						<div class="menuBotoes ui-fluid">
 							<h:form>
 								<h:panelGroup rendered="#{usuarioMB.usuario.adm}">
 									<ui:include src="/template/MenuAdm.xhtml" />
@@ -134,7 +121,6 @@
 						</div>
 
 						<ui:insert name="header" />
-
 					</div>
 
 

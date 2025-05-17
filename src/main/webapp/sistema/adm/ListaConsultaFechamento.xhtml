@@ -21,10 +21,10 @@
 
 
 			<p:column style="text-align:center;" headerText="Foto">
-				<p:graphicImage cache="false" width="80px;" height="80px;"
+				<p:graphicImage cache="false" styleClass="imagens"
 					rendered="#{c.paciente.nomeImagem eq null or c.paciente.nomeImagem eq ''}"
 					value="/img/new-user.png" />
-				<p:graphicImage cache="false" width="80px;" height="80px;"
+				<p:graphicImage cache="false" styleClass="imagens"
 					rendered="#{c.paciente.nomeImagem ne null and c.paciente.nomeImagem ne ''}"
 					value="/imagens/#{c.paciente.nomeImagem}" />
 			</p:column>
@@ -114,11 +114,11 @@
 				</f:facet>
 				<p:graphicImage
 					rendered="#{s.usuario eq null or s.usuario.nomeImagem eq null}"
-					cache="false" width="100px" height="100px"
+					cache="false" styleClass="imagens"
 					value="/img/new-user.png" />
 				<p:graphicImage
 					rendered="#{s.usuario ne null and s.usuario.nomeImagem ne null}"
-					cache="false" width="100px" height="100px"
+					cache="false" styleClass="imagens"
 					value="/imagens/#{s.usuario.nomeImagem}" />
 			</p:column>
 			<p:column headerText="Usuário">

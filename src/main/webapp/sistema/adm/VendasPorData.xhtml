@@ -92,12 +92,11 @@
 						headerText="Foto">
 						<p:graphicImage
 							rendered="#{c.paciente.nomeImagem eq null or c.paciente.nomeImagem eq ''}"
-							value="/img/new-user.png" cache="false" width="100px;"
-							height="100px;" />
+							value="/img/new-user.png" cache="false" styleClass="imagens" />
 						<p:graphicImage
 							rendered="#{c.paciente.nomeImagem ne null and c.paciente.nomeImagem ne ''}"
 							value="/imagens/#{c.paciente.nomeImagem}" cache="false"
-							width="100px;" height="100px;" />
+							styleClass="imagens"/>
 					</p:column>
 
 					<p:column sortBy="#{c.paciente.nome}" filterBy="#{c.paciente.nome}"

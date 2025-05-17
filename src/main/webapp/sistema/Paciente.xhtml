@@ -115,10 +115,10 @@
 											<p:outputLabel value="Foto" />
 											<br />
 											<p:outputPanel id="fotoPaciente">
-												<p:graphicImage
+												<p:graphicImage styleClass="imagens"
 													rendered="#{pacienteMB.paciente.nomeImagem eq null}"
-													width="100px" height="100px" value="/img/new-user.png" />
-												<p:graphicImage width="100px" height="100px"
+													 value="/img/new-user.png" />
+												<p:graphicImage styleClass="imagens" 
 													rendered="#{pacienteMB.paciente.nomeImagem ne null}"
 													value="/imagens/#{pacienteMB.paciente.nomeImagem}" />
 											</p:outputPanel>

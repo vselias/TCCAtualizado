@@ -181,11 +181,11 @@
 							<p:panel style="text-align:center;" header="Foto">
 								<p:graphicImage
 									rendered="#{entradaMB.consulta.paciente.nomeImagem ne null}"
-									cache="false" width="100" height="100"
+									cache="false" styleClass="imagens"
 									value="/imagens/#{entradaMB.consulta.paciente.nomeImagem}" />
 								<p:graphicImage
 									rendered="#{entradaMB.consulta.paciente.nomeImagem eq null}"
-									cache="false" width="100" height="100"
+									cache="false" styleClass="imagens"
 									value="/img/new-user.png" />
 							</p:panel>
 

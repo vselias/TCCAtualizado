@@ -33,10 +33,10 @@
 
 					<p:column headerText="Foto">
 
-						<p:graphicImage cache="false" width="100px" height="100px"
+						<p:graphicImage cache="false" styleClass="imagens"
 							rendered="#{p.nomeImagem eq null or p.nomeImagem eq ''}"
 							value="/img/new-user.png" />
-						<p:graphicImage cache="false" width="100px" height="100px"
+						<p:graphicImage cache="false" styleClass="imagens"
 							rendered="#{p.nomeImagem ne null and p.nomeImagem ne ''}"
 							value="/imagens/#{p.nomeImagem}" />
 					</p:column>
