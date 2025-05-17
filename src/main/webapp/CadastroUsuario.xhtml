@@ -10,6 +10,15 @@
 	<title>Cadastrar Novo Usuário</title>
 	<link href="#{request.contextPath}/css/estilo.css" rel="stylesheet"
 		type="text/css" />
+	<script>
+		function removerMsg() {
+			var msg = document.querySelector('.ui-messages');
+			var form = document.querySelector("#frmUsuario").reset();
+			console.log(msg);
+			msg.style.display = "none";
+		}
+	</script>
+
 </h:head>
 
 <h:body>
@@ -18,7 +27,7 @@
 
 		<p:spacer height="10px" />
 
-		<p:messages id="msg" escape="true" closable="true" />
+		<p:messages id="msg" autoUpdate="true" closable="true" />
 
 
 		<div class="ui-grid ui-grid-responsive">
@@ -91,8 +100,9 @@
 									action="#{cadastroUsuarioMB.salvar}" icon="fa fa-floppy-o"
 									value="Salvar" />
 								<p:button outcome="Login" value="Login" icon="fa fa-sign-in" />
-								<p:commandButton icon="fa fa-file-o" value="Limpar">
-									<p:resetInput target="@form" />
+								<p:commandButton process="@this" update="frmUsuario" action="#{cadastroUsuarioMB.resetarObjetos}" oncomplete="removerMsg()" icon="fa fa-file-o"
+									value="Limpar">
+									<p:resetInput target="frmUsuario" />
 								</p:commandButton>
 							</h:panelGrid>
 						</center>

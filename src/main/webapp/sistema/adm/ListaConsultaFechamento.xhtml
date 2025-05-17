@@ -8,12 +8,10 @@
 
 <h:form id="frmDetalheFechamento">
 
-	<h3>Consulta(s) paga(s) hoje.</h3>
-
 	<center>
 		<p:dataTable widgetVar="tblConsulta" styleClass="tabela"
 			tableStyle="width:auto" resizableColumns="true" paginator="true"
-			rowsPerPageTemplate="5,10,15" reflow="true" rowKey="#{c.id}"
+			rowsPerPageTemplate="5,10,15"  rowKey="#{c.id}"
 			selectionMode="single" selection="#{consultaMB.consulta}"
 			value="#{movimentacaoCaixaMB.consultasFechamento}" id="tblConsulta"
 			var="c" rows="5" paginatorPosition="top"
@@ -46,7 +44,7 @@
 				sortBy="#{c.dataConsulta}" headerText="Data">
 				<p:outputLabel value="#{c.dataConsulta}">
 					<f:convertDateTime timeZone="America/Sao_Paulo"
-						pattern="dd/MM/yyyy HH:mm:ss" locale="pt_BR" />
+						pattern="dd/MM/yyyy HH:mm" locale="pt_BR" />
 				</p:outputLabel>
 			</p:column>
 

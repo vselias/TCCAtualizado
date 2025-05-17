@@ -111,7 +111,7 @@
 
 
 		<!-- dialog para exibir as consultas do fechamento atual -->
-		<p:dialog header="Consulta(s) paga(s) / Saída(s) efetuada(s) hoje."
+		<p:dialog width="1000" header="Consulta(s) paga(s) / Saída(s) efetuada(s) hoje."
 			resizable="false" closeOnEscape="true" closable="true"
 			responsive="true" modal="true" widgetVar="dlgDetalheFechamento">
 
@@ -121,8 +121,8 @@
 
 
 		<!-- dialog detalhamento das parcelas -->
-		<p:dialog header="Parcela(s) paga(s) hoje." widgetVar="dlgExbParcela"
-			modal="true" appendTo="@(body)" resizable="false" responsive="true">
+		<p:dialog width="1000" header="Parcela(s) paga(s) hoje." widgetVar="dlgExbParcela"
+			modal="true" resizable="false" responsive="true">
 
 
 			<ui:include src="/sistema/adm/ListaParcelaFechamento.xhtml" />
