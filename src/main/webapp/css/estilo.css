@@ -15,6 +15,7 @@ body {
 	font: var(--fonte) !important;
 	background-image: url("../img/macback.png") !important;
 	background-repeat: no-repeat !important;
+	margin: 0.8rem 1rem !important;
 }
 
 .ajax-status {
@@ -179,12 +180,10 @@ ui-button-text.ui-c .ui-menu .ui-menuitem-text {
 	width: 180px !important;
 	height: auto !important;
 	float: left;
-	padding: 5px 5px;
 }
+
 .imgLogoLogin {
 	width: 120px !important;
-	height: auto !important;
-	padding: 5px 5px;
 }
 
 #content {
@@ -300,8 +299,10 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	position: absolute;
 	left: 20px;
 	display: flex;
-	justify-content: center; /* Centraliza horizontalmente */
-	align-items: center; /* Centraliza verticalmente */
+	justify-content: center;
+	/* Centraliza horizontalmente */
+	align-items: center;
+	justify-content: center; /* Centraliza verticalmente */
 }
 
 .tituloFooter {
