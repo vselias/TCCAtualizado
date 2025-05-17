@@ -32,10 +32,10 @@
 					paginatorPosition="top" rows="5" emptyMessage="Nenhum registro."
 					var="c">
 					<p:column exportable="false" headerText="Foto">
-						<p:graphicImage cache="false" width="100px;" height="100px;"
+						<p:graphicImage cache="false" styleClass="imagens"
 							rendered="#{c.paciente.nomeImagem eq null or c.paciente.nomeImagem eq ''}"
 							value="/img/new-user.png" />
-						<p:graphicImage cache="false" width="100px;" height="100px;"
+						<p:graphicImage cache="false" styleClass="imagens"
 							rendered="#{c.paciente.nomeImagem ne null}"
 							value="/imagens/#{c.paciente.nomeImagem}" />
 					</p:column>

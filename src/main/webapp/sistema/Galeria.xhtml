@@ -29,11 +29,11 @@
 
 					<p:column style="text-align:center;" headerText="Foto">
 
-						<p:graphicImage cache="false" width="100" height="100"
+						<p:graphicImage cache="false" styleClass="imagens"
 							rendered="#{p.nomeImagem eq null or p.nomeImagem eq ''}"
 							value="/img/new-user.png" />
 
-						<p:graphicImage cache="false" width="100" height="100"
+						<p:graphicImage cache="false" styleClass="imagens"
 							rendered="#{p.nomeImagem ne null}"
 							value="/imagens/#{p.nomeImagem}" />
 					</p:column>

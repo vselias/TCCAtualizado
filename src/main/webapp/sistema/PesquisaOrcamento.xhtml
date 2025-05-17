@@ -34,10 +34,10 @@
 
 					<p:column style="text-align:center;" headerText="Foto"
 						exportable="false">
-						<p:graphicImage cache="false" width="100" height="100"
+						<p:graphicImage cache="false"styleClass="imagens"
 							rendered="#{orcamento.paciente.nomeImagem eq null or orcamento.paciente.nomeImagem eq ''}"
 							value="/img/new-user.png" />
-						<p:graphicImage cache="false" width="100" height="100"
+						<p:graphicImage cache="false"styleClass="imagens"
 							rendered="#{orcamento.paciente.nomeImagem ne null}"
 							value="/imagens/#{orcamento.paciente.nomeImagem}" />
 					</p:column>
