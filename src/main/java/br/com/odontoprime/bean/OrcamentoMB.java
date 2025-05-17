@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
+import org.primefaces.event.SelectEvent;
 
 import br.com.odontoprime.entidade.Orcamento;
 import br.com.odontoprime.entidade.Paciente;
@@ -67,6 +68,15 @@ public class OrcamentoMB implements Serializable {
 		});
 
 		return pacientesPesquisa;
+	}
+
+	@SuppressWarnings("unused")
+	public void pacienteSelecionado(SelectEvent event) {
+		Paciente paciente = (Paciente) event.getObject();
+		System.out.println("Metodo de seleção chamado: " + paciente.getNome());
+		if (paciente != null) {
+			MensagemUtil.enviarMensagem("Paciente selecionado: " + paciente.getNome(), FacesMessage.SEVERITY_INFO);
+		}
 	}
 
 	public void setPacientes(List<Paciente> pacientes) {

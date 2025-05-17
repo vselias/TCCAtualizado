@@ -7,12 +7,14 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.omnifaces.cdi.ViewScoped;
+import org.primefaces.event.SelectEvent;
 
 import br.com.odontoprime.entidade.Consulta;
 import br.com.odontoprime.entidade.Entrada;
@@ -24,6 +26,7 @@ import br.com.odontoprime.entidade.TipoConsulta;
 import br.com.odontoprime.service.ConsultaService;
 import br.com.odontoprime.service.EntradaService;
 import br.com.odontoprime.service.PacienteService;
+import br.com.odontoprime.util.MensagemUtil;
 
 @Named
 @ViewScoped
@@ -317,6 +320,15 @@ public class ConsultaMB implements Serializable {
 		});
 
 		return pacientesFiltrados;
+	}
+
+	@SuppressWarnings("unused")
+	public void pacienteSelecionado(SelectEvent event) {
+		Paciente paciente = (Paciente) event.getObject();
+		System.out.println("Metodo de seleção chamado: "+paciente.getNome());
+        if(paciente != null) {
+        	MensagemUtil.enviarMensagem("Paciente selecionado: "+paciente.getNome(), FacesMessage.SEVERITY_INFO);
+        }
 	}
 
 	public boolean estadoCancelado() {

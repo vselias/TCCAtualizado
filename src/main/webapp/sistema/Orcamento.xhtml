@@ -14,7 +14,7 @@
 		<f:viewParam name="codigo" value="#{orcamentoMB.orcamento}"
 			converter="OrcamentoConverter" />
 	</f:metadata>
-<ui:define name="title">
+	<ui:define name="title">
 		<title>Cadastro de Orçamento</title>
 	</ui:define>
 	<ui:define name="content">
@@ -23,7 +23,8 @@
 
 		<h:form id="frmOrcamento" styleClass="frmDadosPaciente">
 
-			<h3 style="text-align: right" class="tituloPagina">#{orcamentoMB.orcamento.id gt 0 ? 'Editar Orçamento' : 'Novo Orçamento'}</h3>
+			<h3 style="text-align: right" class="tituloPagina">#{orcamentoMB.orcamento.id
+				gt 0 ? 'Editar Orçamento' : 'Novo Orçamento'}</h3>
 
 
 			<ui:include src="/template/MenuOrcamento.xhtml" />
@@ -44,15 +45,22 @@
 									<p:outputLabel for="paciente" value="Selecione o paciente" />
 									<br />
 
-									<p:autoComplete id="paciente"
+									<p:autoComplete size="35" id="paciente"
 										requiredMessage="Usuário deve ser informado." required="true"
 										value="#{orcamentoMB.orcamento.paciente}" var="paciente"
 										itemLabel="#{paciente.nome}" itemValue="#{paciente}"
 										forceSelection="true" converter="pacienteConverter"
-										completeMethod="#{orcamentoMB.pesquisarPacientesAutoComplete}" />
+										completeMethod="#{orcamentoMB.pesquisarPacientesAutoComplete}">
+										<p:ajax event="itemSelect"
+											listener="#{orcamentoMB.pacienteSelecionado}"
+											update=":formGlobal:msgGlobal frmOrcamento:foto" />
+
+									</p:autoComplete>
+									<p:tooltip for="paciente"
+										value="Digite um nome para selecionar o paciente."
+										position="top" />
 
 
-									<br />
 
 									<p:outputLabel value="Consulta" />
 
@@ -67,13 +75,7 @@
 											itemValue="Montagem de Aparelho" />
 										<f:selectItem itemLabel="Manutenção" itemValue="Manutenção" />
 									</p:selectOneMenu>
-								</h:panelGrid>
-							</div>
-
-
-
-							<div class="ui-grid-col-6">
-								<h:panelGrid cellpadding="5" columns="2">
+									<br />
 									<p:outputLabel for="valor" value="Valor" />
 									<br />
 									<p:inputText id="valor" maxlength="10" required="true"
@@ -82,6 +84,26 @@
 										value="#{orcamentoMB.orcamento.valor}">
 										<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
 									</p:inputText>
+
+
+								</h:panelGrid>
+							</div>
+
+
+
+							<div class="ui-grid-col-6">
+								<h:panelGrid id="foto" cellpadding="5" columns="2">
+									<p:outputLabel value="Foto" />
+
+									<br />
+									<p:graphicImage width="100px" height="100px"
+										rendered="#{orcamentoMB.orcamento.paciente.nomeImagem eq null}"
+										cache="false" value="/img/new-user.png" />
+									<p:graphicImage width="100px" height="100px"
+										rendered="#{orcamentoMB.orcamento.paciente.nomeImagem ne null
+									and orcamentoMB.orcamento.paciente.nomeImagem ne '' }"
+										cache="false"
+										value="/imagens/#{orcamentoMB.orcamento.paciente.nomeImagem}" />
 								</h:panelGrid>
 							</div>
 

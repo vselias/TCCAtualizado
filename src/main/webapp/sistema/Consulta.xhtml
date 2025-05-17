@@ -57,17 +57,20 @@
 
 											<p:outputLabel for="paciente" value="Selecione o paciente" />
 											<br />
-											<p:autoComplete forceSelection="true" required="true"
-												id="paciente" value="#{consultaMB.consulta.paciente}"
+											<p:autoComplete size="35" forceSelection="true"
+												required="true" id="paciente"
+												value="#{consultaMB.consulta.paciente}"
 												requiredMessage="Paciente deve ser informado."
 												completeMethod="#{consultaMB.listarPacientesConsulta}"
 												converter="pacienteConverter" var="paciente"
 												itemValue="#{paciente}" itemLabel="#{paciente.nome}">
 												<p:ajax event="itemSelect"
-													update="frmConsulta:tabView:fotoPaciente" />
+													listener="#{consultaMB.pacienteSelecionado}"
+													update="frmConsulta:tabView:fotoPaciente :formGlobal:msgGlobal" />
 											</p:autoComplete>
-											<br />
-
+											<p:tooltip for="paciente"
+												value="Digite um nome para selecionar o paciente."
+												position="top" />
 
 
 											<p:outputLabel for="estado" value="Estado da consulta" />
