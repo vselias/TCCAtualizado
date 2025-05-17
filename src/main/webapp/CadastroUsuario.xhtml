@@ -8,19 +8,13 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Cadastrar Novo Usuário</title>
-
-	<h:outputStylesheet> 
-body {
- 	background-image: url("#{request.contextPath}/img/macback.png");  
- 	background-repeat: no-repeat;
- 	font-family: 'Open Sans', sans-serif;
-}
-</h:outputStylesheet>
+	<link href="#{request.contextPath}/css/estilo.css" rel="stylesheet"
+		type="text/css" />
 </h:head>
 
 <h:body>
 	<h:form id="frmUsuario">
-		<h3 class="tituloPagina" style="text-align: center">Novo Usuário</h3>
+		<h3 class="tituloPagina">Novo Usuário</h3>
 
 		<p:spacer height="10px" />
 
@@ -45,9 +39,7 @@ body {
 												listener="#{cadastroUsuarioMB.verificarLogin}" />
 										</p:inputText>
 
-
 										<br />
-
 										<p:outputLabel for="senha" value="Senha" />
 										<br />
 										<p:password id="senha" required="true"
@@ -60,6 +52,7 @@ body {
 										<p:password id="confirmaSenha" required="true"
 											requiredMessage="Senha deve ser informada."
 											value="#{cadastroUsuarioMB.usuario.confirmaSenha}" />
+										
 										<br />
 										<p:outputLabel value="Administrador" />
 										<br />
@@ -80,8 +73,6 @@ body {
 										</p:inputText>
 
 										<br />
-
-
 										<p:outputLabel for="cpf" value="CPF" />
 										<br />
 										<p:inputMask id="cpf" mask="999.999.999-99" required="true"
@@ -99,8 +90,7 @@ body {
 								<p:commandButton update="@form msg"
 									action="#{cadastroUsuarioMB.salvar}" icon="fa fa-floppy-o"
 									value="Salvar" />
-								<p:button outcome="Login" value="Login"
-									icon="fa fa-sign-in" />
+								<p:button outcome="Login" value="Login" icon="fa fa-sign-in" />
 							</h:panelGrid>
 						</center>
 					</p:panel>
