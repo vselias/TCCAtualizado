@@ -50,11 +50,11 @@
 			<div class="ui-grid-row">
 				<div class="ui-grid-col-12">
 					<div id="header" class="barra-logo ">
-						<div class="imgLogoTop">
+						<div class="divImgLogoTop">
 							<h:form>
 								<p:commandLink action="/sistema/Inicio?faces-redirect=true">
 									<h:graphicImage styleClass="imgLogo"
-										value="/img/logo-login.png" />
+										value="/img/gpt-logo-branca.png" />
 								</p:commandLink>
 							</h:form>
 						</div>
@@ -73,27 +73,33 @@
 
 							<div class="infoUser">
 
-								<p:outputLabel styleClass="estiloFonteUsuario" value="Usuário: " />
+								<p:outputLabel styleClass="estiloFonteUsuario" value="Usuário: ">
+									<p:outputLabel styleClass="estiloFonteUsuario"
+										value="#{usuarioMB.usuario.login}" />
+								</p:outputLabel>
+
+								<p:outputLabel styleClass="estiloFonteUsuario" value="Nível: ">
+									<p:outputLabel styleClass="estiloFonteUsuario"
+										rendered="#{usuarioMB.usuario.adm}" value="Administrador" />
+									<p:outputLabel styleClass="estiloFonteUsuario"
+										rendered="#{not usuarioMB.usuario.adm}" value="Usuário" />
+								</p:outputLabel>
+
 								<p:outputLabel styleClass="estiloFonteUsuario"
-									value="#{usuarioMB.usuario.login}" />
-								<p:outputLabel styleClass="estiloFonteUsuario" value="Nível: " />
-								<p:outputLabel styleClass="estiloFonteUsuario"
-									rendered="#{usuarioMB.usuario.adm}" value="Administrador" />
-								<p:outputLabel styleClass="estiloFonteUsuario"
-									rendered="#{not usuarioMB.usuario.adm}" value="Usuário" />
+									value="Ultimo acesso em: ">
+									<p:outputLabel styleClass="estiloFonteUsuario"
+										value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
+										<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
+											pattern="dd/MM/yyyy HH:mm" />
+									</p:outputLabel>
+								</p:outputLabel>
+
 
 								<p:commandLink styleClass="estiloFonteUsuario"
 									update=":frmEditFotoPerfil"
 									action="#{usuarioMB.limparImagemCropper}"
 									oncomplete="PF('dlgFotoPerfilUsuario').show();"
 									value="Alterar Imagem" />
-								<p:outputLabel styleClass="estiloFonteUsuario"
-									value="Ultimo acesso em:" />
-								<p:outputLabel styleClass="estiloFonteUsuario"
-									value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
-									<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
-										pattern="dd/MM/yyyy HH:mm:ss" />
-								</p:outputLabel>
 
 								<p:confirmDialog widgetVar="confirmarSaida"
 									header="Finalizando..."
@@ -169,17 +175,11 @@
 					<hr />
 
 					<div class="footer">
-						<div class="ui-grid-responsive">
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-12">
-									<p:graphicImage styleClass="imgFooter" width="150px"
-										height="75px" value="/img/logo-login.png" />
-									<div class="tituloFooter">
-										<h5 style="text-align: center">Sistema de gerenciamento
-											odontológico - OdontoPrime todos direitos reservados ®.</h5>
-									</div>
-								</div>
-							</div>
+						<p:graphicImage styleClass="imgFooter imgLogo"
+							value="/img/gpt-logo-branca.png" />
+						<div class="tituloFooter">
+							<h5 style="text-align: center">Sistema de gerenciamento
+								odontológico - OdontoPrime todos direitos reservados ®.</h5>
 						</div>
 					</div>
 				</div>
@@ -190,7 +190,7 @@
 
 
 		<p:dialog header="Insira foto do usuário" dynamic="true" width="900"
-			height="450" closeOnEscape="true" closable="false" resizable="false"
+			closeOnEscape="true" closable="false" resizable="false"
 			responsive="true" modal="true" draggable="false" appendTo="@(body)"
 			widgetVar="dlgFotoPerfilUsuario">
 
