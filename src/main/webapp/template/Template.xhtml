@@ -33,12 +33,6 @@
 
 		<h:outputStylesheet name="charts/charts.css" library="primefaces" />
 
-		<h:outputStylesheet
-			name="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-
-		<h:outputStylesheet>
-
-		</h:outputStylesheet>
 	</h:head>
 </f:view>
 
@@ -70,52 +64,53 @@
 										cache="false" value="/imagens/#{usuarioMB.usuario.nomeImagem}" />
 								</h:form>
 							</div>
-
-							<div class="infoUser">
-
-								<p:outputLabel styleClass="estiloFonteUsuario" value="Usuário: ">
+							<h:form>
+								<div class="infoUser">
 									<p:outputLabel styleClass="estiloFonteUsuario"
-										value="#{usuarioMB.usuario.login}" />
-								</p:outputLabel>
-
-								<p:outputLabel styleClass="estiloFonteUsuario" value="Nível: ">
-									<p:outputLabel styleClass="estiloFonteUsuario"
-										rendered="#{usuarioMB.usuario.adm}" value="Administrador" />
-									<p:outputLabel styleClass="estiloFonteUsuario"
-										rendered="#{not usuarioMB.usuario.adm}" value="Usuário" />
-								</p:outputLabel>
-
-								<p:outputLabel styleClass="estiloFonteUsuario"
-									value="Ultimo acesso em: ">
-									<p:outputLabel styleClass="estiloFonteUsuario"
-										value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
-										<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
-											pattern="dd/MM/yyyy HH:mm" />
+										value="Usuário: ">
+										<p:outputLabel styleClass="estiloFonteUsuario"
+											value="#{usuarioMB.usuario.login}" />
 									</p:outputLabel>
-								</p:outputLabel>
+
+									<p:outputLabel styleClass="estiloFonteUsuario" value="Nível: ">
+										<p:outputLabel styleClass="estiloFonteUsuario"
+											rendered="#{usuarioMB.usuario.adm}" value="Administrador" />
+										<p:outputLabel styleClass="estiloFonteUsuario"
+											rendered="#{not usuarioMB.usuario.adm}" value="Usuário" />
+									</p:outputLabel>
+
+									<p:outputLabel styleClass="estiloFonteUsuario"
+										value="Ultimo acesso em: ">
+										<p:outputLabel styleClass="estiloFonteUsuario"
+											value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
+											<f:convertDateTime locale="pt_BR"
+												timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm" />
+										</p:outputLabel>
+									</p:outputLabel>
 
 
-								<p:commandLink styleClass="estiloFonteUsuario"
-									update=":frmEditFotoPerfil"
-									action="#{usuarioMB.limparImagemCropper}"
-									oncomplete="PF('dlgFotoPerfilUsuario').show();"
-									value="Alterar Imagem" />
 
-								<p:confirmDialog widgetVar="confirmarSaida"
-									header="Finalizando..."
-									message="Deseja realmente sair do sistema?">
+									<p:commandLink styleClass="estiloFonteUsuario"
+										update=":frmEditFotoPerfil"
+										action="#{usuarioMB.limparImagemCropper}"
+										oncomplete="PF('dlgFotoPerfilUsuario').show();"
+										value="Alterar Imagem" />
 
-									<p:commandButton oncomplete="PF('confirmarSaida').hide()"
-										action="#{usuarioMB.registrarSaida}" value="Sim" />
+									<p:confirmDialog widgetVar="confirmarSaida"
+										header="Finalizando..."
+										message="Deseja realmente sair do sistema?">
 
-									<p:commandButton onclick="PF('confirmarSaida').hide()"
-										value="Não" />
+										<p:commandButton oncomplete="PF('confirmarSaida').hide()"
+											action="#{usuarioMB.registrarSaida}" value="Sim" />
 
-								</p:confirmDialog>
-							</div>
+										<p:commandButton onclick="PF('confirmarSaida').hide()"
+											value="Não" />
 
+									</p:confirmDialog>
+								</div>
+							</h:form>
 						</div>
-						<div class="menuBotoes ui-fluid">
+						<div class="ui-fluid">
 							<h:form>
 								<h:panelGroup rendered="#{usuarioMB.usuario.adm}">
 									<ui:include src="/template/MenuAdm.xhtml" />

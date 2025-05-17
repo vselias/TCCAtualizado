@@ -11,18 +11,25 @@
 		href="#{request.contextPath}/img/odontoprime.ico" />
 	<link href="#{request.contextPath}/css/estilo.css" rel="stylesheet"
 		type="text/css" />
+<style>
 
+*{
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+</style>
 </h:head>
-
-
-
-
 <h:body>
-	<h:form id="frmLogin">
-		<p:growl id="msg" autoUpdate="true" escape="true" />
-		<center>
-			<p:dialog styleClass="panelLogin" dynamic="true" resizable="false"
-				closable="false" visible="true" draggable="false">
+
+	<div style="text-align: left; color: black; font-size: 10px;">Versão:
+		7.D2.15</div>
+	<div class="containerLogin">
+
+		<h:form id="frmLogin">
+			<p:growl id="msg" autoUpdate="true" escape="true" />
+			<div class="panelLogin">
 				<h:graphicImage styleClass="imgLogoLogin"
 					value="/img/gpt-logo-branca.png" />
 				<h:panelGrid columns="2" cellspacing="5">
@@ -49,72 +56,75 @@
 						value="Esqueceu sua senha?" />
 
 				</h:panelGrid>
+			</div>
+
+
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
+
+
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+				<center>
+					<h2>Carregando aguarde...</h2>
+					<p:graphicImage value="/img/loading.gif" />
+				</center>
 			</p:dialog>
-		</center>
+		</h:form>
 
-
-		<p:ajaxStatus onstart="PF('statusDialog').show()"
-			onsuccess="PF('statusDialog').hide()" />
-
-
-		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
-			closable="false" resizable="false" showHeader="false">
+		<p:dialog modal="true" appendTo="@(body)" resizable="false"
+			widgetVar="dlgRecuperarSenha" header="Recuperação de senha">
 			<center>
-				<h2>Carregando aguarde...</h2>
-				<p:graphicImage value="/img/loading.gif" />
+				<h:form>
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel for="email" value="e-Mail:" />
+						<p:inputText id="email" required="true"
+							requiredMessage="e-Mail deve ser informado."
+							value="#{usuarioMB.usuario.email}" />
+
+						<p:outputLabel for="cpf" value="Cpf:" />
+						<p:inputMask id="cpf" required="true"
+							requiredMessage="Cpf deve ser informado." mask="999.999.999-99"
+							value="#{usuarioMB.usuario.cpf}" />
+						<p:commandButton value="Enviar" update="@form , :frmDefinirSenha"
+							action="#{usuarioMB.recuperarSenha}" />
+					</h:panelGrid>
+				</h:form>
 			</center>
 		</p:dialog>
-	</h:form>
-
-	<p:dialog modal="true" appendTo="@(body)" resizable="false"
-		widgetVar="dlgRecuperarSenha" header="Recuperação de senha">
-		<center>
-			<h:form>
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel for="email" value="e-Mail:" />
-					<p:inputText id="email" required="true"
-						requiredMessage="e-Mail deve ser informado."
-						value="#{usuarioMB.usuario.email}" />
-
-					<p:outputLabel for="cpf" value="Cpf:" />
-					<p:inputMask id="cpf" required="true"
-						requiredMessage="Cpf deve ser informado." mask="999.999.999-99"
-						value="#{usuarioMB.usuario.cpf}" />
-					<p:commandButton value="Enviar" update="@form , :frmDefinirSenha"
-						action="#{usuarioMB.recuperarSenha}" />
-				</h:panelGrid>
-			</h:form>
-		</center>
-	</p:dialog>
 
 
-	<p:dialog modal="true" appendTo="@(body)" resizable="false"
-		widgetVar="dlgResetarSenha" header="Redefinição de senha">
-		<center>
-			<h:form id="frmDefinirSenha">
-				<h:panelGrid columns="2" cellpadding="5">
-					<p:outputLabel value="Login:" />
-					<p:inputText readonly="true" value="#{usuarioMB.usuario.login}" />
+		<p:dialog modal="true" appendTo="@(body)" resizable="false"
+			widgetVar="dlgResetarSenha" header="Redefinição de senha">
+			<center>
+				<h:form id="frmDefinirSenha">
+					<h:panelGrid columns="2" cellpadding="5">
+						<p:outputLabel value="Login:" />
+						<p:inputText readonly="true" value="#{usuarioMB.usuario.login}" />
 
-					<p:outputLabel value="Nova senha:" />
-					<p:password required="true"
-						requiredMessage="Senha deve ser informada."
-						value="#{usuarioMB.usuario.senha}" />
+						<p:outputLabel value="Nova senha:" />
+						<p:password required="true"
+							requiredMessage="Senha deve ser informada."
+							value="#{usuarioMB.usuario.senha}" />
 
-					<p:outputLabel value="Confirme a senha:" />
-					<p:password required="true"
-						requiredMessage="Senha de confirmação deve ser informada."
-						value="#{usuarioMB.senhaVerificacao}" />
+						<p:outputLabel value="Confirme a senha:" />
+						<p:password required="true"
+							requiredMessage="Senha de confirmação deve ser informada."
+							value="#{usuarioMB.senhaVerificacao}" />
 
-					<p:commandButton update="@form" value="Enviar"
-						action="#{usuarioMB.mudarSenha}" />
-				</h:panelGrid>
-			</h:form>
-		</center>
-	</p:dialog>
+						<p:commandButton update="@form" value="Enviar"
+							action="#{usuarioMB.mudarSenha}" />
+					</h:panelGrid>
+				</h:form>
+			</center>
+		</p:dialog>
 
-	<div
-		style="text-align: left; padding-right: 20px; color: white; font-size: 10px; margin-top: 20px;">Versão:
-		7.D2.15</div>
+
+
+
+	</div>
+
+
+
 </h:body>
 </html>

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.odontoprime.entidade.Constantes;
 
 @WebServlet("/imagens/*")
-public class PacienteImgServlet extends HttpServlet {
+public class ExibirImagensServlet extends HttpServlet {
 
 	/**
 	 * 

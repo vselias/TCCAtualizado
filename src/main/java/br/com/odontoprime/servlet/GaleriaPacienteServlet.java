@@ -15,7 +15,7 @@ import br.com.odontoprime.entidade.Foto;
 
 @SuppressWarnings("serial")
 @WebServlet("/galeria/*")
-public class ImgServletPaciente extends HttpServlet {
+public class GaleriaPacienteServlet extends HttpServlet {
 	@Inject
 	private EntityManager entityManager;
 

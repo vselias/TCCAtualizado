@@ -52,7 +52,7 @@
 										<p:password id="confirmaSenha" required="true"
 											requiredMessage="Senha deve ser informada."
 											value="#{cadastroUsuarioMB.usuario.confirmaSenha}" />
-										
+
 										<br />
 										<p:outputLabel value="Administrador" />
 										<br />
@@ -86,21 +86,20 @@
 								</div>
 
 							</div>
-							<h:panelGrid columns="2">
+							<h:panelGrid columns="3">
 								<p:commandButton update="@form msg"
 									action="#{cadastroUsuarioMB.salvar}" icon="fa fa-floppy-o"
 									value="Salvar" />
 								<p:button outcome="Login" value="Login" icon="fa fa-sign-in" />
+								<p:commandButton icon="fa fa-file-o" value="Limpar">
+									<p:resetInput target="@form" />
+								</p:commandButton>
 							</h:panelGrid>
 						</center>
 					</p:panel>
 				</div>
 			</div>
 		</div>
-
-
-
-
 	</h:form>
 </h:body>
 </html>

@@ -19,13 +19,13 @@ import br.com.odontoprime.util.MensagemUtil;
 /**
  * Servlet Filter implementation class PermissaoAcesso
  */
-@WebFilter(servletNames = "PermissaoAcesso", urlPatterns = "/sistema/adm/*")
-public class PermissaoAcesso implements Filter {
+@WebFilter(servletNames = "ControleAcessoADMServlet", urlPatterns = "/sistema/adm/*")
+public class ControleAcessoADMServlet implements Filter {
 
 	/**
 	 * Default constructor.
 	 */
-	public PermissaoAcesso() {
+	public ControleAcessoADMServlet() {
 	}
 
 	/**

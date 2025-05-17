@@ -40,7 +40,7 @@ public class ControleAcesso implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse res = (HttpServletResponse) response;
 		Usuario usuario = (Usuario) req.getSession().getAttribute("usuario");
-
+		String uri = req.getRequestURI();
 		if (usuario != null || req.getRequestURI().contains("javax.faces.resource/*"))
 			chain.doFilter(request, response);
 		else

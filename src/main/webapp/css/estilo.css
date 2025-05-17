@@ -9,6 +9,9 @@
 	background-color: rgba(255, 255, 255, 0.1) !important;
 	border-radius: 4px !important;
 }
+html, body {
+  height: 100vh;
+}
 
 body {
 	font-size: var(--tamanhoFonte) !important;
@@ -182,6 +185,9 @@ ui-button-text.ui-c .ui-menu .ui-menuitem-text {
 
 .imgLogoLogin {
 	width: 120px !important;
+	height:auto !important;
+	margin: 0 !important;
+	padding: 0 !important;
 }
 
 #content {
@@ -335,8 +341,25 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	background-color: red;
 }
 
+.containerLogin {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0 !important;
+	padding: 0 !important;
+	height: 100dvh;
+}
+
 .panelLogin {
 	background: var(--corMenu) !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 450px;
+	height: 250px;
+	flex-direction: column;
+	margin: 0 !important;
+	padding: 0 !important;
 }
 
 .tituloEstadoPagamentoParcela {

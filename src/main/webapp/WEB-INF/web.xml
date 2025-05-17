@@ -8,6 +8,11 @@
 		<param-name>primefaces.THEME</param-name>
 		<param-value>#{configuracoesForm.meuTema}</param-value>
 	</context-param>
+
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+		<param-value>Development</param-value>
+	</context-param>
 	<welcome-file-list>
 		<welcome-file>Login.jsf</welcome-file>
 	</welcome-file-list>
@@ -46,14 +51,14 @@
 		<param-name>primefaces.UPLOADER</param-name>
 		<param-value>commons</param-value>
 	</context-param>
-<!-- 	<error-page> -->
-<!-- 		<error-code>404</error-code> -->
-<!-- 		<location>/WEB-INF/erro404.xhtml</location> -->
-<!-- 	</error-page> -->
-<!-- 	<error-page> -->
-<!-- 		<error-code>500</error-code> -->
-<!-- 		<location>/WEB-INF/erro500.xhtml</location> -->
-<!-- 	</error-page> -->
+	<!-- <error-page> -->
+	<!-- <error-code>404</error-code> -->
+	<!-- <location>/WEB-INF/erro404.xhtml</location> -->
+	<!-- </error-page> -->
+	<!-- <error-page> -->
+	<!-- <error-code>500</error-code> -->
+	<!-- <location>/WEB-INF/erro500.xhtml</location> -->
+	<!-- </error-page> -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -63,4 +68,15 @@
 		<servlet-name>Faces Servlet</servlet-name>
 		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>RedirectFilter</filter-name>
+		<filter-class>br.com.odontoprime.servlet.RedirectFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>RedirectFilter</filter-name>
+		<url-pattern>*.xhtml</url-pattern>
+	</filter-mapping>
+
 </web-app>
