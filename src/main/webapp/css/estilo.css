@@ -1,7 +1,14 @@
-* /
+:root {
+	--corMenu: #307091;
+	--tamanhoFonte: 16px;
+	--fonte: 'Open Sans', sans-serif;
+}
+
 body {
-	font-size: 10px !important;
-	background-color: white;
+	font-size: var(--tamanhoFonte) !important;
+	font: var(--fonte) !important;
+	 background-image: url("../img/macback.png") !important;
+	background-repeat: no-repeat !important;
 }
 
 .ajax-status {
@@ -11,14 +18,13 @@ body {
 }
 
 .imgPanelUserTemplate {
-    width: 600px !important;
-    height: 350px !important;
-    display: flex;
-    flex-direction: column; /* Organiza título e imagem em colunas */
-    justify-content: center; /* Centraliza apenas o conteúdo */
-    align-items: center;
-
-}	
+	width: 600px !important;
+	height: 350px !important;
+	display: flex;
+	flex-direction: column; /* Organiza título e imagem em colunas */
+	justify-content: center; /* Centraliza apenas o conteúdo */
+	align-items: center;
+}
 
 .imgCropper {
 	flex-grow: 1;
@@ -50,7 +56,7 @@ body {
 
 .barra-logo {
 	height: 120px;
-	background-color: #1578c9;
+	background-color: var(--corMenu);
 	width: 100%;
 	padding: 0px;
 	margin: auto;
@@ -81,24 +87,6 @@ ui-button-text.ui-c .ui-menu .ui-menuitem-text {
 .estiloBotao {
 	background-color: red !important;
 	color: white !important;
-}
-
-ui-button.ui-state-default span {
-	/*font-family: 'Open Sans', sans-serif;*/
-	
-}
-
-.ui-widget {
-	/*font das tabelas */
-	/*font-size: 14px !important; */
-	/* font-family: 'Open Sans', sans-serif !important; */
-	
-}
-
-.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button
-	{
-	/*font-size: 14px !important; */
-	
 }
 
 .textAreaLembrete {
@@ -163,7 +151,7 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 .footer {
 	clear: both !important;
 	height: 250px;
-	background-color: #1578c9 !important;
+	background-color: var(--corMenu) !important;
 	margin: 5px auto;
 	display: flex;
 	justify-content: center; /* Centraliza horizontalmente */
@@ -263,6 +251,15 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	width: 100px;
 }
 
+.imagem-centralizada {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
 .nomeDesenvolvedor {
 	text-decoration: none;
 	color: white;
@@ -270,6 +267,10 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 
 .finalizado {
 	background-color: red;
+}
+
+.panelLogin {
+	background-color: var(--corMenu) !important;
 }
 
 .tituloEstadoPagamentoParcela {
