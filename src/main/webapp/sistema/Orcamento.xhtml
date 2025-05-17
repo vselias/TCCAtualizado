@@ -129,11 +129,11 @@
 						selectionMode="single">
 
 						<p:column headerText="Foto">
-							<p:graphicImage cache="false"styleClass="imagens"
+							<p:graphicImage cache="false" styleClass="imagens"
 								rendered="#{c.nomeImagem eq null or c.nomeImagem eq ''}"
 								value="/img/new-user.png">
 							</p:graphicImage>
-							<p:graphicImage cache="false"styleClass="imagens"
+							<p:graphicImage cache="false" styleClass="imagens"
 								rendered="#{c.nomeImagem ne null}"
 								value="/imagens/#{c.nomeImagem}">
 							</p:graphicImage>

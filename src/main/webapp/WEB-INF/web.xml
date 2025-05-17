@@ -9,9 +9,7 @@
 		<param-value>#{configuracoesForm.meuTema}</param-value>
 	</context-param>
 	<welcome-file-list>
-
-		<welcome-file>Login.xhtml</welcome-file>
-
+		<welcome-file>Login.jsf</welcome-file>
 	</welcome-file-list>
 	<session-config>
 		<session-timeout>-1</session-timeout>
@@ -48,14 +46,14 @@
 		<param-name>primefaces.UPLOADER</param-name>
 		<param-value>commons</param-value>
 	</context-param>
-	<error-page>
-		<error-code>404</error-code>
-		<location>/WEB-INF/erro404.xhtml</location>
-	</error-page>
-	<error-page>
-		<error-code>500</error-code>
-		<location>/WEB-INF/erro500.xhtml</location>
-	</error-page>
+<!-- 	<error-page> -->
+<!-- 		<error-code>404</error-code> -->
+<!-- 		<location>/WEB-INF/erro404.xhtml</location> -->
+<!-- 	</error-page> -->
+<!-- 	<error-page> -->
+<!-- 		<error-code>500</error-code> -->
+<!-- 		<location>/WEB-INF/erro500.xhtml</location> -->
+<!-- 	</error-page> -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -63,6 +61,6 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Faces Servlet</servlet-name>
-		<url-pattern>*.xhtml</url-pattern>
+		<url-pattern>*.jsf</url-pattern>
 	</servlet-mapping>
 </web-app>
