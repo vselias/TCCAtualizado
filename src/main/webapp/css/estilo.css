@@ -1,13 +1,12 @@
 :root {
 	--corMenu: linear-gradient(to left, #1B4965, #3D6D89);
-	/* 	--corMenu: #3A506B; */
+	--corMenuHover: #3D6D89;
 	--tamanhoFonte: 16px;
 	--fonte: 'Open Sans', sans-serif;
 }
 
-.ui-menuitem-link:hover {
-	background-color: rgba(255, 255, 255, 0.1) !important;
-	border-radius: 4px !important;
+.ui-menuitem {
+	margin: 20px;
 }
 
 html, body {
@@ -401,6 +400,12 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	min-height: 60px;
 }
 
+.ui-menuitem>a:hover {
+	background-color: var(--corMenuHover) !important;
+	color: white;
+	transition: 0.3s ease-in-out; /* Suaviza o efeito */
+}
+
 @media ( max-width : 1100px) {
 	.themeSwitch {
 		margin: 20px 70px;
@@ -412,8 +417,11 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	body {
 		font-size: 1.5rem !important;
 	}
-	.ui-menubar .ui-menuitem-link, .ui-icon.ui-icon-triangle-1-s {
+	.ui-menubar .ui-menuitem-link {
 		color: white !important;
+	}
+	span.ui-icon-triangle-1-s {
+		background-color: white !important;
 	}
 	.ui-menu-list {
 		position: relative;
@@ -425,14 +433,18 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 		z-index: 1000;
 		width: 100%;
 		justify-content: center;
-		overflow: scroll;
 	}
 	ul.ui-menu-list>li {
 		position: relative;
 	}
-	.ui-menu .ui-menu-list li:hover ul {
-		display: none; /* Evita hover em mobile */
+	.ui-menuitem li:hover {
+		background-color: aqua !important;
+		color: white;
+		transition: 0.3s ease-in-out; /* Suaviza o efeito */
 	}
+	/* 	.ui-menu .ui-menu-list li:hover ul { */
+	/* 		display: none; Evita hover em mobile */
+	/* 	} */
 	.btnMenu {
 		margin: 25px 25px;
 		display: block;

@@ -9,7 +9,7 @@
 <h:form id="frmDetalheFechamento">
 
 	<center>
-		<p:dataTable widgetVar="tblConsulta" styleClass="tabela"
+		<p:dataTable  widgetVar="tblConsulta" styleClass="tabela"
 			tableStyle="width:auto" resizableColumns="true" paginator="true"
 			rowsPerPageTemplate="5,10,15"  rowKey="#{c.id}"
 			selectionMode="single" selection="#{consultaMB.consulta}"
@@ -105,8 +105,7 @@
 			value="#{movimentacaoCaixaMB.saidasFechamento}" id="tabela" rows="5"
 			emptyMessage="Nenhum registro." var="s">
 
-			<p:column style="text-align:center;" sortBy="#{s.item}"
-				filterBy="#{s.item}">
+			<p:column style="text-align:center;">
 				<f:facet name="header">
 					<h:outputText value="Foto" />
 				</f:facet>
