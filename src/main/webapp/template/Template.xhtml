@@ -17,13 +17,10 @@
 			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
 			<title>Test</title>
 		</f:facet>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 		<script type="text/javascript"
 			src="/OdontoPrime/js/calendario_pt_BR.js" />
-
-		<link href="#{request.contextPath}/css/estilo.css" rel="stylesheet"
-			type="text/css" />
-
 
 		<h:outputScript name="jquery/jquery-plugins.js" library="primefaces" />
 
@@ -32,6 +29,10 @@
 		<h:outputScript name="charts/charts.js" library="primefaces" />
 
 		<h:outputStylesheet name="charts/charts.css" library="primefaces" />
+		<script type="text/javascript" src="/OdontoPrime/js/odontoprime.js" />
+		<link href="#{request.contextPath}/css/estilo.css" rel="stylesheet"
+			type="text/css" />
+
 
 	</h:head>
 </f:view>
@@ -66,31 +67,28 @@
 							</div>
 							<h:form>
 								<div class="infoUser">
-									<p:outputLabel styleClass="estiloFonteUsuario"
-										value="Usuário: ">
-										<p:outputLabel styleClass="estiloFonteUsuario"
+									<p:outputLabel styleClass="fonteUsuario" value="Usuário: ">
+										<p:outputLabel styleClass="fonteUsuario"
 											value="#{usuarioMB.usuario.login}" />
 									</p:outputLabel>
 
-									<p:outputLabel styleClass="estiloFonteUsuario" value="Nível: ">
-										<p:outputLabel styleClass="estiloFonteUsuario"
+									<p:outputLabel styleClass="fonteUsuario" value="Nível: ">
+										<p:outputLabel styleClass="fonteUsuario"
 											rendered="#{usuarioMB.usuario.adm}" value="Administrador" />
-										<p:outputLabel styleClass="estiloFonteUsuario"
+										<p:outputLabel styleClass="fonteUsuario"
 											rendered="#{not usuarioMB.usuario.adm}" value="Usuário" />
 									</p:outputLabel>
 
-									<p:outputLabel styleClass="estiloFonteUsuario"
-										value="Ultimo acesso em: ">
-										<p:outputLabel styleClass="estiloFonteUsuario"
-											value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
-											<f:convertDateTime locale="pt_BR"
-												timeZone="America/Sao_Paulo" pattern="dd/MM/yyyy HH:mm" />
-										</p:outputLabel>
+									<p:outputLabel styleClass="fonteUsuario"
+										value="Último Acesso: ">
+									</p:outputLabel>
+									<p:outputLabel styleClass="fonteUsuario"
+										value="#{usuarioMB.usuario.exibirDataUltimoLogin}">
+										<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
+											pattern="dd/MM/yyyy HH:mm" />
 									</p:outputLabel>
 
-
-
-									<p:commandLink styleClass="estiloFonteUsuario"
+									<p:commandLink styleClass="fonteUsuario"
 										update=":frmEditFotoPerfil"
 										action="#{usuarioMB.limparImagemCropper}"
 										oncomplete="PF('dlgFotoPerfilUsuario').show();"
@@ -132,22 +130,28 @@
 						<p:spacer height="5px;" />
 
 						<div class="ui-grid-responsive">
-							<div class="ui-grid-row">
-								<div class="ui-grid-col-10">
 
+							<div class="ui-grid-row">
+								<div class="ui-grid-col-6">
+									<div class="divBtnMenu">
+										<p:button icon="fa fa-bars" onclick="showMenu();"
+											styleClass="btnMenu" value="Menu"></p:button>
+									</div>
 									<p:spacer></p:spacer>
 
 								</div>
 
-								<div class="ui-grid-col-2">
-									<h:form>
-										<p:themeSwitcher style="width:150px;"
-											value="#{configuracoesForm.meuTema}">
-											<f:selectItems value="#{configuracoesForm.themes}" />
-											<p:ajax global="false"
-												listener="#{configuracoesForm.salvarTema}" />
-										</p:themeSwitcher>
-									</h:form>
+								<div class="colunaDivThemeSwitch ui-grid-col-6">
+									<div class="themeSwitch">
+										<h:form>
+											<p:themeSwitcher value="#{configuracoesForm.meuTema}">
+												<f:selectItems value="#{configuracoesForm.themes}" />
+												<p:ajax global="false"
+													listener="#{configuracoesForm.salvarTema}" />
+											</p:themeSwitcher>
+										</h:form>
+									</div>
+
 								</div>
 							</div>
 
@@ -170,11 +174,16 @@
 					<hr />
 
 					<div class="footer">
-						<p:graphicImage styleClass="imgFooter imgLogo"
-							value="/img/gpt-logo-branca.png" />
+
+						<div class="divImgLogo">
+							<p:graphicImage styleClass="imgLogo"
+								value="/img/gpt-logo-branca.png" />
+						</div>
+
 						<div class="tituloFooter">
-							<h5 style="text-align: center">Sistema de gerenciamento
-								odontológico - OdontoPrime todos direitos reservados ®.</h5>
+							<h5>Sistema de gerenciamento odontológico</h5>
+							<h6>OdontoPrime todos direitos reservados ®.</h6>
+
 						</div>
 					</div>
 				</div>
@@ -184,10 +193,11 @@
 
 
 
-		<p:dialog header="Insira foto do usuário" dynamic="true" height="450"
-			closeOnEscape="true" closable="false" resizable="false"
+		<p:dialog styleClass="dialogInserirFoto"
+			sheader="Insira foto do usuário" dynamic="true" 
+			closeOnEscape="true" closable="true" resizable="true"
 			position="center" responsive="true" modal="true" draggable="true"
-			appendTo="@(body)" widgetVar="dlgFotoPerfilUsuario">
+			widgetVar="dlgFotoPerfilUsuario">
 
 
 			<h:form id="frmEditFotoPerfil">
