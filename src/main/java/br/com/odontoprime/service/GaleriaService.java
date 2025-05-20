@@ -13,7 +13,6 @@ import br.com.odontoprime.dao.PacienteDAO;
 import br.com.odontoprime.entidade.Foto;
 import br.com.odontoprime.entidade.Paciente;
 import br.com.odontoprime.util.MensagemUtil;
-import br.com.odontoprime.util.Transactional;
 
 @SuppressWarnings("serial")
 public class GaleriaService implements Serializable {
@@ -22,7 +21,6 @@ public class GaleriaService implements Serializable {
 	private List<Foto> fotos = new ArrayList<>();
 
 	public void inserirFotoGaleria(Foto foto, FileUploadEvent fileUploadEvent) {
-		
 		foto.setImagem(fileUploadEvent.getFile().getContents());
 		foto.setContentType(fileUploadEvent.getFile().getContentType());
 		fotos.add(foto);
@@ -32,10 +30,14 @@ public class GaleriaService implements Serializable {
 	public void salvarGaleriaPaciente(Paciente paciente, Foto foto) {
 
 		try {
-			if (paciente != null && paciente.getId() != null && !paciente.getId().toString().equals("")) {
+			System.out.println(paciente);
+
+			if (paciente != null && paciente.getId() != null) {
+				System.out.println("Antes do bd Paciente nome: " + paciente.getNome() + " id " + paciente.getId());
 
 				if (fotos != null) {
 					paciente = pacienteDAO.buscarPacienteComFotos(paciente.getId());
+					System.out.println("Depois do bd Paciente nome: " + paciente.getNome() + " id " + paciente.getId());
 					paciente.getFotos().addAll(fotos);
 					pacienteDAO.atualizar(paciente);
 					MensagemUtil.enviarMensagem("Galeria salva com sucesso!", FacesMessage.SEVERITY_INFO);

@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +27,7 @@ public class Paciente implements Serializable {
 	private static final long serialVersionUID = 8527527720637778339L;
 
 	@Id
-	@GeneratedValue(strategy =  GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	@Column(nullable = false, unique = true)
@@ -47,7 +48,7 @@ public class Paciente implements Serializable {
 	private StatusCadastro statusCadastro;
 	@Transient
 	private String imagemCropper;
-	@OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Foto> fotos;
 	@OneToMany(mappedBy = "paciente", orphanRemoval = true, cascade = CascadeType.ALL)
 	private List<Consulta> consultas;

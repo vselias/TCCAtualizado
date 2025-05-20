@@ -1,10 +1,13 @@
 package br.com.odontoprime.bean;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -16,14 +19,17 @@ import br.com.odontoprime.entidade.Paciente;
 import br.com.odontoprime.service.GaleriaService;
 import br.com.odontoprime.service.PacienteService;
 
-@Named
+@Named(value = "galeriaMB")
 @ViewScoped
 public class GaleriaMB implements Serializable {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3957646131909569617L;
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private Paciente paciente;
 	private Foto foto;
 	private List<Paciente> pacientes;
@@ -32,6 +38,9 @@ public class GaleriaMB implements Serializable {
 	@Inject
 	private GaleriaService galeriaService;
 	private List<Paciente> listaPesquisa;
+	private String fotoId;
+	@Inject
+	private FotoDAO fotoDAO;
 
 	public List<Paciente> getListaPesquisa() {
 		return listaPesquisa;
@@ -71,8 +80,8 @@ public class GaleriaMB implements Serializable {
 		galeriaService.inserirFotoGaleria(foto, fileUploadEvent);
 	}
 
-	public void salvarGaleriaPaciente() {
-
+	public void salvarGaleria() {
+		System.out.println("chamou o metodo galeriaMB salvar");
 		galeriaService.salvarGaleriaPaciente(paciente, foto);
 		atualizarPacienteEFoto();
 	}
@@ -88,5 +97,32 @@ public class GaleriaMB implements Serializable {
 
 	public void enviarPaciente(Paciente p) {
 		this.paciente = p;
+	}
+
+	public String getFotoId() {
+		return fotoId;
+	}
+
+	public void setFotoId(String fotoId) {
+		this.fotoId = fotoId;
+	}
+
+	public void selecionarFoto() {
+		String id = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+				.get("fotoId");
+		System.out.println("Foto selecionada = " + id);
+		this.foto = fotoDAO.buscarPorId(Long.parseLong(id), Foto.class);
+		this.fotoId = id;
+		System.out.println("Objeto foto com id :" + this.foto.getId());
+
+	}
+
+	public void excluirFoto() {
+
+		pacienteService.excluirFoto(fotoId);
+		atualizarPacienteEFoto();
+		Optional<Paciente> pacienteFilter = pacientes.stream().filter(p -> p.getId() == this.paciente.getId())
+				.findFirst();
+		this.paciente = pacienteFilter.get();
 	}
 }

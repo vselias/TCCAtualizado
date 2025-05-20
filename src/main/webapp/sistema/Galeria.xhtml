@@ -17,8 +17,7 @@
 			<h:outputText value="Galeria" />
 		</h3>
 
-		<h:form>
-
+		<h:form id="frmTblGaleria">
 			<ui:include src="/template/MenuGaleria.xhtml" />
 			<center>
 
@@ -83,7 +82,6 @@
 					</p:column>
 				</p:dataTable>
 			</center>
-
 		</h:form>
 		<p:spacer height="20px" />
 		<center>
@@ -94,22 +92,21 @@
 					<p:tab title="Galeria de imagens do paciente">
 
 						<p:outputLabel rendered="#{galeriaMB.paciente.id gt 0}"
-							value="Paciente:" />
+							value="Paciente:">
+							<p:outputLabel id="paciente"
+								rendered="#{galeriaMB.paciente.id gt 0}"
+								value="#{galeriaMB.paciente.nome}" />
+						</p:outputLabel>
 
-						<p:outputLabel id="paciente"
-							rendered="#{galeriaMB.paciente.id gt 0}"
-							value="#{galeriaMB.paciente.nome}" />
-						<br />
 						<br />
 
 						<p:outputLabel rendered="#{galeriaMB.paciente.id gt 0}"
-							value="Cpf:" />
+							value="CPF:">
+							<p:outputLabel rendered="#{galeriaMB.paciente.id gt 0}"
+								value="#{galeriaMB.paciente.cpf}" />
 
-						<p:outputLabel rendered="#{galeriaMB.paciente.id gt 0}"
-							value="#{galeriaMB.paciente.cpf}" />
+						</p:outputLabel>
 						<br />
-						<br />
-
 						<p:outputLabel
 							rendered="#{empty galeriaMB.paciente.fotos and galeriaMB.paciente.id gt 0}"
 							value="Paciente não possui foto." />
@@ -119,6 +116,10 @@
 							panelWidth="600" frameHeight="50" showCaption="true"
 							frameWidth="50" rendered="#{not empty galeriaMB.paciente.fotos}"
 							var="foto" value="#{galeriaMB.paciente.fotos}">
+							<p:commandButton action="#{galeriaMB.selecionarFoto}" update=":frmExclusao" oncomplete="PF('exclusao').show();"
+								icon="fa fa-trash">
+								<f:param name="fotoId" value="#{foto.id}" />
+							</p:commandButton>
 							<p:graphicImage styleClass="imagem-centralizada"
 								alt="Descrição #{foto.descricao}" title="Título: #{foto.album}"
 								value="/galeria/#{foto.id}" />
@@ -128,17 +129,31 @@
 			</h:form>
 		</center>
 
-		<p:dialog appendTo="@(body)" dynamic="true"
-			header="Adicionar foto na galeria" resizable="false"
+
+		<h:form id="frmExclusao">
+			<p:confirmDialog widgetVar="exclusao" severity="alert"
+				header="Confirmação exclusão da foto"
+				message="Deseja remover a foto? id = #{galeriaMB.fotoId}">
+				<p:commandButton oncomplete="PF('exclusao').hide()" immediate="true" update=":frmExbFoto :frmTblGaleria :formGlobal:msgGlobal" value="Sim"
+					action="#{galeriaMB.excluirFoto}" icon="fa fa-trash">
+					
+				</p:commandButton>
+				<p:commandButton value="Não" oncomplete="PF('exclusao').hide()" />
+			</p:confirmDialog>
+		</h:form>
+
+
+
+
+		<p:dialog header="Adicionar foto na galeria" resizable="false"
 			widgetVar="dlgGaleriaImg" modal="true" closeOnEscape="true"
 			closable="true">
 			<h:form id="frmUploadFoto">
 				<p:fileUpload cancelLabel="Cancelar" label="Escolha Imagem"
-					uploadLabel="Enviar"
+					uploadLabel="Enviar" mode="advanced"
 					invalidSizeMessage="Imagem precisa ter até 1MB."
 					invalidFileMessage="Apenas formatos gif, png e jpg."
-					fileLimitMessage="Apenas uma imagem por vez." sizeLimit="100000"
-					fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+					sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
 					update=":formGlobal:msgGlobal"
 					fileUploadListener="#{galeriaMB.inserirFotoGaleria}" />
 
@@ -158,10 +173,13 @@
 
 
 					<p:commandButton update="@form, :formGlobal:msgGlobal"
-						action="#{galeriaMB.salvarGaleriaPaciente}" value="Adicionar" />
+						action="#{galeriaMB.salvarGaleria}" value="Adicionar">
+						<f:ajax />
+					</p:commandButton>
 				</h:panelGrid>
 			</h:form>
 		</p:dialog>
+
 
 	</ui:define>
 

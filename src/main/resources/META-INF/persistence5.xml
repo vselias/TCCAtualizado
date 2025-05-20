@@ -3,11 +3,9 @@
 	xmlns="http://java.sun.com/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-
-	<persistence-unit name="OdontoPrime" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="OdontoPrime"
+		transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-		<!-- Suas entidades -->
 		<class>br.com.odontoprime.entidade.Consulta</class>
 		<class>br.com.odontoprime.entidade.Endereco</class>
 		<class>br.com.odontoprime.entidade.Paciente</class>
@@ -21,16 +19,19 @@
 		<class>br.com.odontoprime.entidade.MovimentacaoCaixa</class>
 
 		<properties>
-			<!-- Conexão MySQL com Driver 8 -->
+			<!-- Conexão com MySQL 5 -->
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/odontoprime?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true&amp;useLegacyDatetimeCode=false" />
+				value="jdbc:mysql://localhost:3306/odontoprime?useSSL=false&amp;serverTimezone=UTC&amp;allowPublicKeyRetrieval=true" />
 			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="root" />
-			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.password"
+				value="root" />
+			<property name="javax.persistence.jdbc.driver"
+				value="com.mysql.jdbc.Driver" />
 
 			<!-- Hibernate -->
-			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" />
+			<property name="hibernate.hbm2ddl.import_files" value=""/>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 		</properties>

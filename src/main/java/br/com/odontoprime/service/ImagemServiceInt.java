@@ -35,10 +35,16 @@ public interface ImagemServiceInt<T> {
 		}
 		return false;
 	}
-	
+
+	@Deprecated
 	public void salvarImagem(T classe);
+
 	public boolean recortarImagem(T classe, CroppedImage croppedImage);
+
 	public boolean salvarImagemRecortada(CroppedImage croppedImage, T classe);
+
 	public boolean subirImagem(T classe, byte[] dados);
+
+	@Deprecated
 	public boolean tirarFotoWebCam(byte[] dados, T classe);
 }

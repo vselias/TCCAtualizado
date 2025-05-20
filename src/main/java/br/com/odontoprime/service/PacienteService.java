@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +25,7 @@ import javax.persistence.PersistenceException;
 import javax.servlet.ServletContext;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.omnifaces.util.Faces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 import org.primefaces.model.DefaultStreamedContent;
@@ -31,6 +35,8 @@ import br.com.odontoprime.dao.OrcamentoDAO;
 import br.com.odontoprime.dao.PacienteDAO;
 import br.com.odontoprime.entidade.StatusCadastro;
 import br.com.odontoprime.entidade.Constantes;
+import br.com.odontoprime.entidade.Foto;
+import br.com.odontoprime.entidade.FotoDAO;
 import br.com.odontoprime.entidade.Paciente;
 import br.com.odontoprime.entidade.Usuario;
 import br.com.odontoprime.util.FacesUtil;
@@ -56,6 +62,8 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 	private OrcamentoDAO orcamentoDAO;
 	@Inject
 	private UserImagemService imagemService;
+	@Inject
+	private FotoDAO fotoDAO;
 
 	public boolean salvar(Paciente paciente) {
 		try {
@@ -224,6 +232,7 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 		return CpfValidator.validaCPF(CpfValidator.remove(paciente.getCpf()));
 	}
 
+//recortar imagem para mostrar a imagem recortada na pagina
 	public boolean recortarImagem(Paciente paciente, CroppedImage croppedImage) {
 		boolean fotoRecortada = false;
 		if (croppedImage == null) {
@@ -244,6 +253,7 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 		return fotoRecortada;
 	}
 
+	@Deprecated
 	// APENAS QUANDO TIRAR FOTO SERÁ SETADA O NOME DA IMAGEM
 	public boolean tirarFotoWebCam(byte[] dados, Paciente paciente) {
 		boolean fotoTirada = false;
@@ -266,6 +276,7 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 		return fotoTirada;
 	}
 
+	// Pega os bytes da imagem recortada e salva em outra pasta
 	public boolean salvarImagemRecortada(CroppedImage croppedImage, Paciente paciente) {
 		boolean imagemSalva = false;
 		try {
@@ -293,6 +304,8 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 		return false;
 	}
 
+	@Deprecated
+	// ?
 	public void salvarImagem(Paciente paciente) {
 		boolean imagemSalva = false;
 		try {
@@ -307,15 +320,28 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 		}
 	}
 
+	// Upload de imagem e mostra a imagem reduzida na pasta do servidor
 	public boolean subirImagem(Paciente paciente, byte[] dados) {
 		boolean imagemSalva = false;
 		try {
 			if (paciente == null || paciente.getId() == null) {
-				MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
+				MensagemUtil.enviarMensagem("Paciente não selecionado!", FacesMessage.SEVERITY_ERROR);
 				return false;
 			}
 			nomeImagem = gerarNomeImagemAleatoria();
+			// subir uma imagem reduzida para aplicacao bom boa definição
 			imagemSalva = imagemService.reduzirSalvarImagemUser(Constantes.getPathServidor(), dados, nomeImagem);
+
+			String pathImagem = Constantes.getPathServidor() + File.separator + nomeImagem;
+
+			System.out.println(pathImagem);
+			File file = new File(pathImagem);
+			if (file.exists()) {
+				System.out.println("Imagem no Servidor existe!");
+			} else {
+				System.out.println("Imagem não existe no servidor!");
+
+			}
 			if (imagemSalva) {
 				MensagemUtil.enviarMensagem("Foto enviada com sucesso!", FacesMessage.SEVERITY_INFO);
 				paciente.setImagemCropper(nomeImagem);
@@ -346,6 +372,22 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 			e.printStackTrace();
 		}
 		return false;
+	}
+
+	public void excluirFoto(String id) {
+		try {
+			Foto foto = fotoDAO.buscarPorId(Long.parseLong(id), Foto.class);
+			if (foto != null) {
+				fotoDAO.removerDependenciaFoto(Long.parseLong(id));
+				fotoDAO.remover(foto);
+				MensagemUtil.enviarMensagem("Foto removida com sucesso!", FacesMessage.SEVERITY_INFO);
+			} else {
+				MensagemUtil.enviarMensagem("Foto não encontrada!", FacesMessage.SEVERITY_ERROR);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			MensagemUtil.enviarMensagem("Erro ao remover foto! "+e.getMessage(), FacesMessage.SEVERITY_ERROR);
+		}
 	}
 
 }

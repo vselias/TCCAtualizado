@@ -34,11 +34,11 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 	private UsuarioDAO usuarioDAO;
 	private String nomeImagem;
 
-
 	public String gerarNomeImagemAleatoria() {
 		return System.currentTimeMillis() + ".png";
 	}
 
+	// recortar imagem para mostrar a imagem recortada na pagina
 	public boolean recortarImagem(Usuario usuario, CroppedImage croppedImage) {
 		boolean fotoRecortada = false;
 		usuario.setNomeImagemRecortada(gerarNomeImagemAleatoria());
@@ -48,7 +48,8 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		}
 
 		try {
-			fotoRecortada = criarArquivo(Constantes.getPathServidor(), croppedImage.getBytes(), usuario.getNomeImagemRecortada());
+			fotoRecortada = criarArquivo(Constantes.getPathServidor(), croppedImage.getBytes(),
+					usuario.getNomeImagemRecortada());
 			if (fotoRecortada) {
 				MensagemUtil.enviarMensagem("Imagem recortada com sucesso.", FacesMessage.SEVERITY_INFO);
 				System.out.println("[ImagemService - recortarImagem] imagem recortada com sucesso.");
@@ -86,7 +87,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		return imagemSalva;
 
 	}
-
+	@Deprecated
 	public void salvarImagem(Usuario usuario) {
 		boolean imagemSalva = false;
 		try {
@@ -155,7 +156,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 
 		return false;
 	}
-
+	@Deprecated
 	public boolean tirarFotoWebCam(byte[] dados, Usuario usuario) {
 		boolean imagemSalva = false;
 		try {
@@ -179,6 +180,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		try {
 
 			nomeImagem = gerarNomeImagemAleatoria();
+			// subir uma imagem reduzida para aplicacao bom boa definição
 			fotoTirada = reduzirSalvarImagemUser(Constantes.getPathServidor(), dados, nomeImagem);
 			if (fotoTirada) {
 				if (usuario == null) {
