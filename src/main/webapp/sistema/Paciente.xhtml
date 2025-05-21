@@ -169,8 +169,8 @@
 			</center>
 		</p:dialog>
 		<p:dialog styleClass="dialogInserirFoto" draggable="true"
-			closeOnEscape="true" header="Insira foto do paciente"
-			responsive="true" resizable="true" position="center" dynamic="true"
+			closeOnEscape="true" dynamic="true" header="Insira foto do paciente"
+			responsive="true" resizable="false" position="center" 
 			modal="true" closable="true" widgetVar="dlgExibirFoto">
 			<h:form id="frmSelecionarFoto">
 
@@ -182,7 +182,7 @@
 					fileUploadListener="#{pacienteMB.subirImagem}" />
 
 				<div class="containerPanelImgTemplate">
-					<p:panel styleClass="panelImgTemplate" header="Foto normal"
+					<p:panel styleClass="panelImgTemplate"
 						id="pnlFotoUpload">
 						<p:graphicImage
 							rendered="#{pacienteMB.paciente.imagemCropper eq null}"

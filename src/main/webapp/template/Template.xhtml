@@ -201,8 +201,8 @@
 
 
 		<p:dialog styleClass="dialogInserirFoto"
-			sheader="Insira foto do usuário" dynamic="true" closeOnEscape="true"
-			closable="true" resizable="true" position="center" responsive="true"
+			header="Insira foto do usuário"  closeOnEscape="true"
+			closable="true" resizable="false" position="center" responsive="true"
 			modal="true" draggable="true" widgetVar="dlgFotoPerfilUsuario">
 
 
@@ -218,7 +218,7 @@
 
 
 				<div class="containerPanelImgTemplate">
-					<p:panel styleClass="panelImgTemplate" header="Foto normal"
+					<p:panel styleClass="panelImgTemplate" 
 						id="pnlFotoEditar">
 						<p:graphicImage id="imgEditDefault" cache="false"
 							rendered="#{not usuarioMB.exibirImagemCropper}"

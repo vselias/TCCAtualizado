@@ -3,6 +3,9 @@
 	--corMenuHover: #3D6D89;
 	--tamanhoFonte: 16px;
 	--fonte: 'Arial', 'Consolas';
+	--btnMobileZIndex: 1 !important;
+	--dialogImagemZIndex: 2 !important;
+	--ajaxZIndex: 3 !important;
 }
 
 .ui-menuitem {
@@ -36,11 +39,14 @@ body {
 
 .panelImgTemplate {
 	width: 600px !important;
-	height: 100% !important;
+	height: auto !important;
+	display: flex;
+	justify-content: center !important;
+	align-items: center !important;
 }
 
 .statusPaciente {
-	z-index: 2;
+	z-index: var(--ajaxZIndex);
 }
 
 .imgCropper {
@@ -253,9 +259,10 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 }
 
 .dialogInserirFoto {
-	z-index: 1 !important;
+	z-index: var(--dialogImagemZIndex);
 	width: 100vh !important;
 	height: auto !important;
+	overflow: scroll !important;
 }
 
 .panelGridConsulta {
@@ -422,8 +429,12 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 		display: flex !important;
 		justify-content: flex-end !important;
 	}
+	.panelImgTemplate {
+		width: auto !important;
+		height: auto !important;
+	}
 	body {
-		font-size: 1.5rem !important;
+		font-size: 1.2rem !important;
 	}
 	.ui-menubar .ui-menuitem-link {
 		color: white !important;
@@ -438,7 +449,7 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 		background: var(--corMenu);
 		gap: 10px;
 		align-items: center;
-		z-index: 1000;
+		z-index: var(--btnMobileZIndex);
 		width: 100%;
 		justify-content: center;
 	}
@@ -456,7 +467,7 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	.btnMenu {
 		margin: 25px 25px;
 		display: block;
-		z-index: 5000;
+		z-index: var(--btnMobileZIndex);
 	}
 	.showMenu {
 		display: flex !important;
