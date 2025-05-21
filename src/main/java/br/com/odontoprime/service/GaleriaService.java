@@ -31,6 +31,7 @@ public class GaleriaService implements Serializable {
 
 		try {
 			System.out.println(paciente);
+			
 
 			if (paciente != null && paciente.getId() != null) {
 				System.out.println("Antes do bd Paciente nome: " + paciente.getNome() + " id " + paciente.getId());

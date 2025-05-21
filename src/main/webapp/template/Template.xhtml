@@ -190,14 +190,20 @@
 			</div>
 		</div>
 
-
+		<p:dialog styleClass="statusPaciente" widgetVar="statusDialog"
+			modal="true" draggable="false" closable="false" resizable="false"
+			showHeader="false">
+			<center>
+				<h6>Carregando aguarde...</h6>
+				<p:graphicImage value="/img/loading.gif" />
+			</center>
+		</p:dialog>
 
 
 		<p:dialog styleClass="dialogInserirFoto"
-			sheader="Insira foto do usuário" dynamic="true" 
-			closeOnEscape="true" closable="true" resizable="true"
-			position="center" responsive="true" modal="true" draggable="true"
-			widgetVar="dlgFotoPerfilUsuario">
+			sheader="Insira foto do usuário" dynamic="true" closeOnEscape="true"
+			closable="true" resizable="true" position="center" responsive="true"
+			modal="true" draggable="true" widgetVar="dlgFotoPerfilUsuario">
 
 
 			<h:form id="frmEditFotoPerfil">
@@ -210,8 +216,9 @@
 					fileUploadListener="#{usuarioMB.salvarImagem}"
 					label="Buscar Imagem" />
 
-				<h:panelGrid columns="2">
-					<p:panel styleClass="imgPanelUserTemplate" header="Foto normal"
+
+				<div class="containerPanelImgTemplate">
+					<p:panel styleClass="panelImgTemplate" header="Foto normal"
 						id="pnlFotoEditar">
 						<p:graphicImage id="imgEditDefault" cache="false"
 							rendered="#{not usuarioMB.exibirImagemCropper}"
@@ -224,16 +231,15 @@
 					</p:panel>
 					<p:panel header="Foto recortada" id="pnlImgCortar">
 						<center>
-							<p:graphicImage rendered="#{not usuarioMB.exibirImagemRecortada}"
+							<p:graphicImage styleClass="imgRecortada"
+								rendered="#{not usuarioMB.exibirImagemRecortada}"
 								value="/img/new-user.png" cache="false" />
-							<p:graphicImage id="imgRecortada" cache="false"
-								rendered="#{usuarioMB.exibirImagemRecortada}"
+							<p:graphicImage styleClass="imgRecortada" id="imgRecortada"
+								cache="false" rendered="#{usuarioMB.exibirImagemRecortada}"
 								value="/temp/imagens/#{usuarioMB.usuario.nomeImagemRecortada}" />
-
-
 						</center>
 					</p:panel>
-				</h:panelGrid>
+				</div>
 
 				<p:spacer height="5" />
 
@@ -241,6 +247,8 @@
 					columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
 					styleClass="ui-panelgrid-blank" columns="4">
 					<p:commandButton icon="fa fa-scissors"
+						onstart="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()"
 						update="pnlImgCortar , :formGlobal:msgGlobal"
 						action="#{usuarioMB.recortarImagem}" value="Cortar" />
 
@@ -249,7 +257,8 @@
 						oncomplete="PF('dlgTirarFotoUsuario').show();"
 						update=":frmTirarFotoUsuario" value="Webcam" />
 
-					<p:commandButton
+					<p:commandButton onstart="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()"
 						update=":frmImgUsuario , :frmImgUsuario:fotoDefinida, :formGlobal:msgGlobal"
 						action="#{usuarioMB.salvarImagemRecortada}" icon="fa fa-save"
 						value="Salvar" />

@@ -2,7 +2,7 @@
 	--corMenu: linear-gradient(to left, #1B4965, #3D6D89);
 	--corMenuHover: #3D6D89;
 	--tamanhoFonte: 16px;
-	--fonte: 'Open Sans', sans-serif;
+	--fonte: 'Arial', 'Consolas';
 }
 
 .ui-menuitem {
@@ -15,7 +15,7 @@ html, body {
 
 body {
 	font-size: var(--tamanhoFonte) !important;
-	font: var(--fonte) !important;
+	font-family: var(--fonte) !important;
 	background-image: url("../img/macback.png") !important;
 	background-repeat: no-repeat !important;
 }
@@ -26,12 +26,21 @@ body {
 	margin: auto;
 }
 
-.imgPanelUserTemplate {
-	width: 600px !important;
+.containerPanelImgTemplate {
+	width: 100% !important;
+	height: 100% !important;
 	display: flex;
-	flex-direction: column; /* Organiza título e imagem em colunas */
 	justify-content: center; /* Centraliza apenas o conteúdo */
 	align-items: center;
+}
+
+.panelImgTemplate {
+	width: 600px !important;
+	height: 100% !important;
+}
+
+.statusPaciente {
+	z-index: 2;
 }
 
 .imgCropper {
@@ -59,7 +68,6 @@ body {
 
 .ui-panelgrid-cell {
 	background-color: #f1f1f1 !important;
-	/*font-family: 'Open Sans', sans-serif;*/
 }
 
 .barra-logo {
@@ -104,6 +112,12 @@ body {
 	object-fit: cover;
 }
 
+.imgRecortada {
+	width: 150px;
+	height: 150px;
+	object-fit: cover;
+}
+
 .fotoUser {
 	flex-shrink: 0;
 	float: left;
@@ -114,11 +128,7 @@ body {
 }
 
 ui-button-text.ui-c .ui-menu .ui-menuitem-text {
-	/*font do menu da barra de tarefas */
-	/*font-family: 'Open Sans', sans-serif;*/
 	font-weight: bold !important;
-	/* 	font-size: 14px !important; */
-	/*font-family: 'Open Sans', sans-serif;*/
 }
 
 .ajax-status {
@@ -164,7 +174,6 @@ ui-button-text.ui-c .ui-menu .ui-menuitem-text {
 	margin: 10px !important;
 	color: black !important;
 	text-align: left !important;
-	font-family: Lucida Grande, Lucida Sans, Arial, sans-serif !important;
 	font-size: 20px !important;
 	font-weight: bold !important;
 }
@@ -244,10 +253,9 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 }
 
 .dialogInserirFoto {
-	z-index: 9999999999 !important;
-	width: 80% !important;
-	height: 400px !important;
-	overflow: scroll !important;
+	z-index: 1 !important;
+	width: 100vh !important;
+	height: auto !important;
 }
 
 .panelGridConsulta {
@@ -312,7 +320,6 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	width: 100%;
 	height: 100%;
 	color: white !important;
-	font-family: "Helvetica" !important;
 	margin-right: 150px;
 	display: flex;
 	flex-direction: column;
@@ -438,14 +445,14 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 	ul.ui-menu-list>li {
 		position: relative;
 	}
-	.ui-menuitem li:hover {
-		background-color: aqua !important;
-		color: white;
-		transition: 0.3s ease-in-out; /* Suaviza o efeito */
-	}
-	/* 	.ui-menu .ui-menu-list li:hover ul { */
-	/* 		display: none; Evita hover em mobile */
+	/* 	.ui-menuitem li:hover { */
+	/* 		background-color: aqua !important; */
+	/* 		color: white; */
+	/* 		transition: 0.3s ease-in-out; Suaviza o efeito */
 	/* 	} */
+	.ui-menu .ui-menu-list li:hover ul {
+		display: none;
+	}
 	.btnMenu {
 		margin: 25px 25px;
 		display: block;

@@ -160,21 +160,29 @@
 		</h:form>
 
 
-		<p:dialog styleClass="dialogInserirFoto" draggable="true" closeOnEscape="true" 
-			header="Insira foto do paciente" responsive="true"  resizable="true"
-			position="center" dynamic="true" modal="true" closable="true"
-			widgetVar="dlgExibirFoto">
+		<p:dialog styleClass="statusPaciente" widgetVar="statusDialog"
+			modal="true" draggable="false" closable="false" resizable="false"
+			showHeader="false">
+			<center>
+				<h2>Carregando aguarde...</h2>
+				<p:graphicImage value="/img/loading.gif" />
+			</center>
+		</p:dialog>
+		<p:dialog styleClass="dialogInserirFoto" draggable="true"
+			closeOnEscape="true" header="Insira foto do paciente"
+			responsive="true" resizable="true" position="center" dynamic="true"
+			modal="true" closable="true" widgetVar="dlgExibirFoto">
 			<h:form id="frmSelecionarFoto">
 
 				<p:fileUpload label="Selecione a imagem"
 					fileLimitMessage="Imagem muito grande." fileLimit="1"
-					invalidSizeMessage="Apenas 1 foto por vez."
+					invalidSizeMessage="Apenas 1 foto por vez." auto="true"
 					allowTypes="/(\.|\/)(jpe?g|png)$/"
 					update="pnlFotoUpload imagemCropper :formGlobal:msgGlobal"
 					fileUploadListener="#{pacienteMB.subirImagem}" />
 
-				<h:panelGrid columns="2">
-					<p:panel styleClass="imgPanelUserTemplate" header="Foto normal"
+				<div class="containerPanelImgTemplate">
+					<p:panel styleClass="panelImgTemplate" header="Foto normal"
 						id="pnlFotoUpload">
 						<p:graphicImage
 							rendered="#{pacienteMB.paciente.imagemCropper eq null}"
@@ -189,15 +197,18 @@
 					</p:panel>
 
 					<p:panel header="Foto recortada" id="pnlFotoRecortada">
-						<p:graphicImage
-							rendered="#{pacienteMB.paciente.imagemRecortada eq null}"
-							value="/img/new-user.png" cache="false" />
+						<center>
+							<p:graphicImage styleClass="imgRecortada"
+								rendered="#{pacienteMB.paciente.imagemRecortada eq null}"
+								value="/img/new-user.png" cache="false" />
 
-						<p:graphicImage rendered="#{pacienteMB.exibirImagemRecortada}"
-							id="fotoRecortada" cache="false"
-							value="/temp/imagens/#{pacienteMB.paciente.imagemRecortada}" />
+							<p:graphicImage styleClass="imgRecortada"
+								rendered="#{pacienteMB.exibirImagemRecortada}"
+								id="fotoRecortada" cache="false"
+								value="/temp/imagens/#{pacienteMB.paciente.imagemRecortada}" />
+						</center>
 					</p:panel>
-				</h:panelGrid>
+				</div>
 				<p:spacer height="5px;" />
 
 				<p:panelGrid columns="4" layout="grid"
@@ -205,6 +216,8 @@
 
 
 					<p:commandButton value="Recortar"
+						onclick="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()"
 						update="@form :formGlobal:msgGlobal  pnlFotoRecortada fotoRecortada"
 						icon="fa fa-scissors" action="#{pacienteMB.recortarImagem}" />
 
@@ -212,12 +225,14 @@
 						update=":frmWebCam" icon="fa fa-video-camera" value="WebCam"
 						oncomplete="PF('dlgWebCam').show();" />
 
-					<p:commandButton
+					<p:commandButton onclick="PF('statusDialog').show()"
+						oncomplete="PF('statusDialog').hide()"
 						update=":formGlobal:msgGlobal , :frmPaciente:fotoPaciente"
 						action="#{pacienteMB.salvarImagemRecortada}" icon="fa fa-floppy-o"
 						value="Salvar" />
 					<p:commandButton update="@form, :frmWebCam , :frmWebCam:photocam"
 						oncomplete="PF('dlgExibirFoto').hide();" value="Fechar" />
+
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
