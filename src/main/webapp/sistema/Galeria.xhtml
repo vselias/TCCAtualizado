@@ -116,7 +116,8 @@
 							panelWidth="600" frameHeight="50" showCaption="true"
 							frameWidth="50" rendered="#{not empty galeriaMB.paciente.fotos}"
 							var="foto" value="#{galeriaMB.paciente.fotos}">
-							<p:commandButton action="#{galeriaMB.selecionarFoto}" update=":frmExclusao" oncomplete="PF('exclusao').show();"
+							<p:commandButton action="#{galeriaMB.selecionarFoto}"
+								update=":frmExclusao" oncomplete="PF('exclusao').show();"
 								icon="fa fa-trash">
 								<f:param name="fotoId" value="#{foto.id}" />
 							</p:commandButton>
@@ -134,9 +135,10 @@
 			<p:confirmDialog widgetVar="exclusao" severity="alert"
 				header="Confirmação exclusão da foto"
 				message="Deseja remover a foto? id = #{galeriaMB.fotoId}">
-				<p:commandButton oncomplete="PF('exclusao').hide()" immediate="true" update=":frmExbFoto :frmTblGaleria :formGlobal:msgGlobal" value="Sim"
-					action="#{galeriaMB.excluirFoto}" icon="fa fa-trash">
-					
+				<p:commandButton oncomplete="PF('exclusao').hide()" immediate="true"
+					update=":frmExbFoto :frmTblGaleria :formGlobal:msgGlobal"
+					value="Sim" action="#{galeriaMB.excluirFoto}" icon="fa fa-trash">
+
 				</p:commandButton>
 				<p:commandButton value="Não" oncomplete="PF('exclusao').hide()" />
 			</p:confirmDialog>
@@ -145,12 +147,12 @@
 
 
 
-		<p:dialog header="Adicionar foto na galeria" resizable="false"
-			widgetVar="dlgGaleriaImg" modal="true" closeOnEscape="true"
-			closable="true">
-			<h:form id="frmUploadFoto">
+		<h:form id="frmUploadFoto">
+			<p:dialog header="Adicionar foto na galeria" resizable="false"
+				widgetVar="dlgGaleriaImg" modal="true"
+				closeOnEscape="true" closable="true">
 				<p:fileUpload cancelLabel="Cancelar" label="Escolha Imagem"
-					uploadLabel="Enviar" mode="advanced"
+					mode="advanced" skinSimple="true" auto="true" uploadLabel="Enviar"
 					invalidSizeMessage="Imagem precisa ter até 1MB."
 					invalidFileMessage="Apenas formatos gif, png e jpg."
 					sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
@@ -177,8 +179,8 @@
 						<f:ajax />
 					</p:commandButton>
 				</h:panelGrid>
-			</h:form>
-		</p:dialog>
+			</p:dialog>
+		</h:form>
 
 
 	</ui:define>

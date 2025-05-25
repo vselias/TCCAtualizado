@@ -168,30 +168,29 @@
 				<p:graphicImage value="/img/loading.gif" />
 			</center>
 		</p:dialog>
-		<p:dialog styleClass="dialogInserirFoto" draggable="true"
+		<p:dialog appendTo="body" styleClass="dialogInserirFoto" draggable="true"
 			closeOnEscape="true" dynamic="true" header="Insira foto do paciente"
-			responsive="true" resizable="false" position="center" 
-			modal="true" closable="true" widgetVar="dlgExibirFoto">
+			responsive="true" resizable="false" position="center" modal="true"
+			closable="true" widgetVar="dlgExibirFoto">
 			<h:form id="frmSelecionarFoto">
 
-				<p:fileUpload label="Selecione a imagem"
-					fileLimitMessage="Imagem muito grande." fileLimit="1"
-					invalidSizeMessage="Apenas 1 foto por vez." auto="true"
-					allowTypes="/(\.|\/)(jpe?g|png)$/"
+				<p:fileUpload label="Selecione a imagem" mode="advanced"
+					skinSimple="true" fileLimitMessage="Imagem muito grande."
+					fileLimit="1" invalidSizeMessage="Apenas 1 foto por vez."
+					auto="true" allowTypes="/(\.|\/)(jpe?g|png)$/"
 					update="pnlFotoUpload imagemCropper :formGlobal:msgGlobal"
 					fileUploadListener="#{pacienteMB.subirImagem}" />
 
 				<div class="containerPanelImgTemplate">
-					<p:panel styleClass="panelImgTemplate"
-						id="pnlFotoUpload">
+					<p:panel styleClass="panelImgTemplate" id="pnlFotoUpload">
 						<p:graphicImage
 							rendered="#{pacienteMB.paciente.imagemCropper eq null}"
 							value="/img/new-user.png" cache="false" />
 
-						<p:imageCropper id="imagemCropper"
+						<p:imageCropper  id="imagemCropper"
 							rendered="#{pacienteMB.exibirImagemCropper}"
 							value="#{pacienteMB.croppedImage}" minSize="100,100"
-							maxSize="200,200"
+							maxSize="200,200" boxHeight="230"
 							image="/temp/imagens/#{pacienteMB.paciente.imagemCropper}">
 						</p:imageCropper>
 					</p:panel>
@@ -209,12 +208,8 @@
 						</center>
 					</p:panel>
 				</div>
-				<p:spacer height="5px;" />
-
 				<p:panelGrid columns="4" layout="grid"
 					columnClasses="ui-grid-col-3, ui-grid-col-3, ui-grid-col-3,ui-grid-col-3">
-
-
 					<p:commandButton value="Recortar"
 						onclick="PF('statusDialog').show()"
 						oncomplete="PF('statusDialog').hide()"

@@ -8,6 +8,9 @@
 		<p:toolbarGroup>
 			<p:commandButton ajax="false"
 				action="#{graficoVendaMB.gerarNovoGrafico}" value="Comparar" />
+			<p:commandButton style="margin:10px;" icon="fa fa-external-link"
+				onclick="exportChart()" value="Exportar" />
+
 		</p:toolbarGroup>
 	</p:toolbar>
 </ui:composition>

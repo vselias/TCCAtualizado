@@ -1,6 +1,9 @@
 package br.com.odontoprime.util;
 
 import java.io.Serializable;
+import java.time.Year;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import br.com.odontoprime.entidade.TipoConsulta;
 
@@ -11,6 +14,13 @@ public class FiltroNovoGrafico implements Serializable {
 	private TipoConsulta segundoTipoComparacao;
 	private int ano;
 	private int anoAte;
+
+
+	public FiltroNovoGrafico() {
+		int anoAtual = Year.now().getValue(); // Obtém o ano atual
+		ano = anoAtual;
+		anoAte = anoAtual;
+	}
 
 	public int getAno() {
 		return ano;

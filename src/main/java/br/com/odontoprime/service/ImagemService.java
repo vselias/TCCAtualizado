@@ -5,40 +5,31 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
 import javax.inject.Inject;
-import javax.servlet.ServletContext;
 
-import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.CroppedImage;
 
 import br.com.odontoprime.dao.UsuarioDAO;
 import br.com.odontoprime.entidade.Constantes;
-import br.com.odontoprime.entidade.Paciente;
 import br.com.odontoprime.entidade.Usuario;
 import br.com.odontoprime.util.MensagemUtil;
 
 @SuppressWarnings("serial")
-public class UserImagemService implements Serializable, ImagemServiceInt<Usuario> {
+public class ImagemService implements Serializable, ImagemServiceInt<Usuario> {
 	@Inject
 	private UsuarioDAO usuarioDAO;
 	private String nomeImagem;
+
 
 	public String gerarNomeImagemAleatoria() {
 		return System.currentTimeMillis() + ".png";
 	}
 
-	// recortar imagem para mostrar a imagem recortada na pagina
 	public boolean recortarImagem(Usuario usuario, CroppedImage croppedImage) {
 		boolean fotoRecortada = false;
 		usuario.setNomeImagemRecortada(gerarNomeImagemAleatoria());
@@ -48,8 +39,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		}
 
 		try {
-			fotoRecortada = criarArquivo(Constantes.getPathServidor(), croppedImage.getBytes(),
-					usuario.getNomeImagemRecortada());
+			fotoRecortada = criarArquivo(Constantes.getPathServidor(), croppedImage.getBytes(), usuario.getNomeImagemRecortada());
 			if (fotoRecortada) {
 				MensagemUtil.enviarMensagem("Imagem recortada com sucesso.", FacesMessage.SEVERITY_INFO);
 				System.out.println("[ImagemService - recortarImagem] imagem recortada com sucesso.");
@@ -87,7 +77,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		return imagemSalva;
 
 	}
-	@Deprecated
+
 	public void salvarImagem(Usuario usuario) {
 		boolean imagemSalva = false;
 		try {
@@ -124,7 +114,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 
 			// Calculando a proporção
 			double proporcaoLargura = (double) 600 / larguraOriginal;
-			double proporcaoAltura = (double) 280 / alturaOriginal;
+			double proporcaoAltura = (double) 350 / alturaOriginal;
 
 			// Escolhendo a menor proporção para evitar distorção
 			double proporcaoFinal = Math.min(proporcaoLargura, proporcaoAltura);
@@ -156,8 +146,8 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 
 		return false;
 	}
-	@Deprecated
-	public boolean tirarFotoWebCam(byte[] dados, Usuario usuario) {
+
+	public boolean tirarFoto(byte[] dados, Usuario usuario) {
 		boolean imagemSalva = false;
 		try {
 			usuario.setNomeImagemCropper(gerarNomeImagemAleatoria());
@@ -180,7 +170,6 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		try {
 
 			nomeImagem = gerarNomeImagemAleatoria();
-			// subir uma imagem reduzida para aplicacao bom boa definição
 			fotoTirada = reduzirSalvarImagemUser(Constantes.getPathServidor(), dados, nomeImagem);
 			if (fotoTirada) {
 				if (usuario == null) {
@@ -194,5 +183,11 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 			System.out.println("[enviarFotoServidor] erro ao enviar imagem.");
 		}
 		return fotoTirada;
+	}
+
+	@Override
+	public boolean tirarFotoWebCam(byte[] dados, Usuario classe) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

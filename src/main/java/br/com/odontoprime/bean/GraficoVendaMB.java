@@ -1,9 +1,15 @@
 package br.com.odontoprime.bean;
 
+import java.io.InputStream;
 import java.io.Serializable;
+import java.time.Year;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -35,6 +41,7 @@ public class GraficoVendaMB implements Serializable {
 	private BarChartModel barChartModel;
 	private FiltroNovoGrafico filtroNovoGrafico;
 	private BarChartModel novoBarChartModel;
+	private List<Integer> anos;
 
 	@PostConstruct
 	public void init() {
@@ -42,6 +49,17 @@ public class GraficoVendaMB implements Serializable {
 		tiposConsulta = Arrays.asList(TipoConsulta.values());
 		novoBarChartModel = new BarChartModel();
 		filtroNovoGrafico = new FiltroNovoGrafico();
+		int anoAtual = Year.now().getValue(); // Obtém o ano atual
+		anos = IntStream.rangeClosed(anoAtual - 30, anoAtual + 30).boxed().toList();
+
+	}
+
+	public List<Integer> getAnos() {
+		return anos;
+	}
+
+	public void setAnos(List<Integer> anos) {
+		this.anos = anos;
 	}
 
 	public BarChartModel getNovoBarChartModel() {
@@ -123,6 +141,10 @@ public class GraficoVendaMB implements Serializable {
 
 	public void gerarGrafico() {
 		this.barChartModel = graficoVendaService.preencherBarChartModel(primeiraData, segundaData);
+	}
+
+	public boolean graficoVazio() {
+		return this.novoBarChartModel != null & !novoBarChartModel.getSeries().isEmpty();
 	}
 
 	public void gerarNovoGrafico() {

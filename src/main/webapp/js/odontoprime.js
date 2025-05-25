@@ -67,7 +67,6 @@ window.addEventListener("load", () => {
 			}, 1000);
 		});
 	}
-
 	showMenu();
 	showSubMenu();
 	fecharSubMenusByClick();

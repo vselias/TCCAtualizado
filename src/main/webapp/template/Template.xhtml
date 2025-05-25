@@ -201,31 +201,31 @@
 
 
 		<p:dialog styleClass="dialogInserirFoto"
-			header="Insira foto do usuário"  closeOnEscape="true"
-			closable="true" resizable="false" position="center" responsive="true"
-			modal="true" draggable="true" widgetVar="dlgFotoPerfilUsuario">
+			header="Insira foto do usuário" closeOnEscape="true" closable="true"
+			resizable="false" position="center" responsive="true" modal="true"
+			draggable="true" widgetVar="dlgFotoPerfilUsuario">
 
 
 			<h:form id="frmEditFotoPerfil">
-				<p:fileUpload mode="advanced" auto="true"
-					update="pnlFotoEditar , :formGlobal:msgGlobal" sizeLimit="1000000"
-					invalidSizeMessage="Imagem no máximo 1MB." fileLimit="1"
-					fileLimitMessage="Apenas uma imagem por vez."
+				<p:fileUpload auto="true" position="top" mode="advanced"
+					skinSimple="true" update="pnlFotoEditar , :formGlobal:msgGlobal"
+					sizeLimit="1000000" invalidSizeMessage="Imagem no máximo 1MB."
+					fileLimit="1" fileLimitMessage="Apenas uma imagem por vez."
 					invalidFileMessage="Enviar apenas imagem."
 					allowTypes="/(\.|\/)(jpe?g|png)$/"
+					oncomplete="reduzirImgCropperUser()"
 					fileUploadListener="#{usuarioMB.salvarImagem}"
 					label="Buscar Imagem" />
 
 
 				<div class="containerPanelImgTemplate">
-					<p:panel styleClass="panelImgTemplate" 
-						id="pnlFotoEditar">
+					<p:panel styleClass="panelImgTemplate" id="pnlFotoEditar">
 						<p:graphicImage id="imgEditDefault" cache="false"
 							rendered="#{not usuarioMB.exibirImagemCropper}"
 							value="/img/new-user.png" />
-
 						<p:imageCropper id="imgCropper" minSize="100,100"
 							maxSize="200,200" rendered="#{usuarioMB.exibirImagemCropper}"
+							boxHeight="230"
 							value="#{usuarioMB.croppedImage}"
 							image="/temp/imagens/#{usuarioMB.usuario.nomeImagemCropper}" />
 					</p:panel>
@@ -240,9 +240,6 @@
 						</center>
 					</p:panel>
 				</div>
-
-				<p:spacer height="5" />
-
 				<p:panelGrid layout="grid"
 					columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
 					styleClass="ui-panelgrid-blank" columns="4">

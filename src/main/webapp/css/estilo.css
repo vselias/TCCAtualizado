@@ -8,6 +8,14 @@
 	--ajaxZIndex: 3 !important;
 }
 
+
+.dlgGrafico {
+	left: 50% !important;
+	top: 50% !important;
+	transform: translate(-50%, -50%) !important;
+	width: auto !important;
+}
+
 .ui-menuitem {
 	margin: 20px;
 }
@@ -30,11 +38,32 @@ body {
 }
 
 .containerPanelImgTemplate {
-	width: 100% !important;
-	height: 100% !important;
+	width: auto !important;
+	height: auto !important;
 	display: flex;
 	justify-content: center; /* Centraliza apenas o conteúdo */
 	align-items: center;
+}
+
+.ui-fileupload-content {
+	padding: 0 !important;
+	margin: 0 !important;
+	height: 0 !important;
+}
+
+.ui-dialog .ui-dialog-titlebar {
+	padding: .5rem !important;
+	margin: 0 !important;
+}
+
+#frmEditFotoPerfil {
+	margin: 1rem;
+	padding: 0;
+}
+
+.ui-panelgrid .ui-panelgrid-cell {
+	margin: 0 !important;
+	padding: .3rem !important;
 }
 
 .panelImgTemplate {
@@ -43,6 +72,7 @@ body {
 	display: flex;
 	justify-content: center !important;
 	align-items: center !important;
+	position: relative;
 }
 
 .statusPaciente {
@@ -53,6 +83,17 @@ body {
 	flex-grow: 1;
 }
 
+/* #imgCropper { */
+/* 	max-width: none; */
+/* 	width: 300px !important; */
+/* 	height: 250px !important; */
+/* 	object-fit: cover !important; */
+/* 	overflow: hidden !important; */
+/* 	flex-grow: 1; */
+/* 	position: absolute; */
+/* 	left: 10% !important; */
+/* 	top: 0 !important; */
+/* } */
 .dialog {
 	margin: auto !important;
 	position: absolute !important;
@@ -429,10 +470,10 @@ button.ui-button.ui-state-default span, .ui-button.ui-state-default span
 		display: flex !important;
 		justify-content: flex-end !important;
 	}
-	.panelImgTemplate {
-		width: auto !important;
-		height: auto !important;
-	}
+	/* 	.panelImgTemplate { */
+	/* 		width: auto !important; */
+	/* 		height: auto !important; */
+	/* 	} */
 	body {
 		font-size: 1.2rem !important;
 	}

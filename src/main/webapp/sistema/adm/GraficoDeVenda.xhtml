@@ -7,7 +7,7 @@
 
 
 <ui:composition template="/template/Template.xhtml">
-	
+
 	<ui:define name="title">
 		<title>Gráfico de Vendas</title>
 	</ui:define>
@@ -22,7 +22,8 @@
 
 			<p:spacer height="10" />
 
-			<p:messages id="msg" showDetail="false" escape="true" closable="true" />
+			<p:messages autoUpdate="true" id="msg" showDetail="false"
+				escape="true" closable="true" />
 
 			<p:panel style="text-align:center;"
 				header="Gráfico para comparar valor total de vendas recebidas entre dois tipos de consulta com período entre anos.">
@@ -41,10 +42,11 @@
 											value="#{graficoVendaMB.tiposConsulta}" />
 									</p:selectOneMenu>
 
-									<p:outputLabel for="data_inicio" value="Do ano de" />
-									<p:inputText required="true" id="data_inicio"
-										requiredMessage="Deve ser preenchida a data de início."
-										value="#{graficoVendaMB.filtroNovoGrafico.ano}" />
+									<p:outputLabel value="Do ano de" />
+									<p:selectOneMenu
+										value="#{graficoVendaMB.filtroNovoGrafico.ano}">
+										<f:selectItems value="#{graficoVendaMB.anos}" />
+									</p:selectOneMenu>
 								</h:panelGrid>
 							</div>
 							<div class="ui-grid-col-6">
@@ -57,8 +59,10 @@
 											itemLabel="#{item.descricao}"
 											value="#{graficoVendaMB.tiposConsulta}" />
 									</p:selectOneMenu>
-									<p:outputLabel value="Do ano até" />
-									<p:inputText value="#{graficoVendaMB.filtroNovoGrafico.anoAte}" />
+									<p:selectOneMenu
+										value="#{graficoVendaMB.filtroNovoGrafico.anoAte}">
+										<f:selectItems value="#{graficoVendaMB.anos}" />
+									</p:selectOneMenu>
 								</h:panelGrid>
 							</div>
 						</center>
@@ -69,11 +73,8 @@
 
 									<p:chart id="grafico" widgetVar="chart"
 										style="margin-top:90px;" type="bar"
+										rendered="#{graficoVendaMB.graficoVazio()}"
 										model="#{graficoVendaMB.novoBarChartModel}" />
-
-									<p:commandButton style="margin:10px;"
-										icon="fa fa-external-link" onclick="exportChart()"
-										value="Exportar" />
 								</center>
 							</div>
 						</div>
@@ -83,19 +84,24 @@
 			</p:panel>
 		</h:form>
 
-		<p:dialog widgetVar="dlg" showEffect="fade" modal="true"
-			header="Gráfico em formato de imagem." resizable="false">
-			<p:outputPanel id="botao" layout="block" />
-		</p:dialog>
+		<div class="ui-grid-row">
+			<div class="ui-grid-col-12">
+				<p:dialog width="auto" styleClass="dlgGrafico" position="center"
+					widgetVar="dlg" showEffect="fade" modal="true"
+					header="Gráfico em formato de imagem." resizable="false">
+					<p:outputPanel id="botao" layout="block" />
+				</p:dialog>
+			</div>
+		</div>
 
 		<script type="text/javascript">
 			function exportChart() {
-				    //export image
-				    $('#botao').empty().append(PF('chart').exportAsImage());
-				 
-				    //show the dialog
-				    PF('dlg').show();
-					}
+				//export image
+				$('#botao').empty().append(PF('chart').exportAsImage());
+
+				//show the dialog
+				PF('dlg').show();
+			}
 		</script>
 
 
