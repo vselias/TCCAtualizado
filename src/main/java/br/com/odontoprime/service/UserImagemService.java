@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -63,20 +65,31 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		return false;
 	}
 
+	public void removerImagemAntiga(String nomeImagem) {
+		Path path = Paths.get(Constantes.CAMINHO_IMAGEM + File.separator + nomeImagem);
+		File imagem = new File(path.toString());
+		if (imagem.exists()) {
+			imagem.delete();
+		}
+	}
+
 	public boolean salvarImagemRecortada(CroppedImage croppedImage, Usuario usuario) {
 		boolean imagemSalva = false;
+		String nomeImagem;
 		try {
-
 			if (croppedImage == null || croppedImage.getBytes() == null) {
 				return false;
 			}
-			usuario.setNomeImagem(gerarNomeImagemAleatoria());
-			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, croppedImage.getBytes(), usuario.getNomeImagem());
+			String imagemAntiga = usuario.getNomeImagem();
+			nomeImagem = "usu_nome_"+usuario.getLogin()+"_id_"+gerarNomeImagemAleatoria();
+			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, croppedImage.getBytes(), nomeImagem);
 
 			if (imagemSalva) {
+				usuario.setNomeImagem(nomeImagem);
 				System.out.println("[salvarImagemRecotada] imagem recortada salva com sucesso.");
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
 				usuarioDAO.salvar(usuario);
+				removerImagemAntiga(imagemAntiga);
 				return imagemSalva;
 			}
 		} catch (Exception e) {
@@ -87,6 +100,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 		return imagemSalva;
 
 	}
+
 	@Deprecated
 	public void salvarImagem(Usuario usuario) {
 		boolean imagemSalva = false;
@@ -156,6 +170,7 @@ public class UserImagemService implements Serializable, ImagemServiceInt<Usuario
 
 		return false;
 	}
+
 	@Deprecated
 	public boolean tirarFotoWebCam(byte[] dados, Usuario usuario) {
 		boolean imagemSalva = false;

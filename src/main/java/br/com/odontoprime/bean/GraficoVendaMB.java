@@ -51,7 +51,8 @@ public class GraficoVendaMB implements Serializable {
 		filtroNovoGrafico = new FiltroNovoGrafico();
 		int anoAtual = Year.now().getValue(); // Obtém o ano atual
 		anos = IntStream.rangeClosed(anoAtual - 30, anoAtual + 30).boxed().toList();
-
+		filtroNovoGrafico.setAno(anoAtual);
+		filtroNovoGrafico.setAnoAte(anoAtual);
 	}
 
 	public List<Integer> getAnos() {

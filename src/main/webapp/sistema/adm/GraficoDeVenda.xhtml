@@ -7,13 +7,11 @@
 
 
 <ui:composition template="/template/Template.xhtml">
-
 	<ui:define name="title">
 		<title>Gráfico de Vendas</title>
 	</ui:define>
 
 	<ui:define name="content">
-
 		<h:form>
 
 			<h3 class="tituloPagina">Gráfico</h3>
@@ -43,7 +41,8 @@
 									</p:selectOneMenu>
 
 									<p:outputLabel value="Do ano de" />
-									<p:selectOneMenu
+									<p:selectOneMenu widgetVar="sOnePrimeiroAno" filter="true"
+										filterMatchMode="startsWith"
 										value="#{graficoVendaMB.filtroNovoGrafico.ano}">
 										<f:selectItems value="#{graficoVendaMB.anos}" />
 									</p:selectOneMenu>
@@ -59,7 +58,9 @@
 											itemLabel="#{item.descricao}"
 											value="#{graficoVendaMB.tiposConsulta}" />
 									</p:selectOneMenu>
-									<p:selectOneMenu
+									<p:outputLabel value="Do ano ate" />
+									<p:selectOneMenu filter="true" filterMatchMode="startsWith"
+										filterNormalize="true"
 										value="#{graficoVendaMB.filtroNovoGrafico.anoAte}">
 										<f:selectItems value="#{graficoVendaMB.anos}" />
 									</p:selectOneMenu>
@@ -95,6 +96,28 @@
 		</div>
 
 		<script type="text/javascript">
+		function limparSelect(selectId) {
+			setTimeout(() => {
+				let menu = PF(selectId); // Remove as aspas extras
+				let label = menu.jq.find(".ui-selectonemenu-label")[0];
+				if (!menu) {
+					console.error('Componente não encontrado:', selectId);
+					return;
+				}
+			    // Mantém o valor selecionado antes de limpar
+		        let valorAtual = menu.getSelectedValue();
+		        let labelAtual = menu.getSelectedLabel(); // Captura o texto do item
+		     	console.log(valorAtual);
+		        // Apenas limpa o filtro sem afetar a seleção
+		        menu.filterInput.val('');
+		       	menu.filter();
+		        let selectElement = menu.jq.find("select");
+		        selectElement.val(valorAtual).trigger('change');
+		        selectElement.trigger("input");
+		       	label.innerText = valorAtual;
+		     	console.log(label);
+			}, 200);
+		}
 			function exportChart() {
 				//export image
 				$('#botao').empty().append(PF('chart').exportAsImage());

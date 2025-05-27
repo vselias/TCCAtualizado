@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -276,6 +277,14 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 		return fotoTirada;
 	}
 
+	public void removerImagemAntiga(String nomeImagem) {
+		Path path = Paths.get(Constantes.CAMINHO_IMAGEM + File.separator + nomeImagem);
+		File imagem = new File(path.toString());
+		if (imagem.exists()) {
+			imagem.delete();
+		}
+	}
+
 	// Pega os bytes da imagem recortada e salva em outra pasta
 	public boolean salvarImagemRecortada(CroppedImage croppedImage, Paciente paciente) {
 		boolean imagemSalva = false;
@@ -287,12 +296,14 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 				MensagemUtil.enviarMensagem("Usuário não selecionado!", FacesMessage.SEVERITY_ERROR);
 				return false;
 			}
-			nomeImagem = gerarNomeImagemAleatoria();
+			String imagemAntiga = paciente.getNomeImagem();
+			nomeImagem = "pac_nome_"+paciente.getNome()+"_id_"+gerarNomeImagemAleatoria();
 			imagemSalva = criarArquivo(Constantes.CAMINHO_IMAGEM, croppedImage.getBytes(), nomeImagem);
 
 			if (imagemSalva) {
 				paciente.setNomeImagem(nomeImagem);
 				pacienteDAO.salvar(paciente);
+				removerImagemAntiga(imagemAntiga);
 				System.out.println("[salvarImagemRecotada] imagem recortada salva com sucesso.");
 				MensagemUtil.enviarMensagem("Imagem salva com sucesso!", FacesMessage.SEVERITY_INFO);
 				return true;
@@ -386,7 +397,7 @@ public class PacienteService implements Serializable, ImagemServiceInt<Paciente>
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			MensagemUtil.enviarMensagem("Erro ao remover foto! "+e.getMessage(), FacesMessage.SEVERITY_ERROR);
+			MensagemUtil.enviarMensagem("Erro ao remover foto! " + e.getMessage(), FacesMessage.SEVERITY_ERROR);
 		}
 	}
 
