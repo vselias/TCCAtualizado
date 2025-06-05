@@ -98,7 +98,8 @@
 										header="Finalizando..."
 										message="Deseja realmente sair do sistema?">
 
-										<p:commandButton oncomplete="PF('confirmarSaida').hide()"
+										<p:commandButton onstart="PF('statusDialog').show()"
+											oncomplete="PF('statusDialog').hide(); PF('confirmarSaida').hide()"
 											action="#{usuarioMB.registrarSaida}" value="Sim" />
 
 										<p:commandButton onclick="PF('confirmarSaida').hide()"
@@ -225,8 +226,7 @@
 							value="/img/new-user.png" />
 						<p:imageCropper id="imgCropper" minSize="100,100"
 							maxSize="200,200" rendered="#{usuarioMB.exibirImagemCropper}"
-							boxHeight="230"
-							value="#{usuarioMB.croppedImage}"
+							boxHeight="230" value="#{usuarioMB.croppedImage}"
 							image="/temp/imagens/#{usuarioMB.usuario.nomeImagemCropper}" />
 					</p:panel>
 					<p:panel header="Foto recortada" id="pnlImgCortar">

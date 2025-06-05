@@ -103,9 +103,13 @@ body {
 }
 
 .destacarPagamento {
-	font-weight: bold !important;
+	background-color: silver !important;
+	color: black !important;
 }
-
+tr[aria-selected=true]{
+	background-color: #186ba0 !important;
+	color: white !important;
+}
 .pMessages {
 	width: 500px;
 	margin: 0 auto;

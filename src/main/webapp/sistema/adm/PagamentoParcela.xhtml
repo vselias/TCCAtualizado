@@ -202,6 +202,7 @@
 						selection="#{entradaMB.parcelasSelecionadas}"
 						selectionMode="multiple" rowKey="#{p.id}" rows="10"
 						resizableColumns="true" id="tabelaParcela"
+						rowStyleClass="#{p.estadoPagamento.descricao eq 'Pago'? 'destacarPagamento': ''}"
 						paginatorPosition="bottom" value="#{entradaMB.entrada.parcelas}"
 						var="p">
 						<f:facet name="header">
@@ -210,9 +211,11 @@
 							<p:commandButton styleClass="btnCancelarPagamento"
 								onclick="PF('dlgCancelPagamentoTodas').show()"
 								value="Cancelar Parcelas" />
-								<p:outputLabel id="duvidaPagamentoParcela" style="float: right;" value="?"/>
-								<p:tooltip for="duvidaPagamentoParcela" value="Segure shift ou control para selecionar as linhas para pagar ou cancelar as parcelas." ></p:tooltip>
-								
+							<p:outputLabel id="duvidaPagamentoParcela" style="float: left;"
+								value="AJUDA ?" />
+							<p:tooltip for="duvidaPagamentoParcela"
+								value="Segure shift ou control + clique esquerdo do mouse para selecionar as linhas para pagar ou cancelar as parcelas."></p:tooltip>
+
 						</f:facet>
 
 						<p:column filterBy="#{p.valor}" sortBy="#{p.valor}"
@@ -235,23 +238,19 @@
 							headerText="Número da Parcela">
 							<p:outputLabel value="#{p.numParcela}ª" />
 						</p:column>
-						<p:column
-							styleClass="#{p.estadoPagamento.descricao eq 'Pago'? 'destacarPagamento': ''}"
-							sortBy="#{p.estadoPagamento.descricao}"
+						<p:column sortBy="#{p.estadoPagamento.descricao}"
 							filterBy="#{p.estadoPagamento.descricao}"
 							headerText="Status do Pagamento">
 							<p:outputLabel value="#{p.estadoPagamento.descricao}" />
 						</p:column>
 
 						<p:column sortBy="#{p.dataPagamento}"
-							styleClass="#{p.estadoPagamento.descricao eq 'Pago'? 'destacarPagamento': ''}"
 							filterBy="#{p.dataPagamento}" headerText="Data do Pagamento">
 							<p:outputLabel value="#{p.dataPagamento}">
 								<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
 									pattern="dd/MM/yyyy" />
 							</p:outputLabel>
-							<p:outputLabel rendered="#{p.dataPagamento eq null}"
-								value="Pendente" />
+							<p:outputLabel rendered="#{p.dataPagamento eq null}" value="Pendente"/>
 						</p:column>
 
 						<!-- coluna ocultada antiga ações dos botões -->
