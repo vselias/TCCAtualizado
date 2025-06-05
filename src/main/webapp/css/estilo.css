@@ -8,7 +8,6 @@
 	--ajaxZIndex: 3 !important;
 }
 
-
 .dlgGrafico {
 	left: 50% !important;
 	top: 50% !important;
@@ -104,8 +103,23 @@ body {
 }
 
 .destacarPagamento {
-	background-color: lime !important;
-	color: balck !important;
+	font-weight: bold !important;
+}
+
+.pMessages {
+	width: 500px;
+	margin: 0 auto;
+	text-align: center;
+	justify-content: center;
+}
+
+.ui-datatable-tablewrapper table tr {
+	text-align: center;
+}
+
+.btnCancelarPagamento {
+	background-color: #eb867f !important;
+	color: white !important;
 }
 
 #corpoDaPagina {

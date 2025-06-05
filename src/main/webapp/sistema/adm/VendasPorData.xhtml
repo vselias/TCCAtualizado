@@ -33,10 +33,13 @@
 						columns="4" id="panelGrid">
 
 						<p:outputLabel value="Data inicial" />
-						<p:calendar navigator="true" mode="inline" id="dataInicio"
+						<p:calendar  timeZone="America/Sao_Paulo" locale="pt_BR"
+							navigator="true" id="dataInicio"
+							yearRange="c-10:c+10"
 							value="#{registroVendaMB.dataInicio}" />
 						<p:outputLabel value="Data final" />
-						<p:calendar navigator="true" mode="inline" id="dataFinal"
+						<p:calendar yearRange="c-10:c+10" timeZone="America/Sao_Paulo" locale="pt_BR"
+							navigator="true" showTodayButton="true" id="dataFinal"
 							value="#{registroVendaMB.dataFinal}" />
 					</p:panelGrid>
 					<p:spacer height="30" />
@@ -96,7 +99,7 @@
 						<p:graphicImage
 							rendered="#{c.paciente.nomeImagem ne null and c.paciente.nomeImagem ne ''}"
 							value="/imagens/#{c.paciente.nomeImagem}" cache="false"
-							styleClass="imagens"/>
+							styleClass="imagens" />
 					</p:column>
 
 					<p:column sortBy="#{c.paciente.nome}" filterBy="#{c.paciente.nome}"

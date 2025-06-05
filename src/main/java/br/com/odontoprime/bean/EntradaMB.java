@@ -25,7 +25,7 @@ import br.com.odontoprime.util.MensagemUtil;
 @Named
 @ViewScoped
 public class EntradaMB implements Serializable {
- //Testando o git no eclipse
+	// Testando o git no eclipse
 	private static final long serialVersionUID = 6383242975512655099L;
 	@Inject
 	private EntradaService entradaService;
@@ -37,11 +37,38 @@ public class EntradaMB implements Serializable {
 	private Parcela parcela;
 	@Inject
 	private ParcelaService parcelaService;
-
+	private boolean selecionarTodos;
+	private boolean pagamentoAtivado;
 	@Inject
 	private ConsultaService consultaService;
-
 	private Consulta consulta;
+	private List<Parcela> parcelasSelecionadas;
+	
+	
+
+	public List<Parcela> getParcelasSelecionadas() {
+		return parcelasSelecionadas;
+	}
+
+	public void setParcelasSelecionadas(List<Parcela> parcelasSelecionadas) {
+		this.parcelasSelecionadas = parcelasSelecionadas;
+	}
+
+	public boolean isSelecionarTodos() {
+		return selecionarTodos;
+	}
+
+	public void setSelecionarTodos(boolean selecionarTodos) {
+		this.selecionarTodos = selecionarTodos;
+	}
+
+	public boolean isPagamentoAtivado() {
+		return pagamentoAtivado;
+	}
+
+	public void setPagamentoAtivado(boolean pagamentoAtivado) {
+		this.pagamentoAtivado = pagamentoAtivado;
+	}
 
 	public Parcela getParcela() {
 		return parcela;
@@ -104,22 +131,26 @@ public class EntradaMB implements Serializable {
 		movimentacoes = entradaService.buscarEntradaPorData(dataPesquisa);
 	}
 
+	/**
+	 * 
+	 */
+	public void ativarTodos() {
+		System.out.println("Chamou o metodo ativar todos selecionarTodos =" + selecionarTodos);
+		pagamentoAtivado = selecionarTodos;
+	}
+
 	public String selecionarDados(Entrada entrada) {
 		entrada = entradaService.buscarEntradaComParcelas(entrada.getId());
 
-		FacesContext.getCurrentInstance().getExternalContext().getFlash()
-				.put("entrada", entrada);
-		FacesContext.getCurrentInstance().getExternalContext().getFlash()
-				.put("consulta", consulta);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("entrada", entrada);
+		FacesContext.getCurrentInstance().getExternalContext().getFlash().put("consulta", consulta);
 
 		return "PagamentoParcela?faces-redirect=true";
 	}
 
 	public void recuperarDadosPagamento() {
-		entrada = (Entrada) FacesContext.getCurrentInstance()
-				.getExternalContext().getFlash().get("entrada");
-		consulta = (Consulta) FacesContext.getCurrentInstance()
-				.getExternalContext().getFlash().get("consulta");
+		entrada = (Entrada) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("entrada");
+		consulta = (Consulta) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("consulta");
 
 		if (entrada == null) {
 			entrada = new Entrada();
@@ -138,8 +169,7 @@ public class EntradaMB implements Serializable {
 	}
 
 	public void mensagemCancelamentoPagamentoParcela() {
-		MensagemUtil.enviarMensagem("Pagamento cancelado!",
-				FacesMessage.SEVERITY_INFO);
+		MensagemUtil.enviarMensagem("Pagamento cancelado!", FacesMessage.SEVERITY_INFO);
 	}
 
 	public void cancelarPagamentoParcela() {
@@ -150,11 +180,16 @@ public class EntradaMB implements Serializable {
 		parcelaService.limparDataPagamentoParcela(parcela);
 	}
 
+	public void pagarParcelas() {
+		parcelaService.pagarParcelas(parcelasSelecionadas);
+	}
+	public void cancelarPagamentosParcelas() {
+		parcelaService.cancelarPagamentosParcelas(parcelasSelecionadas);
+	}
+
 	public void buscarConsultaComParcela(ComponentSystemEvent event) {
 		if (!FacesContext.getCurrentInstance().isPostback()) {
-			this.consulta = consultaService
-					.buscarConsultaComParcela(this.consulta.getEntrada()
-							.getId());
+			this.consulta = consultaService.buscarConsultaComParcela(this.consulta.getEntrada().getId());
 			this.entrada = consulta.getEntrada();
 		}
 	}

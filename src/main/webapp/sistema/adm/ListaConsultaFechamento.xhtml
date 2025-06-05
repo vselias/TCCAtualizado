@@ -9,9 +9,9 @@
 <h:form id="frmDetalheFechamento">
 
 	<center>
-		<p:dataTable  widgetVar="tblConsulta" styleClass="tabela"
+		<p:dataTable widgetVar="tblConsulta" styleClass="tabela"
 			tableStyle="width:auto" resizableColumns="true" paginator="true"
-			rowsPerPageTemplate="5,10,15"  rowKey="#{c.id}"
+			reflow="true" rowsPerPageTemplate="5,10,15" rowKey="#{c.id}"
 			selectionMode="single" selection="#{consultaMB.consulta}"
 			value="#{movimentacaoCaixaMB.consultasFechamento}" id="tblConsulta"
 			var="c" rows="5" paginatorPosition="top"
@@ -82,7 +82,7 @@
 				<p:commandButton icon="fa fa-check"
 					oncomplete="PF('dlgExbParcela').show();" update=":frmExbParcela"
 					action="#{movimentacaoCaixaMB.buscarEntradaComParcela(c.entrada)}"
-					value="Ver pagamentos" />
+					value="Parcelas" />
 
 			</p:column>
 			<f:facet name="footer">
@@ -111,8 +111,7 @@
 				</f:facet>
 				<p:graphicImage
 					rendered="#{s.usuario eq null or s.usuario.nomeImagem eq null}"
-					cache="false" styleClass="imagens"
-					value="/img/new-user.png" />
+					cache="false" styleClass="imagens" value="/img/new-user.png" />
 				<p:graphicImage
 					rendered="#{s.usuario ne null and s.usuario.nomeImagem ne null}"
 					cache="false" styleClass="imagens"

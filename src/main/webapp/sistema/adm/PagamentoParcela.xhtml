@@ -7,14 +7,11 @@
 
 <ui:composition template="/template/Template.xhtml">
 
-
-
 	<ui:define name="title">
 		<title>Pagamento da Parcela</title>
 	</ui:define>
 
 	<ui:define name="content">
-
 		<f:metadata>
 			<f:viewParam value="#{entradaMB.consulta}" name="consulta"
 				converter="ConsultaConverter" />
@@ -68,8 +65,7 @@
 									<p:outputLabel value="Dt. de Nascimento" />
 									<p:inputText readonly="true"
 										value="#{entradaMB.consulta.paciente.dataNascimento}">
-										<f:convertDateTime locale="pt_BR"
-											pattern="dd/MM/yyyy HH:mm:ss" />
+										<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
 									</p:inputText>
 
 									<p:outputLabel value="Sexo" />
@@ -185,8 +181,7 @@
 									value="/imagens/#{entradaMB.consulta.paciente.nomeImagem}" />
 								<p:graphicImage
 									rendered="#{entradaMB.consulta.paciente.nomeImagem eq null}"
-									cache="false" styleClass="imagens"
-									value="/img/new-user.png" />
+									cache="false" styleClass="imagens" value="/img/new-user.png" />
 							</p:panel>
 
 						</div>
@@ -199,15 +194,26 @@
 					rendered="#{entradaMB.consulta.estadoConsulta.descricao eq 'Cancelado'}"
 					value="Consulta com estado cancelado não pode registrar pagamento ou
 			cancelamento." />
+				<p:messages styleClass="pMessages" id="msgCancParcela"
+					closable="true" />
 
-				<p:messages autoUpdate="false" id="msgCancParcela" closable="true"
-					escape="true" showDetail="false" />
 				<center>
 					<p:dataTable paginator="true" rowsPerPageTemplate="5,10,15"
-					rowStyleClass="#{p.estadoPagamento.descricao eq 'Pago'? 'destacarPagamento': ''}"
-
-						rows="5" resizableColumns="true" id="tabelaParcela"
-						value="#{entradaMB.entrada.parcelas}" var="p">
+						selection="#{entradaMB.parcelasSelecionadas}"
+						selectionMode="multiple" rowKey="#{p.id}" rows="10"
+						resizableColumns="true" id="tabelaParcela"
+						paginatorPosition="bottom" value="#{entradaMB.entrada.parcelas}"
+						var="p">
+						<f:facet name="header">
+							<p:commandButton onclick="PF('dlgPagamentoTodas').show()"
+								value="Pagar Parcelas" />
+							<p:commandButton styleClass="btnCancelarPagamento"
+								onclick="PF('dlgCancelPagamentoTodas').show()"
+								value="Cancelar Parcelas" />
+								<p:outputLabel id="duvidaPagamentoParcela" style="float: right;" value="?"/>
+								<p:tooltip for="duvidaPagamentoParcela" value="Segure shift ou control para selecionar as linhas para pagar ou cancelar as parcelas." ></p:tooltip>
+								
+						</f:facet>
 
 						<p:column filterBy="#{p.valor}" sortBy="#{p.valor}"
 							headerText="Valor / Parcela">
@@ -229,53 +235,86 @@
 							headerText="Número da Parcela">
 							<p:outputLabel value="#{p.numParcela}ª" />
 						</p:column>
-						<p:column sortBy="#{p.estadoPagamento.descricao}"
+						<p:column
+							styleClass="#{p.estadoPagamento.descricao eq 'Pago'? 'destacarPagamento': ''}"
+							sortBy="#{p.estadoPagamento.descricao}"
 							filterBy="#{p.estadoPagamento.descricao}"
 							headerText="Status do Pagamento">
 							<p:outputLabel value="#{p.estadoPagamento.descricao}" />
 						</p:column>
 
 						<p:column sortBy="#{p.dataPagamento}"
+							styleClass="#{p.estadoPagamento.descricao eq 'Pago'? 'destacarPagamento': ''}"
 							filterBy="#{p.dataPagamento}" headerText="Data do Pagamento">
 							<p:outputLabel value="#{p.dataPagamento}">
-								<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
+								<f:convertDateTime locale="pt_BR" timeZone="America/Sao_Paulo"
+									pattern="dd/MM/yyyy" />
 							</p:outputLabel>
+							<p:outputLabel rendered="#{p.dataPagamento eq null}"
+								value="Pendente" />
 						</p:column>
 
-						<p:column style="text-align:center;"
+						<!-- coluna ocultada antiga ações dos botões -->
+						<p:column rendered="false" style="text-align:center;"
 							headerText="Efetuar Pagamento">
+							<f:facet name="header">
+								<h:outputText value="Efetuar Pagamento" />
+								<br />
+								<p:selectBooleanCheckbox value="#{entradaMB.selecionarTodos}"
+									id="selectAll">
+									<p:ajax event="change" update="tabelaParcela"
+										listener="#{entradaMB.ativarTodos}" />
 
+								</p:selectBooleanCheckbox>
+							</f:facet>
+							<!-- <p:selectBooleanCheckbox value="#{entradaMB.pagamentoAtivado}" /> -->
+
+							<!-- 	rendered antigo	"#{p.estadoPagamento.descricao ne 'Pago' and entradaMB.consulta.estadoConsulta.descricao ne 'Cancelado'}" -->
 							<p:commandButton icon="fa fa-check"
 								update="@form , :frmPagParcela"
-								action="#{entradaMB.limparDataPagamento}"
-								rendered="#{p.estadoPagamento.descricao ne 'Pago' and entradaMB.consulta.estadoConsulta.descricao ne 'Cancelado'}"
+								action="#{entradaMB.limparDataPagamento}" rendered="false"
 								value="Pagar" oncomplete="PF('dlgPagParcela').show()">
 								<f:setPropertyActionListener value="#{p}"
 									target="#{entradaMB.parcela}" />
 							</p:commandButton>
 
-							<p:commandButton oncomplete="PF('dlgCancPagamento').show()"
-								rendered="#{p.estadoPagamento.descricao eq 'Pago'}"
+							<!-- rendered antigo #{p.estadoPagamento.descricao eq 'Pago'} -->
+							<p:commandButton styleClass="btnCancelarPagamento"
+								oncomplete="PF('dlgCancPagamento').show()" rendered="false"
 								icon="fa fa-close" value="Cancelar">
 								<f:setPropertyActionListener value="#{p}"
 									target="#{entradaMB.parcela}" />
 							</p:commandButton>
 
 						</p:column>
+
 					</p:dataTable>
 				</center>
 			</p:outputPanel>
 		</h:form>
 
+		<!-- dialog confirmação do pagamento de todas parcelas -->
+		<p:confirmDialog appendTo="@(body)" widgetVar="dlgPagamentoTodas"
+			header="Confirmar os pagamentos das parcelas?" closable="true"
+			closeOnEscape="true" message="Deseja efetuar o registro?">
+			<h:form>
+				<p:commandButton
+					update=":formGlobal:msgGlobal :frmPagParcela :frmExbParcela:tabelaParcela "
+					icon="fa fa-check" action="#{entradaMB.pagarParcelas}"
+					oncomplete="PF('dlgPagamentoTodas').hide()" value="Sim" />
 
+				<p:commandButton icon="fa fa-close" value="Fechar"
+					oncomplete="PF('dlgPagamentoTodas').hide()" />
+			</h:form>
+		</p:confirmDialog>
 
 		<!-- dialog confirmação do pagamento das parcelas -->
 		<p:confirmDialog appendTo="@(body)" widgetVar="dlgConfPagamento"
-			header="Confirmar o pagamento da parcela?"
-			message="Deseja efetuar o registro?">
+			header="Confirmar o pagamento da parcela?" closable="true"
+			closeOnEscape="true" message="Deseja efetuar o registro?">
 			<h:form>
 				<p:commandButton
-					update=":frmPagParcela :frmExbParcela:tabelaParcela, :frmPagParcela:msgPagamento"
+					update=":frmExbParcela:tabelaParcela, :frmPagParcela:msgPagamento"
 					action="#{entradaMB.efetuarPagamentoParcela}" icon="fa fa-check"
 					oncomplete="PF('dlgConfPagamento').hide()" value="Sim" />
 
@@ -284,12 +323,25 @@
 			</h:form>
 		</p:confirmDialog>
 
-
+		<!-- dialog confirmação do cancelamento do pagamento de todas parcelas -->
+		<p:confirmDialog appendTo="@(body)"
+			widgetVar="dlgCancelPagamentoTodas" closable="true"
+			closeOnEscape="true" header="Cancelar os pagamentos das parcelas?"
+			message="Deseja efetuar o registro?">
+			<h:form>
+				<p:commandButton
+					update=":frmExbParcela:tabelaParcela, :formGlobal:msgGlobal"
+					action="#{entradaMB.cancelarPagamentosParcelas}" icon="fa fa-check"
+					oncomplete="PF('dlgCancelPagamentoTodas').hide()" value="Sim" />
+				<p:commandButton icon="fa fa-close" value="Não"
+					oncomplete="PF('dlgCancelPagamentoTodas').hide()" />
+			</h:form>
+		</p:confirmDialog>
 
 		<!-- dialog confirmação do cancelamento do pagamento das parcelas -->
 		<p:confirmDialog appendTo="@(body)" widgetVar="dlgCancPagamento"
-			header="Cancelar o pagamento da parcela?"
-			message="Deseja efetuar o registro?">
+			header="Cancelar o pagamento da parcela?" closable="true"
+			closeOnEscape="true" message="Deseja efetuar o registro?">
 			<h:form>
 				<p:commandButton
 					update=":frmExbParcela:tabelaParcela, :frmExbParcela:msgCancParcela"
@@ -301,21 +353,12 @@
 		</p:confirmDialog>
 
 
-
-
-
 		<p:dialog header="Concluir o pagamento da parcela." modal="true"
-			dynamic="true" appendTo="@(body)" resizable="false"
-			widgetVar="dlgPagParcela">
+			closable="true" closeOnEscape="true" dynamic="true"
+			appendTo="@(body)" resizable="false" widgetVar="dlgPagParcela">
 
 			<ui:include src="/sistema/adm/CorpoParcela.xhtml" />
 		</p:dialog>
-
-
-
-
-
-
 
 	</ui:define>
 </ui:composition>

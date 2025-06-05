@@ -32,7 +32,7 @@ public class Parcela implements Serializable {
 	private Date dataPagamento;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataRegistro;
-
+	
 	public Date getDataRegistro() {
 		return dataRegistro;
 	}
@@ -91,6 +91,13 @@ public class Parcela implements Serializable {
 
 	public Parcela() {
 		numParcela = 0;
+	}
+
+	@Override
+	public String toString() {
+		return "Parcela [id=" + id + ", valor=" + valor + ", dataVencimento=" + dataVencimento + ", numParcela="
+				+ numParcela + ", estadoPagamento=" + estadoPagamento + ", dataPagamento=" + dataPagamento
+				+ ", dataRegistro=" + dataRegistro + "]";
 	}
 
 }

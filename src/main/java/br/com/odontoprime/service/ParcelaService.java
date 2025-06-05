@@ -1,8 +1,10 @@
 package br.com.odontoprime.service;
 
 import java.io.Serializable;
+import java.lang.System.Logger;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -52,8 +54,8 @@ public class ParcelaService implements Serializable {
 			}
 		} else {
 			/*
-			 * Caso pagamento der errado, remova a data do pagamento para não
-			 * exibi-la na tabela
+			 * Caso pagamento der errado, remova a data do pagamento para não exibi-la na
+			 * tabela
 			 */
 			parcela.setDataPagamento(null);
 		}
@@ -154,6 +156,40 @@ public class ParcelaService implements Serializable {
 	public void limparDataPagamentoParcela(Parcela parcela) {
 		if (parcelaNotNull(parcela)) {
 			parcela.setDataPagamento(null);
+		}
+	}
+
+	public void pagarParcelas(List<Parcela> parcelas) {
+		try {
+			parcelas.forEach(p -> {
+				p.setEstadoPagamento(EstadoPagamento.PAGO);
+				if (p.getDataPagamento() == null) {
+					p.setDataPagamento(new Date());
+				}
+				parcelaDAO.salvar(p);
+				System.out.println(p);
+			});
+			MensagemUtil.enviarMensagem("Parcelas pagas com sucesso!", FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			MensagemUtil.enviarMensagem("Erro ao pagar parcelas! Contate o admnistrador.",
+					FacesMessage.SEVERITY_ERROR);
+			e.printStackTrace();
+		}
+	}
+
+	public void cancelarPagamentosParcelas(List<Parcela> parcelas) {
+		try {
+			parcelas.forEach(p -> {
+				p.setEstadoPagamento(EstadoPagamento.PENDENTE);
+				p.setDataPagamento(null);
+				parcelaDAO.salvar(p);
+				System.out.println(p);
+			});
+			MensagemUtil.enviarMensagem("Parcelas canceladas com sucesso!", FacesMessage.SEVERITY_INFO);
+		} catch (Exception e) {
+			MensagemUtil.enviarMensagem("Erro ao cancelar parcelas! Contate o admnistrador.",
+					FacesMessage.SEVERITY_ERROR);
+			e.printStackTrace();
 		}
 	}
 }
